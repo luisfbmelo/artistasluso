@@ -1,0 +1,140 @@
+.panels{
+	//position:relative;
+
+	width:100%;
+	height:100%;
+	padding:2em;
+
+	// Left panel
+	.left-panel{;
+
+		.logo-container{
+			margin-bottom:2em;
+		}
+	
+
+		.panel-title{
+			max-width:400px;
+			font:{
+				size: 1.125em;
+				weight: 400;
+			}
+
+			padding-bottom: 2em;
+		}
+
+		.panel-section-content{
+			header{
+				font:{
+					size: 1em;
+					weight: 800;
+				}
+
+				text:{
+					transform: uppercase;
+				}
+
+				padding-bottom: 1rem;
+			}
+
+			ol{
+				max-width:400px;			    
+			    counter-reset: li-counter;
+
+			    margin: 0 0 2em 2em;
+			    padding:0;
+
+				li{
+					position:relative;
+					list-style:none;
+					margin-bottom: 1rem;
+					padding-left:0.4rem;
+
+					font:{
+						size: 0.875rem;
+					}
+				}
+
+				li:before {
+				    position: absolute;
+				    top: 0;
+				    left: -2rem;
+				     
+				    font-size: 1.875rem;
+				    line-height: 1;
+				    font-weight: bold;
+				    text-align: right;
+				 
+				    content: counter(li-counter) ".";
+				    counter-increment: li-counter;
+				}
+			}
+		}
+
+		.panel-subs-desc{
+			max-width:400px;
+			
+			margin-bottom: 1rem;
+
+			font:{
+				size: 0.875rem;
+			}			
+		}
+
+		.brand-social{			
+			display:inline-block;
+			position:relative;
+			margin-bottom:2em;
+
+			.copyright-logo{
+				margin-top:3em;
+			}
+		}
+		
+		
+	}
+
+	// Right panel
+	.right-panel{
+		text:{
+			align: right;
+			transform: uppercase;
+		}
+
+		font:{
+			size: 3.12rem;
+			weight: 300;
+		}
+
+		line-height: 1;
+		
+	}
+
+	// All except smartphones
+	@media (min-width:880px){
+		.left-panel{
+			height:100%;
+		}
+
+		.right-panel{
+			position:absolute;
+			top:50%;
+			right:2rem;
+			@include translateY(-50%);
+		}
+	}
+
+	// Smartphone specs
+	@media (max-width:880px){
+		.left-panel{
+
+		}
+
+		.right-panel{
+			margin-bottom:1.4rem;
+			text:{
+				align:center;
+			}
+		}
+	}
+}

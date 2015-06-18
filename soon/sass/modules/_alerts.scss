@@ -1,0 +1,33 @@
+.alert{
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	margin:0!important;
+
+	font:{
+		weight: bold;
+	}
+
+	@include border-radius(0);
+
+	@include animation(slideout 2s linear 5s);
+	@include animation-fill-mode(forwards);
+}
+
+@include keyframes(slideout) {
+  0% {
+    opacity:1;  
+    @include translateY(0%);
+  }
+
+  99% {
+    opacity:0;  
+    @include translateY(0%);
+  }
+
+  100% {
+    opacity:0; 
+    @include translateY(-100%);
+  }
+}

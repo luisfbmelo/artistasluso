@@ -8,18 +8,32 @@ module.exports = function(grunt) {
 			      compass: true
 			    },
 				files: {
-					'stylesheets/main.css' : 'sass/main.scss'
+					'stylesheets/screen.css' : 'sass/screen.scss'
 				}
 			}
 		},
 		watch: {
 			css: {
 				files: '**/*.scss',
-				tasks: ['sass']
+				tasks: ['sass','cssmin']
 			}
+		},
+		cssmin: {
+		  target: {
+		    files: [{
+		      expand: true,
+		      cwd: 'stylesheets',
+		      //src: ['*.css', '!*.min.css'],
+		      src: ['screen.css'],
+		      dest: 'stylesheets/mini',
+		      ext: '.min.css'
+		    }]
+		  }
 		}
 	});
-	grunt.loadNpmTasks('grunt-contrib-sass');
+	grunt.loadNpmTasks('grunt-contrib-sass');	
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	//grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.registerTask('default',['watch']);
 }

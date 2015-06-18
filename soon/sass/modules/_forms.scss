@@ -1,0 +1,93 @@
+.sub-form{
+	// All items
+	input,textarea,select{
+		@include border-radius(0);
+		display:block;
+		height: 2.25rem;
+
+		font:{
+			size: 16px;
+		}
+	}
+	
+	// Elements group
+	.form-group{
+		float:left;
+		position:relative;
+	}
+
+	// Submit button
+	.btn-submit{
+		background-color: $btn-submit-color;
+		width:100px;
+		border-bottom: 3px solid $btn-submit-Bborder-color;
+		color: $btn-submit-text-color;
+
+		text:{
+			transform: uppercase;
+		}
+
+		&:hover{
+			background-color: $btn-submit-hover-color;
+			border-bottom: 3px solid $btn-submit-color;
+		}
+	}
+
+	// All that are not submit buttons
+	input:not(.btn-submit){
+		@include opacity(1);
+		background-color: $input-bg-color;
+		border-bottom: 3px solid $input-Bborder-color;
+
+		+ label{
+			display: block;
+			position: absolute;
+			top:50%;
+			left:1rem;
+			@include translateY(-50%);
+			
+			pointer-events: none;
+			cursor: pointer;
+			color: $input-label-color;
+			text:{
+				transform: uppercase;
+			}
+
+			font:{
+				weight: 400;
+			}
+		}
+
+		&:active + label,
+		&:focus + label,
+		&.filled + label{
+			@include opacity(0);
+		}
+	}
+
+	@media (min-width:881px){
+		input:not(.btn-submit){
+			width:400px;
+		}
+	}
+
+	@media (max-width:880px){
+		.form-group{
+			float:none;
+			display:block;
+		}
+		.form-group > *{
+			
+			margin:0 auto;
+		}
+	}
+}
+
+/*FORM INPUTS OVERWRITE*/
+.form-control,
+.form-control:active,
+.form-control:focus{
+	border: none;
+	outline: 0;
+	@include box-shadow(none);
+}
