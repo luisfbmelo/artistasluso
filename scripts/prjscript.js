@@ -1,6 +1,173 @@
 var appControllers = angular.module('appControllers');
 
+appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+	
+	//
+	// INIT FUNCTION
+	//
+	var _init = function(){
+		if ($routeParams.id){
+			_getArtistsFromCat($routeParams.id);
+		}else{
+			_getNetworks();
+			_getArtistsIds(); 
+		}
+	}
+
+	//
+	// ARTISTS SERVICES
+	//
+	var _getArtistsFromCat = function(catId){
+
+	}
+
+	var _getArtistsIds = function(){
+		$scope.artists = [
+			{
+				id:1,
+				art: {
+					id:1,
+					name: 'Artes Digitais'
+				}
+			},
+			{
+				id:2,
+				art: {
+					id:1,
+					name: 'Artes Digitais'
+				}
+			},
+			{
+				id:3,
+				art: {
+					id:3,
+					name: 'Literatura'
+				}
+			},
+			{
+				id:4,
+				art: {
+					id:4,
+					name: 'Música'
+				}
+			},
+			{
+				id:5,
+				art: {
+					id:5,
+					name: 'Performance'
+				}
+			},
+			{
+				id:6,
+				art: {
+					id:6,
+					name: 'Entidades'
+				}
+			},
+			{
+				id:7,
+				art: {
+					id:7,
+					name: 'Cinema & Vídeo'
+				}
+			},
+			{
+				id:8,
+				art: {
+					id:9,
+					name: 'Outro'
+				}
+			},
+		];
+	}
+
+	var _getNetworks = function(){
+		$scope.networks = [
+			{
+				name: 'facebook',
+				url: 'www.facebook.com'
+			},
+			{
+				name: 'twitter',
+				url: 'www.twitter.com'
+			},
+			{
+				name: 'google-plus',
+				url: 'www.googleplus.com'
+			}
+		];
+	}
+
+	_init();
+}]);
+var appControllers = angular.module('appControllers');
+
 appControllers.controller('eventsCtrl', ['$scope', function ($scope) {
+	$scope.events = [
+		{
+			id: 1,
+			title: 'Abertura oficial do festival de janeiro',
+			date: '20140313T00:00:00',
+			city: {
+				id:1,
+				title: 'Casa da Montanha'
+			},
+			country: {
+				id:1,
+				title:'Portugal'
+			},
+			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+			image: {
+				id:1,
+				url:'asd'
+			}
+		},
+		{
+			id: 2,
+			title: 'Abertura oficial do festival de janeiro',
+			date: '20140313T00:00:00',
+			city: {
+				id:1,
+				title: 'Casa da Montanha'
+			},
+			country: {
+				id:1,
+				title:'Portugal'
+			},
+			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+			image: {
+				id:1,
+				url:'asd'
+			}
+		}
+	];
+}]);
+
+appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+
+	if ($routeParams.id){
+		$scope.event = [
+			{
+				id: $routeParams.id,
+				title: 'Abertura oficial do festival de janeiro',
+				date: '20140313T00:00:00',
+				city: {
+					id:1,
+					title: 'Casa da Montanha'
+				},
+				country: {
+					id:1,
+					title:'Portugal'
+				},
+				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+				image: {
+					id:1,
+					url:'asd'
+				}
+			}
+		];
+	}
 	
 }]);
 var appControllers = angular.module('appControllers');
@@ -129,7 +296,7 @@ appControllers.controller('projectCtrl', ['$scope', function ($scope) {
 var appFilters = angular.module('appFilters');
 
 //home background
-appDirectives.filter('myFilter',  function () {
+appFilters.filter('myFilter',  function () {
 	return function(input, optional1, optional2) {
 		//INJECT FILTER
 		//$filter('date')(new Date(), 'yyyy-MM-01');
@@ -141,6 +308,19 @@ appDirectives.filter('myFilter',  function () {
 
 		return output;
 
+	}
+});
+
+appFilters.filter('urlResolver', function(){
+	return function(input){
+		var result;
+	    var startingUrl = "http://";
+	    if (input.startsWith("www")) {
+	        result = startingUrl + input;
+	    } else {
+	        result = input;
+	    }
+	    return result;
 	}
 });
 var appServices = angular.module('appServices');
@@ -156,11 +336,44 @@ appServices.factory('LoginService', ['$rootScope', function ($rootScope) {
 }]);
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('eventsList', ['LoginService', function (LoginService) {
+appDirectives.directive('coloredStats', [function () {
+	return {
+	    restrict: 'E',
+	    templateUrl: "scripts/directives/coloredStats.html",
+	    scope:{
+	    	list: '=list',
+	    	groupByProp: '@?',
+	    	displayProp: '@?'
+	    },
+	    replace: true,
+	    link: function(scope, el, attr){
+
+	    	scope.setDisplayProp = function(obj, prop) {
+			    prop = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+			    prop = prop.replace(/^\./, '');           // strip a leading dot
+			    var a = prop.split('.');
+			    for (var i = 0, n = a.length; i < n; ++i) {
+			        var k = a[i];
+			        if (k in obj) {
+			            obj = obj[k];
+			        } else {
+			            return;
+			        }
+			    }
+			    return obj;
+			}
+	    }
+	 };
+}]);
+var appDirectives = angular.module('appDirectives');
+
+appDirectives.directive('eventsList', [ function () {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/eventsList.html",
-	    scope:{},
+	    scope:{
+	    	list: '=list'
+	    },
 	    replace: true,
 	    link: function(scope, el, attr){
 	    	
@@ -169,7 +382,7 @@ appDirectives.directive('eventsList', ['LoginService', function (LoginService) {
 }]);
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('pageFooter', ['LoginService', function (LoginService) {
+appDirectives.directive('pageFooter', [function () {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/pageFooter.html",
@@ -219,6 +432,22 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
 	            }
 		        
 		    }
+	    }
+	 };
+}]);
+var appDirectives = angular.module('appDirectives');
+
+appDirectives.directive('social', [function () {
+	return {
+	    restrict: 'E',
+	    templateUrl: "scripts/directives/social.html",
+	    scope:{
+	    	networks: '=networks',
+	    	type: '@?'
+	    },
+	    replace: true,
+	    link: function(scope, el, attr){
+
 	    }
 	 };
 }]);

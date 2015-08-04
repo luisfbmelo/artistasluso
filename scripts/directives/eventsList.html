@@ -1,21 +1,21 @@
 <div class="row">
-	<div class="col-xs-12 col-sm-6 col-md-3" ng-repeat-start="a in [1,2,3,4,5,6,7]">
+	<div class="col-xs-12 col-sm-6 col-md-3" ng-repeat-start="event in list">
 
 		<div class="card-container">
 			<section class="card-thumb-img">
-				<a href="#/event">
-					<img src="assets/img/thumbs/thumb.jpg" alt="" class="img-responsive">
+				<a href="#/event/{{event.id}}">
+					<img ng-src="{{event.image.url}}" alt="" class="img-responsive">
 				</a>
 			</section>
 			<section class="card-desc">
 				<h1>
-					<a href="#/event">
-						Abertura oficial do festival de janeiro					
+					<a href="#/event/{{event.id}}">
+						{{event.title}}			
 					</a>
 				</h1>
 
 				<div class="card-date">
-					10 de Junho de 2015, 16h00
+					{{ event.date | date:"d 'de' MMMM 'de' yyyy, HH'h':mm" }}
 				</div>
 
 				<div class="card-details">
@@ -23,8 +23,8 @@
 					<span class="country"> Portugal</span>
 				</div>
 
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.
+				<p>					
+					{{ event.description | limitTo:100}}{{event.description.length > 100 ? ' ...' : ''}}
 				</p>
 			</section>
 			<section class="card-options">

@@ -239,12 +239,12 @@ h1 {
   }
   /* line 106, ../../sass/modules/_menu.scss */
   .navbar-nav li ul li a {
-    padding: 10px 0 !important;
+    padding: 10px 0 0 30px !important;
   }
 
   /* line 113, ../../sass/modules/_menu.scss */
   .navbar-nav li a {
-    text-align: center;
+    text-align: left;
   }
 }
 /*CARDS*/
@@ -427,6 +427,184 @@ h1 {
   padding: 0;
 }
 
+/*ARTISTS PAGE*/
+/* line 1, ../../sass/modules/_artists.scss */
+.artists-page {
+  position: relative;
+  padding: 114px 64px 53px;
+}
+/* line 5, ../../sass/modules/_artists.scss */
+.artists-page .total-artists {
+  text-align: center;
+}
+/* line 8, ../../sass/modules/_artists.scss */
+.artists-page .total-artists header {
+  font-size: 16px;
+  font-size: 1rem;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+/* line 14, ../../sass/modules/_artists.scss */
+.artists-page .total-artists p {
+  font-size: 64px;
+  font-size: 4rem;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+}
+/* line 21, ../../sass/modules/_artists.scss */
+.artists-page .total-artists label {
+  font-size: 16px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/*STATS*/
+/* line 1, ../../sass/modules/_stats.scss */
+.stats {
+  text-align: center;
+  margin-top: 70px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+/* line 12, ../../sass/modules/_stats.scss */
+.stats .stats-container {
+  display: inline-block;
+  margin-bottom: 15px;
+}
+/* line 16, ../../sass/modules/_stats.scss */
+.stats .stats-container .item-number {
+  position: relative;
+  display: block;
+  font-weight: 700;
+  font-size: 64px;
+  font-size: 4rem;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+}
+/* line 25, ../../sass/modules/_stats.scss */
+.stats .stats-container .item-number:after {
+  content: " ";
+  width: 100px;
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+/* line 36, ../../sass/modules/_stats.scss */
+.stats .stats-container .item-name {
+  display: block;
+  font-size: 16px;
+  font-size: 1rem;
+}
+/* line 44, ../../sass/modules/_stats.scss */
+.stats .stats-wrapper:nth-child(1n) .item-number:after {
+  background-color: #d22e2e;
+}
+/* line 50, ../../sass/modules/_stats.scss */
+.stats .stats-wrapper:nth-child(2n) .item-number:after {
+  background-color: #f34235;
+}
+/* line 56, ../../sass/modules/_stats.scss */
+.stats .stats-wrapper:nth-child(3n) .item-number:after {
+  background-color: #fe9f00;
+}
+/* line 62, ../../sass/modules/_stats.scss */
+.stats .stats-wrapper:nth-child(4n) .item-number:after {
+  background-color: #fec006;
+}
+/* line 68, ../../sass/modules/_stats.scss */
+.stats .stats-wrapper:nth-child(5n) .item-number:after {
+  background-color: #378d3b;
+}
+/* line 74, ../../sass/modules/_stats.scss */
+.stats .stats-wrapper:nth-child(6n) .item-number:after {
+  background-color: #4bae4f;
+}
+
+@media (max-width: 991px) {
+  /* line 82, ../../sass/modules/_stats.scss */
+  .stats {
+    position: static;
+    -moz-transform: translate(0%, 0%);
+    -ms-transform: translate(0%, 0%);
+    -webkit-transform: translate(0%, 0%);
+    transform: translate(0%, 0%);
+  }
+}
+/*SOCIAL*/
+/* line 1, ../../sass/modules/_social.scss */
+.social-section {
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  bottom: 114px;
+  left: 50%;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+/* line 12, ../../sass/modules/_social.scss */
+.social-wrapper p {
+  font-size: 16px;
+  font-size: 1rem;
+}
+/* line 16, ../../sass/modules/_social.scss */
+.social-wrapper ul {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  text-align: center;
+}
+/* line 23, ../../sass/modules/_social.scss */
+.social-wrapper ul li {
+  display: inline-block;
+  font-size: 32px;
+  font-size: 2rem;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+/* line 29, ../../sass/modules/_social.scss */
+.social-wrapper ul li + li {
+  margin-left: 32px;
+}
+/* line 33, ../../sass/modules/_social.scss */
+.social-wrapper ul li:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
+  opacity: 0.6;
+}
+/* line 37, ../../sass/modules/_social.scss */
+.social-wrapper ul li i {
+  color: #202020;
+}
+
+@media (max-width: 991px) {
+  /* line 45, ../../sass/modules/_social.scss */
+  .social-section {
+    position: static;
+    -moz-transform: translateX(0%);
+    -ms-transform: translateX(0%);
+    -webkit-transform: translateX(0%);
+    transform: translateX(0%);
+    margin: 0 0 64px 0;
+  }
+}
 /*FOOTER*/
 /* line 1, ../../sass/modules/_footer.scss */
 footer {

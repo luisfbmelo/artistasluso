@@ -9,7 +9,8 @@ var app = angular.module('artistasluso', [
   'appControllers',
   'appServices',
   'appDirectives',
-  'appFilters'
+  'appFilters',
+  'angular.filter'
 ]);
 
 app.config(['$routeProvider',
@@ -26,6 +27,18 @@ app.config(['$routeProvider',
 			when('/events', {
 				templateUrl: 'scripts/views/events.html',
 				controller: 'eventsCtrl'
+			}).
+			when('/events/:id', {
+				templateUrl: 'scripts/views/event-detail.html',
+				controller: 'eventsDetailCtrl'
+			}).
+			when('/artists', {
+				templateUrl: 'scripts/views/artists.html',
+				controller: 'artistsCtrl'
+			}).
+			when('/artists/:id', {
+				templateUrl: 'scripts/views/artists-list.html',
+				controller: 'artistsCtrl'
 			}).
 			otherwise({
 				redirectTo: '/'

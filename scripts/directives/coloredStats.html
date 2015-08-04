@@ -1,0 +1,11 @@
+<div class="row stats">
+	<div class="col-xs-6 col-sm-2 stats-wrapper" ng-repeat-start="(key, items) in list | orderBy: groupByProp | groupBy: groupByProp ">
+		<div class="stats-container">
+			<span class="item-number">{{items.length}}</span>
+			<span class="item-name">{{ setDisplayProp(items[0], displayProp) }}</span>
+		</div>		
+	</div>
+	<div class="clearfix visible-sm-block" ng-if="($index+1)%6==0"></div>
+	<div class="clearfix visible-xs-block" ng-repeat-end ng-if="($index+1)%2==0"></div>
+
+</div>

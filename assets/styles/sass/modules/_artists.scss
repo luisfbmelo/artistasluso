@@ -1,0 +1,28 @@
+.artists-page{
+	position:relative;
+	padding:(64px + $bar-height) 64px $bar-height+3;
+
+	.total-artists{
+		text-align:center;
+
+		header{
+			@include font-size(16px);
+			margin-bottom:16px;
+			text-transform: uppercase;
+		}
+
+		p{
+			@include font-size(64px);
+			font-weight:700;
+
+			margin:0 0 16px 0;
+		}
+
+		label{
+			@include font-size(16px);
+			font-weight:700;
+			text-transform: uppercase;
+			margin:0;
+		}
+	}
+}

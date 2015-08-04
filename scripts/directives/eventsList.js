@@ -1,10 +1,12 @@
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('eventsList', ['LoginService', function (LoginService) {
+appDirectives.directive('eventsList', [ function () {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/eventsList.html",
-	    scope:{},
+	    scope:{
+	    	list: '=list'
+	    },
 	    replace: true,
 	    link: function(scope, el, attr){
 	    	

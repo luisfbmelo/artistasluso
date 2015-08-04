@@ -1,0 +1,10 @@
+<div class="social-wrapper" ng-if="type=='stats'">
+	<p>Ajude a aumentar este números, divulgue esta iniciativa</p>
+	<ul class="social-icons">
+		<li ng-repeat="social in networks track by $index">
+			<a ng-href="{{social.url | urlResolver}}" target="_blank">
+				<i class="fa fa-{{social.name}}-square"></i>
+			</a>
+		</li>
+	</ul>
+</div>
