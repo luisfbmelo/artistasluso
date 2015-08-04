@@ -1,0 +1,43 @@
+//TAKE CARE OF FONT SIZES
+/*
+p {
+  @include font-size(14px)
+}
+ */
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+
+//BREAKPOINTS
+/**
+.sidebar {
+  @include bp-small {
+    width: 100%;
+    float: none;
+    margin: 0;
+  }
+}
+ */
+@mixin bp-large {
+  @media only screen and (max-width: 60em) {
+    @content;
+  }
+}
+
+@mixin bp-medium {
+  @media only screen and (max-width: 40em) {
+    @content;
+  }
+}
+
+@mixin bp-small {
+  @media only screen and (max-width: 30em) {
+    @content;
+  }
+}

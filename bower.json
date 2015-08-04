@@ -1,5 +1,5 @@
 {
-  "name": "ArtistasLuso",
+  "name": "Project",
   "version": "1.0.0",
   "authors": [
     "Luis Melo <geral@luisfbmelo.com>"
@@ -8,15 +8,13 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "bower_components"
   ],
-  "dependencies": {
-    "jquery": "2.1.3",
-    "twbs-bootstrap-sass":"3.1.1"
-  },
-  "description": "Plataforma de artistas luso",
+  "dependencies": {},
+  "description": "",
   "main": "index.html",
-  "homepage": "index.html"
+  "homepage": "index.html",
+  "resolutions": {
+    "angular": "~1.4.1"
+  }
 }

@@ -1,0 +1,43 @@
+.project-page{
+	position:relative;
+	padding:(64px + $bar-height) 64px $bar-height+3;
+	
+
+	.row{
+		margin:0;
+
+		div[class^='col-']{
+			padding:0;
+		}
+	}
+
+	h1{
+		font-weight:700;
+		line-height:1.5;
+	}
+
+	.panel-section-content{
+		margin-top:35px;
+
+		header{
+			@include font-size(16px);
+
+			text:{
+				transform: uppercase;
+			}
+			
+			margin-bottom:15px;
+		}
+
+		ol{	    
+		    margin: 0 0 0 1.3rem;
+		    padding:0;
+
+		    list-style-type: decimal;
+
+		    li{
+		    	margin-bottom:10px;
+		    }
+		}
+	}
+}

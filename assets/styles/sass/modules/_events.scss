@@ -1,0 +1,13 @@
+.events-page{
+	position:relative;
+	padding:(64px + $bar-height) 64px $bar-height+3;
+
+	& > .row{
+		margin:0;
+
+		& > div[class^='col-']{
+			padding:0;
+		}
+	}
+
+}

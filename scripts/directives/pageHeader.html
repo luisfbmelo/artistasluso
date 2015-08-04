@@ -1,0 +1,43 @@
+<div class="navbar navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/">
+                <img class="img-responsive" src="assets/img/logos/homepage_logo.png">
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li ng-repeat="item in menu | filter: {related: '!user'}" ng-class="defineCurrentView(item)">
+                    <a href="{{item.url}}" class="dropdown-toggle" data-toggle="dropdown">{{item.title}} <span class="caret" ng-if="item.subs!=undefined && item.subs.length>0"></span></a>
+                    <ul class="dropdown-menu" role="menu" ng-if="item.subs!=undefined && item.subs.length>0 && item.type==undefined">
+                        <li ng-repeat="sub in item.subs" ng-class="defineCurrentView(sub)">
+                            <a href="{{item.url}}/{{sub.id}}">{{sub.title}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" ng-repeat="item in menu | filter: {related: 'user'}" ng-class="defineCurrentView(item)">
+                    <a href="#/" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.type">{{item.title}} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" ng-if="item.type">
+                        <li><a href="#/arts/artist/{{item.id}}">MEU PERFIL</a></li>
+                        <li><a href="#/arts/edit/{{item.id}}">EDITAR PERFIL</a></li>
+                        <li><a href="#/logout">SAIR</a></li>
+                    </ul>
+
+                    <!-- NO LOGIN -->
+                    <a href="{{item.url}}" ng-if="!item.type">{{item.title}}</a>
+                </li>
+
+                
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>

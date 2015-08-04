@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,SAAS,CACR,MAAM,CAAC,IAAI,CACX,KAAK,CAAC,IAAI,CACV,KAAK,CAAC,KAAK,CAGV,WAAM,CAAC,uBAAuB,CAC9B,SAAI,CAAE,eAAc,CAKtB,SAAS,CACR,KAAK,CAAC,IAAI,CAGX,MAAM,CC4UJ,eAAwC,CC/KR,oBAC8D,CD8K9F,aAAwC,CC/KR,oBAC8D,CD8K9F,kBAAwC,CClLL,oBACoD,CAenF,UAAU,CAbkB,oBAC8D,CF1JhG,yBAAwB,CACvB,SAAS,CAEP,SAAI,CAAE,eAAc",
-"sources": ["../sass/base/_general.scss","file:///c:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-core-1.0.3/stylesheets/compass/_support.scss","file:///c:/Ruby22-x64/lib/ruby/gems/2.2.0/gems/compass-core-1.0.3/stylesheets/compass/css3/_transition.scss"],
-"names": [],
-"file": "screen.css"
-}

@@ -1,0 +1,118 @@
+footer{
+	width:100%;
+	height:$bar-height;
+
+	background-color:$footer-bg;
+
+	position:fixed;
+	bottom:0;
+	left:0;
+
+	&>ul {
+		list-style:none;
+		width:100%;
+		font-size:0;
+		padding:0;
+		margin:0;
+
+		margin-top:-3px;
+
+		li{
+			display:inline-block;
+			width:12.5%;
+			height:3px;
+
+			&:nth-child(1){
+				background-color:$black;
+			}
+
+			&:nth-child(2){
+				background-color:$dark-red;
+			}
+
+			&:nth-child(3){
+				background-color:$light-red;
+			}
+
+			&:nth-child(4){
+				background-color:$dark-yellow;
+			}
+
+			&:nth-child(5){
+				background-color:$light-yellow;
+			}
+
+			&:nth-child(6){
+				background-color:$dark-green;
+			}
+
+			&:nth-child(7){
+				background-color:$light-green;
+			}
+
+			&:nth-child(8){
+				background-color:transparent;
+			}
+		}
+	}
+
+	.footer-logos{
+		padding:0;
+		list-style:none;
+		margin:0 auto;
+		text-align:center;
+
+		height:$bar-height;
+
+		li{
+			display:inline-block;
+
+			width:$foot-logo-width;
+			height:$foot-logo-height;
+
+			margin:($bar-height - $foot-logo-height)/2 0;
+
+			background:url(../../img/logos/logos.png) no-repeat;
+			overflow:hidden;
+
+
+			& + li{
+				margin-left:28px;
+			}
+
+			a{
+				display:block;
+				width:100%;
+				height:100%;
+			}
+
+			&:hover{
+				cursor:pointer;
+			}
+
+			&.govpt{
+				background-position:0 0;
+
+				&:hover{
+					background-position:-70px 0;
+				}
+			}
+
+			&.comunidade{
+				background-position:0 -30px;
+
+				&:hover{
+					background-position:-70px -30px;
+				}
+			}
+
+			&.mirateca{
+				background-position:0 -60px;
+
+				&:hover{
+					background-position:-70px -60px;
+				}
+			}
+		}
+	}
+}

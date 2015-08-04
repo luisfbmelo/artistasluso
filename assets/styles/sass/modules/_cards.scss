@@ -1,0 +1,71 @@
+.card-container{
+	background-color:$card-bg;
+
+	@include box-shadow(0px 0px 10px rgba(0,0,0,0.5));
+
+	margin-bottom:35px;
+
+	.card-thumb-img{
+		overflow:hidden;
+
+		@include transition(all 0.2s ease);
+
+		a{
+			img{
+				width:100%;
+			}
+		}
+
+		&:hover{
+			@include opacity(0.6);
+		}
+		
+	}
+
+	.card-desc{
+		padding:16px;
+
+		h1{
+			margin-bottom:16px;
+
+			a{
+				color:$light-red;
+				display:block;
+				@include transition(all 0.2s ease);
+
+				&:hover{
+					text-decoration:none;
+
+					@include opacity(0.6);
+				}
+			}
+		}
+
+		.card-date{
+			@include font-size(16px);
+			font-weight:700;
+			margin-bottom:16px;
+		}
+
+		.card-details{
+			margin-bottom:16px;
+			@include font-size(14px);
+
+			span{
+				display:block;
+			}
+
+			.city{				
+				font-weight:700;
+				margin-bottom:5px;
+			}
+
+		}
+
+		p{
+			color:$light-gray;
+			@include font-size(16px);
+			line-height:1.5;
+		}
+	}
+}
