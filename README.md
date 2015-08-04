@@ -1,7 +1,7 @@
-# AngularJS Base
+# Artistas Luso
 > version 1.0.0
 
-This repo serves as a base for any project that uses AngularjS.
+This repo is associated to the project Artistas Luso for Mirateca.
 
 ##Development environment
 
