@@ -7,12 +7,14 @@ appDirectives.directive('coloredStats', [function () {
 	    scope:{
 	    	list: '=list',
 	    	groupByProp: '@?',
-	    	displayProp: '@?'
+	    	displayProp: '@?',
+	    	route: '@?',
+	    	detailProp: '@?'
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){
 
-	    	scope.setDisplayProp = function(obj, prop) {
+	    	scope.setProp = function(obj, prop) {
 			    prop = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
 			    prop = prop.replace(/^\./, '');           // strip a leading dot
 			    var a = prop.split('.');
@@ -25,6 +27,32 @@ appDirectives.directive('coloredStats', [function () {
 			        }
 			    }
 			    return obj;
+			}
+
+			//
+			// Gives the necessary offset
+			//
+			scope.setOffset = function(obj, size){
+				var maxColumn = size;
+
+				if (angular.isDefined(obj)){
+					var listLength = Object.keys(obj).length;
+					if (listLength < maxColumn){
+						return Math.ceil((maxColumn-listLength)/2);						
+					}
+				}				
+
+				return false;
+			}
+
+			//
+			// Returns object length
+			//
+			scope.objLength = function(obj){
+				if (angular.isDefined(obj)){
+					return Object.keys(obj).length;					
+				}				
+				return false;
 			}
 	    }
 	 };

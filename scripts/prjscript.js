@@ -8,6 +8,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 	var _init = function(){
 		if ($routeParams.id){
 			_getArtistsFromCat($routeParams.id);
+			_getCat($routeParams.id);
 		}else{
 			_getNetworks();
 			_getArtistsIds(); 
@@ -18,7 +19,109 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 	// ARTISTS SERVICES
 	//
 	var _getArtistsFromCat = function(catId){
+		$scope.artists = [
+			{
+				id:1,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			},
+			{
+				id:2,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			},
+			{
+				id:3,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			},
+			{
+				id:4,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			},
+			{
+				id:5,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			},
+			{
+				id:6,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			}
+		];
+	}
 
+	var _getCat = function(catId){
+		$scope.cat = 
+			{
+				id:1,
+				name: 'Artes Digitais',
+				color: '#378d3b',
+				areas:[
+					{
+						id:1,
+						name: 'Design & Multimédia'
+					},
+					{
+						id:2,
+						name: 'Ilustração'
+					},
+					{
+						id:3,
+						name: 'Fotografia'
+					}
+				]
+			};
 	}
 
 	var _getArtistsIds = function(){
@@ -27,49 +130,56 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 				id:1,
 				art: {
 					id:1,
-					name: 'Artes Digitais'
+					name: 'Artes Digitais',
+					color: '#378d3b'
 				}
 			},
 			{
 				id:2,
 				art: {
 					id:1,
-					name: 'Artes Digitais'
+					name: 'Artes Digitais',
+					color: '#378d3b'
 				}
 			},
 			{
 				id:3,
 				art: {
 					id:3,
-					name: 'Literatura'
+					name: 'Literatura',
+					color: '#378d3b'
 				}
 			},
 			{
 				id:4,
 				art: {
 					id:4,
-					name: 'Música'
+					name: 'Música',
+					color: '#378d3b'
 				}
 			},
 			{
 				id:5,
 				art: {
 					id:5,
-					name: 'Performance'
+					name: 'Performance',
+					color: '#378d3b'
 				}
 			},
 			{
 				id:6,
 				art: {
 					id:6,
-					name: 'Entidades'
+					name: 'Entidades',
+					color: '#378d3b'
 				}
 			},
 			{
 				id:7,
 				art: {
 					id:7,
-					name: 'Cinema & Vídeo'
+					name: 'Cinema & Vídeo',
+					color: '#378d3b'
 				}
 			},
 			{
@@ -77,6 +187,141 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 				art: {
 					id:9,
 					name: 'Outro'
+				}
+			},
+		];
+	}
+
+	var _getNetworks = function(){
+		$scope.networks = [
+			{
+				name: 'facebook',
+				url: 'www.facebook.com'
+			},
+			{
+				name: 'twitter',
+				url: 'www.twitter.com'
+			},
+			{
+				name: 'google-plus',
+				url: 'www.googleplus.com'
+			}
+		];
+	}
+
+	_init();
+}]);
+
+var appControllers = angular.module('appControllers');
+
+appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+	
+	//
+	// INIT FUNCTION
+	//
+	var _init = function(){
+		if ($routeParams.id){
+			_getArtist($routeParams.id);
+		}
+	}
+
+	//
+	// ARTISTS SERVICES
+	//
+	var _getArtist= function(){
+		$scope.artist = [
+			{
+				id:1,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			}
+		];
+	}
+
+	_init();
+
+}]);
+var appControllers = angular.module('appControllers');
+
+appControllers.controller('countriesCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+	
+	//
+	// INIT FUNCTION
+	//
+	var _init = function(){
+		_getNetworks();
+		_getCountriesIds(); 
+
+	}
+
+	//
+	// ARTISTS SERVICES
+	//
+
+	var _getCountriesIds = function(){
+		$scope.countries = [
+			{
+				id:1,
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			},
+			{
+				id:2,
+				country: {
+					id:1,
+					name: 'França'
+				}
+			},
+			{
+				id:3,
+				country: {
+					id:3,
+					name: 'Índia'
+				}
+			},
+			{
+				id:4,
+				country: {
+					id:4,
+					name: 'Espanha'
+				}
+			},
+			{
+				id:5,
+				country: {
+					id:5,
+					name: 'Noruega'
+				}
+			},
+			{
+				id:6,
+				country: {
+					id:6,
+					name: 'Eua'
+				}
+			},
+			{
+				id:7,
+				country: {
+					id:6,
+					name: 'Eua'
+				}
+			},
+			{
+				id:8,
+				country: {
+					id:1,
+					name: 'Portugal'
 				}
 			},
 		];
@@ -120,7 +365,7 @@ appControllers.controller('eventsCtrl', ['$scope', function ($scope) {
 			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
 			image: {
 				id:1,
-				url:'asd'
+				url:'thumb.jpg'
 			}
 		},
 		{
@@ -138,7 +383,7 @@ appControllers.controller('eventsCtrl', ['$scope', function ($scope) {
 			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
 			image: {
 				id:1,
-				url:'asd'
+				url:'thumb.jpg'
 			}
 		}
 	];
@@ -244,7 +489,9 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 				style: 'link',
 				title: 'Artistas',
 				url: '#/artists',
+				style: 'static',
 				subs: [
+					{style: 'link', title: 'Todos', url: '#/artists' },
 					{style: 'link', id:1, title: 'Artes Digitais'},
 					{style: 'link', id:2, title: 'Artes Plásticas'},
 					{style: 'link', id:3, title: 'Cinema e Vídeo'},
@@ -336,6 +583,21 @@ appServices.factory('LoginService', ['$rootScope', function ($rootScope) {
 }]);
 var appDirectives = angular.module('appDirectives');
 
+appDirectives.directive('artistsList', [ function () {
+	return {
+	    restrict: 'E',
+	    templateUrl: "scripts/directives/artistsList.html",
+	    scope:{
+	    	list: '=list'
+	    },
+	    replace: true,
+	    link: function(scope, el, attr){
+	    	
+	    }
+	 };
+}]);
+var appDirectives = angular.module('appDirectives');
+
 appDirectives.directive('coloredStats', [function () {
 	return {
 	    restrict: 'E',
@@ -343,12 +605,14 @@ appDirectives.directive('coloredStats', [function () {
 	    scope:{
 	    	list: '=list',
 	    	groupByProp: '@?',
-	    	displayProp: '@?'
+	    	displayProp: '@?',
+	    	route: '@?',
+	    	detailProp: '@?'
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){
 
-	    	scope.setDisplayProp = function(obj, prop) {
+	    	scope.setProp = function(obj, prop) {
 			    prop = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
 			    prop = prop.replace(/^\./, '');           // strip a leading dot
 			    var a = prop.split('.');
@@ -361,6 +625,32 @@ appDirectives.directive('coloredStats', [function () {
 			        }
 			    }
 			    return obj;
+			}
+
+			//
+			// Gives the necessary offset
+			//
+			scope.setOffset = function(obj, size){
+				var maxColumn = size;
+
+				if (angular.isDefined(obj)){
+					var listLength = Object.keys(obj).length;
+					if (listLength < maxColumn){
+						return Math.ceil((maxColumn-listLength)/2);						
+					}
+				}				
+
+				return false;
+			}
+
+			//
+			// Returns object length
+			//
+			scope.objLength = function(obj){
+				if (angular.isDefined(obj)){
+					return Object.keys(obj).length;					
+				}				
+				return false;
 			}
 	    }
 	 };
@@ -403,30 +693,44 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
 		    // Highlight menu option to current view.
 		    //
 
-		    scope.defineCurrentView = function (el) {
+		    scope.defineCurrentView = function (el, leading) {
 
 		        //
 		        // Get the section from the view after, but
 		        // including the # character.
 		        //
-	            var parcels = $location.path().split('/');
+	            var parcels = $location.path().split('#');
 
 	            if (parcels.length > 0) {
 
-	                var viewUrl = "#/" + parcels[1];
-	
+	                var viewUrl = "#" + parcels[0];               
 
 	                //
 	                // Search the menu and try to find a corresponding url.
 	                //
 
-	                if (angular.isDefined(el.url)) {
+	                // Is a 1 level
+	                if (angular.isDefined(el.url) && leading==null) {
 
-                        if (el.url == viewUrl) {
+                        if (viewUrl.indexOf(el.url)>=0 && viewUrl.length>=el.url.length) {                           
+                            return true;
+                        }
 
-                            el.style = el.style.replace('link', 'active');
-                           
-                            return el.style;
+                    // Is a 2 level
+                    }else if (angular.isDefined(el.id) && leading!=null) {
+
+                    	leading.active = false;
+                    	el.active = false;
+
+                    	if (leading.url+'/'+el.id == viewUrl) {
+
+                            return true;
+                        }
+
+                    // Is a 2 level but exacly the same as 1
+                    }else if(leading != null){
+                    	if (viewUrl==el.url) {                           
+                            return true;
                         }
                     }
 	            }

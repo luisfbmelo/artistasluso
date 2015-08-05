@@ -1,0 +1,28 @@
+<div class="row artists-container">
+	<div class="col-xs-12 col-sm-6 col-md-3" ng-repeat-start="artist in list">
+		<div class="card-container artist-area" style="background-image:url({{'assets/img/profile/'+artist.image}});">
+			<div class="area-wrapper">
+				<div class="bottom-content">
+					<section class="card-desc">
+						<h2>
+							{{artist.name}}
+						</h2>
+
+						<div class="card-details">
+							<span class="area">{{artist.area.name}}</span>
+							<span class="country">{{artist.country.name}}</span>
+						</div>
+						
+					</section>
+					<section class="card-options">
+						<a href="#/artist-details/{{artist.id}}" class="btn cta text-white">Saber mais</a>
+					</section>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<span class="clearfix visible-md-block" ng-if="($index+1)%4==0"></span>
+	<span class="clearfix visible-sm-block" ng-if="($index+1)%2==0"></span>
+	<span class="clearfix visible-xs-block" ng-repeat-end></span>
+</div>

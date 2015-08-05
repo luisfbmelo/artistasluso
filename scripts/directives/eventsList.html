@@ -4,7 +4,7 @@
 		<div class="card-container">
 			<section class="card-thumb-img">
 				<a href="#/event/{{event.id}}">
-					<img ng-src="{{event.image.url}}" alt="" class="img-responsive">
+					<img ng-src="{{'assets/img/thumbs/'+event.image.url}}" alt="{{event.title}}" class="img-responsive">
 				</a>
 			</section>
 			<section class="card-desc">
@@ -19,8 +19,8 @@
 				</div>
 
 				<div class="card-details">
-					<span class="city">Casa da Montanha</span>
-					<span class="country"> Portugal</span>
+					<span class="city">{{event.city.name}}</span>
+					<span class="country">{{event.country.name}}</span>
 				</div>
 
 				<p>					
@@ -28,7 +28,7 @@
 				</p>
 			</section>
 			<section class="card-options">
-				<a href="#/event" class="btn cta">Saber mais</a>
+				<a href="#/events/{{event.id}}" class="btn cta text-red">Saber mais</a>
 			</section>
 		</div>
 

@@ -17,7 +17,7 @@ appControllers.controller('eventsCtrl', ['$scope', function ($scope) {
 			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
 			image: {
 				id:1,
-				url:'asd'
+				url:'thumb.jpg'
 			}
 		},
 		{
@@ -35,7 +35,7 @@ appControllers.controller('eventsCtrl', ['$scope', function ($scope) {
 			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
 			image: {
 				id:1,
-				url:'asd'
+				url:'thumb.jpg'
 			}
 		}
 	];

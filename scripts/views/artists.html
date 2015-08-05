@@ -1,19 +1,13 @@
-<div class="artists-page image-bg">
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="total-artists">
-				<header>Já reunímos</header>
-				<p id="total-num">{{artists.length}}</p>
-				<label for="total-num">Artistas lusos</label>
-			</div>	
-		</div>
-	</div>
+<div class="artists-page no-img-bg">
+	<div class="total-artists">
+		<header>Já reunímos</header>
+		<p id="total-num">{{artists.length}}</p>
+		<label for="total-num">Artistas lusos</label>
+	</div>	
 
-	<colored-stats list="artists" group-by-prop="art.id" display-prop="art.name"></colored-stats>
+	<colored-stats list="artists" group-by-prop="art.name" display-prop="art.name" route="artists" detail-prop="art.id"></colored-stats>
 
-	<div class="row social-section">
-		<div class="col-xs-12">
-			<social networks="networks" type="stats"></social>
-		</div>
+	<div class="social-section">
+		<social networks="networks" type="stats"></social>
 	</div>	
 </div>

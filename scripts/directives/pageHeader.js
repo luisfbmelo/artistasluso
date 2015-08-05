@@ -12,30 +12,44 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
 		    // Highlight menu option to current view.
 		    //
 
-		    scope.defineCurrentView = function (el) {
+		    scope.defineCurrentView = function (el, leading) {
 
 		        //
 		        // Get the section from the view after, but
 		        // including the # character.
 		        //
-	            var parcels = $location.path().split('/');
+	            var parcels = $location.path().split('#');
 
 	            if (parcels.length > 0) {
 
-	                var viewUrl = "#/" + parcels[1];
-	
+	                var viewUrl = "#" + parcels[0];               
 
 	                //
 	                // Search the menu and try to find a corresponding url.
 	                //
 
-	                if (angular.isDefined(el.url)) {
+	                // Is a 1 level
+	                if (angular.isDefined(el.url) && leading==null) {
 
-                        if (el.url == viewUrl) {
+                        if (viewUrl.indexOf(el.url)>=0 && viewUrl.length>=el.url.length) {                           
+                            return true;
+                        }
 
-                            el.style = el.style.replace('link', 'active');
-                           
-                            return el.style;
+                    // Is a 2 level
+                    }else if (angular.isDefined(el.id) && leading!=null) {
+
+                    	leading.active = false;
+                    	el.active = false;
+
+                    	if (leading.url+'/'+el.id == viewUrl) {
+
+                            return true;
+                        }
+
+                    // Is a 2 level but exacly the same as 1
+                    }else if(leading != null){
+                    	if (viewUrl==el.url) {                           
+                            return true;
                         }
                     }
 	            }

@@ -29,12 +29,15 @@
 	
 	li{
 
-		a{
+		a,button{
 			min-width:130px;
 			height:$bar-height;
 			color:$black;
 			text-transform:uppercase;
 			font-weight:700;
+			background-color:transparent;
+			border:none;
+
 
 			@include font-size(16px);
 			@include transition(all 0.2s ease);
@@ -42,7 +45,7 @@
 
 		&:hover{
 
-			&>a{
+			&>a,&>button{
 				background-color:$light-gray;
 				text-decoration:none;
 			}
@@ -50,7 +53,7 @@
 		}
 
 		&.active,&.active.open{
-			&>a{
+			&>a,&>button{
 				background-color:$black!important;
 				text-decoration:none!important;
 				color:white!important;
@@ -71,8 +74,10 @@
 		margin:0;
 		padding:0;
 		li{
-			a{
-				line-height: 2.6;
+			a,button{
+				line-height: $bar-height;
+				padding-top:0;
+				padding-bottom:0;
 			}
 		}
 	}
@@ -101,16 +106,22 @@
 				line-height: 2!important;
 			}
 
+			button{
+				width:100%;
+				padding-left:15px;
+			}
+
 			ul{
 				li{
-					a{
+					a,button{
 						padding:10px 0 0 30px!important;
 					}
 				}
 			}
 		}
 	}
-	.navbar-nav li a {	    
+	.navbar-nav li a,
+	.navbar-nav li button {	    
 	    text-align:left;
 	}
 }

@@ -1,7 +1,5 @@
 .stats{
 	text-align:center;
-	margin-top:70px;
-
 	width:100%;
 
 	position:absolute;
@@ -12,6 +10,11 @@
 	.stats-container{
 		display:inline-block;
 		margin-bottom:15px;
+		color: inherit;
+
+		&:hover{
+			text-decoration: none;
+		}
 
 		.item-number{
 			position:relative;
@@ -40,39 +43,51 @@
 	}
 
 	.stats-wrapper{
-		&:nth-child(1n){
-			.item-number:after{
-				background-color:$dark-red;
+		&:nth-of-type(6n+1):not(.clearfix){
+			&>.stats-container .item-number{
+				&:after{
+					background-color:$dark-red;
+				}
 			}
 		}
 
-		&:nth-child(2n){
-			.item-number:after{
-				background-color:$light-red;
+		&:nth-of-type(6n+2){
+			&>.stats-container .item-number{
+				&:after{
+					background-color:$light-red;
+				}
 			}
 		}
 
-		&:nth-child(3n){
-			.item-number:after{
-				background-color:$dark-yellow;
+		&:nth-of-type(6n+3){
+			&>.stats-container .item-number{
+				&:after{
+					background-color:$dark-yellow;
+				}
 			}
 		}
 
-		&:nth-child(4n){
-			.item-number:after{
-				background-color:$light-yellow;
+		&:nth-of-type(6n+4){
+			&>.stats-container .item-number{
+				&:after{
+					background-color:$light-yellow;
+				}
 			}
 		}
 
-		&:nth-child(5n){
-			.item-number:after{
-				background-color:$dark-green;
+		&:nth-of-type(6n+5){
+			&>.stats-container .item-number{
+				&:after{
+					background-color:$dark-green;
+				}
 			}
 		}
 
-		&:nth-child(6n){
-			.item-number:after{
-				background-color:$light-green;
+		&:nth-of-type(6n+6){
+			&>.stats-container .item-number{
+				&:after{
+					background-color:$light-green;
+				}				
 			}
 		}
 	}
@@ -82,5 +97,7 @@
 	.stats{
 		position:static;
 		@include translate(0%,0%);
+		margin-top:70px;
+		margin-bottom:70px;
 	}
 }

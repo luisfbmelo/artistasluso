@@ -1,0 +1,16 @@
+<div class="artists-list-page image-bg">
+	<div class="row">
+		<div class="col-xs-12 col-sm-6 text-left">
+			<h1>
+				{{ cat.name }}
+			</h1>
+
+			<span class="art-title-sep" style="background-color:{{cat.color}}"></span>
+		</div>
+		<div class="col-xs-12 col-sm-6 text-right areas">
+			<span ng-repeat="area in cat.areas">{{$index>0 ? ' &middot; ' : ''}}{{area.name}}</span>
+		</div>
+	</div>
+
+	<artists-list list="artists"></artists-list>
+</div>

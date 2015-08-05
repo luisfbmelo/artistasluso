@@ -13,18 +13,25 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li ng-repeat="item in menu | filter: {related: '!user'}" ng-class="defineCurrentView(item)">
-                    <a href="{{item.url}}" class="dropdown-toggle" data-toggle="dropdown">{{item.title}} <span class="caret" ng-if="item.subs!=undefined && item.subs.length>0"></span></a>
+                <li ng-repeat="item in menu | filter: {related: '!user'}" ng-class="{'active': defineCurrentView(item, null) || item.active}">
+                    <a href="{{item.url}}" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.style!='static'">
+                        {{item.title}} <span class="caret" ng-if="item.subs!=undefined && item.subs.length>0"></span>
+                    </a>
+
+                    <button type="button" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.style=='static'">
+                        {{item.title}} <span class="caret" ng-if="item.subs!=undefined && item.subs.length>0"></span>
+                    </button>
                     <ul class="dropdown-menu" role="menu" ng-if="item.subs!=undefined && item.subs.length>0 && item.type==undefined">
-                        <li ng-repeat="sub in item.subs" ng-class="defineCurrentView(sub)">
-                            <a href="{{item.url}}/{{sub.id}}">{{sub.title}}</a>
+                        <li ng-repeat="sub in item.subs" ng-class="{'active': defineCurrentView(sub, item) || sub.active}">
+                            <a href="{{item.url+'/'+sub.id | urlResolver}}" ng-if="sub.url==undefined">{{sub.title}}</a>
+                            <a href="{{sub.url}}" ng-if="sub.url!=undefined">{{sub.title}}</a>                
                         </li>
                     </ul>
                 </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" ng-repeat="item in menu | filter: {related: 'user'}" ng-class="defineCurrentView(item)">
+                <li class="dropdown" ng-repeat="item in menu | filter: {related: 'user'}" ng-class="{'active': defineCurrentView(item, null) || item.active}">
                     <a href="#/" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.type">{{item.title}} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu" ng-if="item.type">
                         <li><a href="#/arts/artist/{{item.id}}">MEU PERFIL</a></li>

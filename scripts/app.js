@@ -40,6 +40,14 @@ app.config(['$routeProvider',
 				templateUrl: 'scripts/views/artists-list.html',
 				controller: 'artistsCtrl'
 			}).
+			when('/artist-details/:id', {
+				templateUrl: 'scripts/views/artist-detail.html',
+				controller: 'artistDetailsCtrl'
+			}).
+			when('/countries', {
+				templateUrl: 'scripts/views/countries.html',
+				controller: 'countriesCtrl'
+			}).
 			otherwise({
 				redirectTo: '/'
 			});

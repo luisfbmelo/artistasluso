@@ -38,7 +38,9 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 				style: 'link',
 				title: 'Artistas',
 				url: '#/artists',
+				style: 'static',
 				subs: [
+					{style: 'link', title: 'Todos', url: '#/artists' },
 					{style: 'link', id:1, title: 'Artes Digitais'},
 					{style: 'link', id:2, title: 'Artes Plásticas'},
 					{style: 'link', id:3, title: 'Cinema e Vídeo'},
