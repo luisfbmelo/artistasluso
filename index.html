@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Artistas Luso</title>
 
+    <!--META-->
+    <!--facebook-->
+    <meta property="fb:app_id" content="441293852709692">
+
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 
     <!-- Bootstrap -->
@@ -15,6 +19,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 	<!-- Styles-->
+    <link href="assets/styles/stylesheets/animate.css" rel="stylesheet">
     <link href="assets/styles/stylesheets/screen.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
 
@@ -28,6 +33,17 @@
     <![endif]-->
 </head>
 <body ng-controller="mainCtrl">
+	<!--FACEBOOK SDK-->
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/pt_PT/sdk.js#xfbml=1&version=v2.4&appId=441293852709692";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+	<!--END FACEBOOK-->
+
 	<page-header ng-controller="menuCtrl"></page-header>
 
 	<div class="main" ng-view></div>
@@ -42,6 +58,7 @@
 	
 	<!--ANGULARJS-->
 	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.min.js"></script>
 	<script src="bower_components/angular-route/angular-route.js"></script>
 	<script src="bower_components/angular-i18n/angular-locale_pt-pt.js"></script>
 	<script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>

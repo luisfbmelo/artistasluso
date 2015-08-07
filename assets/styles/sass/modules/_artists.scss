@@ -137,3 +137,159 @@
 		height:400px;
 	}
 }
+
+/*DETAILS*/
+.artist-details{
+	position:relative;
+	padding:$bar-height 0 $bar-height;
+
+	.container-fluid{
+		padding:0 30px;
+	}
+
+	.artist-desc-container{
+		background-color:$ultralight-gray;
+		height:$artist-banner-height;
+		.art-desc-wrapper{
+			margin-left:$img-width+16px;
+			position:relative;
+			height:$artist-banner-height;
+		}
+
+		.artist-desc{
+			position:absolute;
+			bottom:16px;
+			left:0;
+
+			h1{
+				font-weight:700;
+			}
+
+			p{
+				@include font-size(16px);
+
+				margin-top:16px;
+
+				strong{
+					font-weight:700;
+				}
+			}
+		}
+	}
+
+	.artist-bio-container{
+		background-color:white;
+
+		@include box-shadow(0 0 10px rgba(0,0,0,0.5));
+		padding-bottom:36px;
+
+		.artist-image{
+			background-position:center 0;
+			background-size:cover;
+			width:$img-width;
+			height:$img-height;
+			margin-top:-125px;
+			@include box-shadow(0 0 10px rgba(0,0,0,0.5));
+			margin-right: 16px;
+			float:left;
+		} 
+
+		.artist-social{
+			padding:16px;
+			.social-wrapper ul{
+				text-align:left;
+				margin-top:0;
+
+				li + li{
+					margin-left:16px;
+				}
+			}
+		}
+
+		.artist-bio{
+			margin:36px 0 16px;
+
+			&>div{
+				@include font-size(16px);
+				line-height:1.5;
+
+				padding:0 32px 0 0;
+				margin-bottom:16px;
+
+				&:not(:first-of-type){
+					color:$light-gray;
+				}
+			}
+		}
+	}
+
+	@media (max-width:768px){
+		.artist-desc-container{
+			height:auto;
+
+			.art-desc-wrapper{
+				margin-left:0;
+				position:relative;
+				height:auto;
+				padding:64px 0 32px;
+			}
+
+			.artist-desc{
+				position:static;
+
+				h1{
+					font-weight:700;
+				}
+
+				p{
+					@include font-size(16px);
+
+					margin-top:16px;
+
+					strong{
+						font-weight:700;
+					}
+				}
+			}
+		}
+
+		.artist-bio-container{
+			background-color:white;
+
+			@include box-shadow(0 0 10px rgba(0,0,0,0.5));
+			padding-bottom:36px;
+
+			.artist-image{
+				background-position:center 0;
+				background-size:cover;
+				width:100%;
+				height:$img-height+100;
+				margin-top:32px;
+				@include box-shadow(0 0 10px rgba(0,0,0,0.5));
+				margin-right: 16px;
+				float:none;
+			} 
+
+			.artist-social{
+				padding:16px;
+				text-align:center;
+			}
+
+			.artist-bio{
+				margin:16px 0;
+
+				&>div{
+					@include font-size(16px);
+
+					padding:0 32px 0 0;
+
+					margin-bottom:16px;
+
+					&:not(:first-of-type){
+						color:$light-gray;
+					}
+				}
+			}
+		}
+	}
+} 

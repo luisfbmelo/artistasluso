@@ -6,11 +6,14 @@ appDirectives.directive('social', [function () {
 	    templateUrl: "scripts/directives/social.html",
 	    scope:{
 	    	networks: '=networks',
-	    	type: '@?'
+	    	textClass: '@?',
+	    	text: '@?',
+	    	action: '@?',
+	    	containerClass: '@?'
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){
-
-	    }
+	    	console.log(scope.networks);  
+	    } 
 	 };
-}]);
+}]); 

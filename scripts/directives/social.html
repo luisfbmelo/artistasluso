@@ -1,5 +1,5 @@
-<div class="social-wrapper" ng-if="type=='stats'">
-	<p>Ajude a aumentar este números, divulgue esta iniciativa</p>
+<div class="social-wrapper {{containerClass}}">
+	<p ng-if="text" class="{{textClass}}">{{text}}</p>
 	<ul class="social-icons">
 		<li ng-repeat="social in networks track by $index">
 			<a ng-href="{{social.url | urlResolver}}" target="_blank">

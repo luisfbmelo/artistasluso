@@ -10,7 +10,8 @@ var app = angular.module('artistasluso', [
   'appServices',
   'appDirectives',
   'appFilters',
-  'angular.filter'
+  'angular.filter',
+  'ngAnimate'
 ]);
 
 app.config(['$routeProvider',
@@ -30,7 +31,7 @@ app.config(['$routeProvider',
 			}).
 			when('/events/:id', {
 				templateUrl: 'scripts/views/event-detail.html',
-				controller: 'eventsDetailCtrl'
+				controller: 'eventsDetailsCtrl'
 			}).
 			when('/artists', {
 				templateUrl: 'scripts/views/artists.html',
@@ -40,7 +41,7 @@ app.config(['$routeProvider',
 				templateUrl: 'scripts/views/artists-list.html',
 				controller: 'artistsCtrl'
 			}).
-			when('/artist-details/:id', {
+			when('/artists/details/:id', {
 				templateUrl: 'scripts/views/artist-detail.html',
 				controller: 'artistDetailsCtrl'
 			}).

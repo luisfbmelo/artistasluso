@@ -24,8 +24,7 @@ module.exports = function(grunt) {
                 	'scripts/services/*.js',
                 	'scripts/directives/*.js'
                 ],
-                dest: 'scripts/prjscript.js',
-                
+                dest: 'scripts/prjscript.js',                
             },
 	    },
 	    uglify: {
@@ -35,23 +34,33 @@ module.exports = function(grunt) {
 		    	},
 			    files: {
 			    	'scripts/prjscript.min.js': ['scripts/prjscript.js']
-			    }
+			    },
+			    options: {
+		            preserveComments: false
+		        }
 		    }
 		},
-		watch: {
+		watch: {			
 			compass: {
 				files: ['**/*.{scss,sass}'],
-				tasks: ['compass']
+				tasks: ['compass'],
+	            options: {
+	              spawn: false,
+	            },
 			},
-			concat: {
-			    files: ['**/*.js', '!**/prjscript.js', '!**/prjscript.min.js'],
-			    tasks: ['concat', 'uglify']
-			}
+			scripts: {
+			    files: ['scripts/**/*js'],
+			    tasks: ['concat','uglify'],
+			    options: {
+	              spawn: false,
+	            },
+			},		
+
 		}
 	});
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.registerTask('default',['compass','concat','uglify','watch']);
+	grunt.registerTask('default',['watch']);
 }

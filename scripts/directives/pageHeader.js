@@ -8,6 +8,16 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
 	    replace:true,
 	    link: function(scope, el, attr){
 
+	    	//
+	    	// Close menu on link click
+	    	//
+	    	el.on("click", "a", null, function () {
+		         el.find(".collapse.in").collapse('hide');
+		         if (!el.find(".navbar-toggle").hasClass("collapsed")){
+		         	el.find(".navbar-toggle").addClass("collapsed");
+		         }
+			});
+
 			//
 		    // Highlight menu option to current view.
 		    //

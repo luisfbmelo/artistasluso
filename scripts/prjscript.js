@@ -222,16 +222,116 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 	var _init = function(){
 		if ($routeParams.id){
 			_getArtist($routeParams.id);
+			_getMoreArtists();
 		}
 	}
 
 	//
 	// ARTISTS SERVICES
 	//
-	var _getArtist= function(){
-		$scope.artist = [
+	var _getArtist= function(id){
+		$scope.artist = 
+			{
+				id:id,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				areas:[
+					{
+						id:1,
+						name: 'Design & Multimédia'
+					}
+				],
+				country: {
+					id:1,
+					name: 'Portugal'
+				},
+				networks:[
+					{
+						name: 'facebook',
+						url: 'www.facebook.com'
+					},
+					{
+						name: 'twitter',
+						url: 'www.twitter.com'
+					},
+					{
+						name: 'google-plus',
+						url: 'www.googleplus.com'
+					}
+				]
+			};
+		
+	}
+
+	var _getMoreArtists = function(){
+		$scope.otherArtists = [
 			{
 				id:1,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			},
+			{
+				id:2,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			},
+			{
+				id:3,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			},
+			{
+				id:4,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			},
+			{
+				id:5,
+				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				area:{
+					id:1,
+					name: 'Design & Multimédia'
+				},
+				country: {
+					id:1,
+					name: 'Portugal'
+				}
+			},
+			{
+				id:6,
 				name: 'Rui Gomes da Silva',
 				image: 'profile.jpg',
 				area:{
@@ -353,7 +453,7 @@ appControllers.controller('eventsCtrl', ['$scope', function ($scope) {
 		{
 			id: 1,
 			title: 'Abertura oficial do festival de janeiro',
-			date: '20140313T00:00:00',
+			dateStart: '20140313T00:00:00',
 			city: {
 				id:1,
 				title: 'Casa da Montanha'
@@ -371,7 +471,7 @@ appControllers.controller('eventsCtrl', ['$scope', function ($scope) {
 		{
 			id: 2,
 			title: 'Abertura oficial do festival de janeiro',
-			date: '20140313T00:00:00',
+			dateStart: '20140313T00:00:00',
 			city: {
 				id:1,
 				title: 'Casa da Montanha'
@@ -392,11 +492,12 @@ appControllers.controller('eventsCtrl', ['$scope', function ($scope) {
 appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
 
 	if ($routeParams.id){
-		$scope.event = [
+		$scope.event = 
 			{
 				id: $routeParams.id,
 				title: 'Abertura oficial do festival de janeiro',
-				date: '20140313T00:00:00',
+				dateStart: '20140313T00:00:00',
+				dateEnd: '20140313T00:00:00',
 				city: {
 					id:1,
 					title: 'Casa da Montanha'
@@ -408,8 +509,115 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', functi
 				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
 				image: {
 					id:1,
-					url:'asd'
+					url:'thumb.jpg'
 				}
+			};
+
+		$scope.otherEvents = [
+			{
+				id: 1,
+				title: 'Abertura oficial do festival de janeiro',
+				dateStart: '20140313T00:00:00',
+				city: {
+					id:1,
+					title: 'Casa da Montanha'
+				},
+				country: {
+					id:1,
+					title:'Portugal'
+				},
+				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+				image: {
+					id:1,
+					url:'thumb.jpg'
+				}
+			},
+			{
+				id: 2,
+				title: 'Abertura oficial do festival de janeiro',
+				dateStart: '20140313T00:00:00',
+				city: {
+					id:1,
+					title: 'Casa da Montanha'
+				},
+				country: {
+					id:1,
+					title:'Portugal'
+				},
+				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+				image: {
+					id:1,
+					url:'thumb.jpg'
+				}
+			},
+			{
+				id: 3,
+				title: 'Abertura oficial do festival de janeiro',
+				dateStart: '20140313T00:00:00',
+				city: {
+					id:1,
+					title: 'Casa da Montanha'
+				},
+				country: {
+					id:1,
+					title:'Portugal'
+				},
+				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+				image: {
+					id:1,
+					url:'thumb.jpg'
+				}
+			},
+			{
+				id: 4,
+				title: 'Abertura oficial do festival de janeiro',
+				dateStart: '20140313T00:00:00',
+				city: {
+					id:1,
+					title: 'Casa da Montanha'
+				},
+				country: {
+					id:1,
+					title:'Portugal'
+				},
+				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+				image: {
+					id:1,
+					url:'thumb.jpg'
+				}
+			},
+			{
+				id: 5,
+				title: 'Abertura oficial do festival de janeiro',
+				dateStart: '20140313T00:00:00',
+				city: {
+					id:1,
+					title: 'Casa da Montanha'
+				},
+				country: {
+					id:1,
+					title:'Portugal'
+				},
+				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+				image: {
+					id:1,
+					url:'thumb.jpg'
+				}
+			}
+		];
+
+		$scope.networks = [
+			{
+				name: 'facebook',
+				url: 'www.facebook.com'
+			},
+			{
+				name: 'twitter',
+				url: 'www.twitter.com'
+			},
+			{
+				name: 'google-plus',
+				url: 'www.googleplus.com'
 			}
 		];
 	}
@@ -534,6 +742,11 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 
 	_getUserType();
 	_defineMenu();
+
+	$scope.$on("$locationChangeStart", function (event, next, current) {
+        _getUserType();
+		_defineMenu();
+    });
 }]);
 var appControllers = angular.module('appControllers');
 
@@ -588,11 +801,14 @@ appDirectives.directive('artistsList', [ function () {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/artistsList.html",
 	    scope:{
-	    	list: '=list'
+	    	list: '=list',
+	    	max: '@?'
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){
-	    	
+	    	if (scope.max==undefined){
+	    		scope.max = 'infinite';
+	    	}
 	    }
 	 };
 }]);
@@ -662,11 +878,31 @@ appDirectives.directive('eventsList', [ function () {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/eventsList.html",
 	    scope:{
-	    	list: '=list'
+	    	list: '=list',
+	    	max: '@?'
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){
-	    	
+	    	if (scope.max==undefined){
+	    		scope.max = 'infinite';
+	    	}
+	    }
+	 };
+}]);
+var appDirectives = angular.module('appDirectives');
+
+appDirectives.directive('facebookComments', ['$location', function ($location) {
+	return {
+	    restrict: 'E',
+	    templateUrl: "scripts/directives/facebookComments.html",
+	    scope:{
+	    	text: '@?',
+	    	textClass: '@?',
+	    	containerClass: '@?'
+	    },
+	    replace: true,
+	    link: function(scope, el, attr){
+	    	scope.curPath = $location.absUrl();
 	    }
 	 };
 }]);
@@ -688,6 +924,16 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
 	    scope:true,
 	    replace:true,
 	    link: function(scope, el, attr){
+
+	    	//
+	    	// Close menu on link click
+	    	//
+	    	el.on("click", "a", null, function () {
+		         el.find(".collapse.in").collapse('hide');
+		         if (!el.find(".navbar-toggle").hasClass("collapsed")){
+		         	el.find(".navbar-toggle").addClass("collapsed");
+		         }
+			});
 
 			//
 		    // Highlight menu option to current view.
@@ -747,11 +993,14 @@ appDirectives.directive('social', [function () {
 	    templateUrl: "scripts/directives/social.html",
 	    scope:{
 	    	networks: '=networks',
-	    	type: '@?'
+	    	textClass: '@?',
+	    	text: '@?',
+	    	action: '@?',
+	    	containerClass: '@?'
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){
-
-	    }
+	    	console.log(scope.networks);  
+	    } 
 	 };
-}]);
+}]); 

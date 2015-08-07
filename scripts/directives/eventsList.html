@@ -1,21 +1,21 @@
 <div class="row">
-	<div class="col-xs-12 col-sm-6 col-md-3" ng-repeat-start="event in list">
+	<div class="col-xs-12 col-sm-6 col-md-3" ng-repeat-start="event in list | limitTo: max ">
 
 		<div class="card-container">
 			<section class="card-thumb-img">
-				<a href="#/event/{{event.id}}">
+				<a href="#/events/{{event.id}}">
 					<img ng-src="{{'assets/img/thumbs/'+event.image.url}}" alt="{{event.title}}" class="img-responsive">
 				</a>
 			</section>
 			<section class="card-desc">
 				<h1>
-					<a href="#/event/{{event.id}}">
+					<a href="#/events/{{event.id}}">
 						{{event.title}}			
 					</a>
 				</h1>
 
 				<div class="card-date">
-					{{ event.date | date:"d 'de' MMMM 'de' yyyy, HH'h':mm" }}
+					{{ event.dateStart | date:"d 'de' MMMM 'de' yyyy, HH'h':mm" }}
 				</div>
 
 				<div class="card-details">

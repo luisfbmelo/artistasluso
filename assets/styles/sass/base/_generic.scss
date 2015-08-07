@@ -12,13 +12,30 @@ html,body{
 .clearAll{
 	clear:both;
 }
-/*END CLEARS*/
 
 
-body *{
-	
+/*ANIMATIONS*/
+.main{	
+	@include animated(0.5s);
+
+	&.ng-enter{
+		@include effect(fadeIn);
+		position:fixed;
+		top:0;
+		left:0;
+		overflow:auto;
+	}
+
+	&.ng-leave{
+		position:fixed;
+		top:0;
+		left:0;
+		overflow:auto;
+
+	}
 }
 
+/*MORE SPECIFIC*/
 .main{
 	width:100%;
 	height:100%;
@@ -53,4 +70,16 @@ h1{
 h2{
 	@include font-size(24px);
 	font-weight:700;
+}
+
+/*LISTS ELEMENTS*/
+.other-list{
+	.other-title{
+		color:$dark-gray;
+		text-transform: uppercase;
+		@include font-size(16px);
+		display:block;
+		margin:36px 0 0;
+		font-weight:700;
+	}
 }

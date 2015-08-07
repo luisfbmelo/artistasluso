@@ -83,4 +83,9 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 
 	_getUserType();
 	_defineMenu();
+
+	$scope.$on("$locationChangeStart", function (event, next, current) {
+        _getUserType();
+		_defineMenu();
+    });
 }]);

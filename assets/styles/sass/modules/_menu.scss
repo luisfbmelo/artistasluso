@@ -101,6 +101,7 @@
 
 @media (max-width: 767px){
 	.navbar-nav{
+		margin-top:0;
 		li{
 			a{
 				line-height: 2!important;
@@ -123,5 +124,9 @@
 	.navbar-nav li a,
 	.navbar-nav li button {	    
 	    text-align:left;
+	}
+
+	.navbar-collapse{
+		border:none;
 	}
 }

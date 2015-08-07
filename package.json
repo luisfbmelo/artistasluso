@@ -1,5 +1,5 @@
 {
-  "name": "Project",
+  "name": "Artistas Luso",
   "version": "1.0.0",
   "description": "",
   "main": "index.html",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "..."
+    "url": "https://github.com/luisfbmelo/artistasluso.git"
   },
   "author": "",
   "license": "ISC",

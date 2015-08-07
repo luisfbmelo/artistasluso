@@ -5,11 +5,14 @@ appDirectives.directive('artistsList', [ function () {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/artistsList.html",
 	    scope:{
-	    	list: '=list'
+	    	list: '=list',
+	    	max: '@?'
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){
-	    	
+	    	if (scope.max==undefined){
+	    		scope.max = 'infinite';
+	    	}
 	    }
 	 };
 }]);
