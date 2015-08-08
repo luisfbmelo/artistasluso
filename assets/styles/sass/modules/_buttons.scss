@@ -23,7 +23,7 @@
 		@include box-shadow(none);
 	}
 
-	&.submit-form{
+	&.submit-form,&.add-new{
 		background-color:$black;
 		color:white;
 		@include border-radius(0);
@@ -35,8 +35,30 @@
 		padding:10px 20px;
 
 
-		&:hover,&:active,&:focus{
+		&:hover:not(.empty-bg),&:active:not(.empty-bg),&:focus:not(.empty-bg){
 			@include opacity(0.6);
 		}
+
+		&.empty-bg{
+			background-color:white;
+			color:$black;
+			border:1px solid $black;
+
+			&:hover{
+				background-color:$black;
+				color:white;
+			}
+		}
+	}
+
+	&.add-new{
+		margin-bottom:16px;
+	}
+}
+
+.wysiwyg-menu{
+	margin-bottom:10px;
+	button,.wysiwyg-select{
+		@include border-radius(0);
 	}
 }

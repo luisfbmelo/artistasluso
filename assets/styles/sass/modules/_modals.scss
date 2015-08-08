@@ -1,0 +1,17 @@
+.modal-content{
+	@include border-radius(0);
+	padding:16px;
+}
+
+.modal-body{
+	h1{
+	    font-weight: bold;
+	    text-transform: uppercase;
+	    margin: 0 0 16px;
+	}
+}
+
+.modal-footer{
+	border:none;
+	text-align:center;
+}

@@ -72,6 +72,16 @@ h2{
 	font-weight:700;
 }
 
+h3{
+	@include font-size(20px);
+	font-weight:700;
+}
+
+h4{
+	@include font-size(16px);
+	font-weight:700;
+}
+
 /*LISTS ELEMENTS*/
 .other-list{
 	.other-title{
@@ -81,5 +91,13 @@ h2{
 		display:block;
 		margin:36px 0 0;
 		font-weight:700;
+	}
+}
+
+.link{
+	&:hover{
+		text-decoration:underline;
+		@include opacity(0.6);
+		cursor:pointer;
 	}
 }

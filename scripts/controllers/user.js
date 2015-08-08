@@ -1,7 +1,9 @@
 var appControllers = angular.module('appControllers');
 
 appControllers.controller('userCtrl', ['$scope', function ($scope) {
-	
+	//
+    // NEED TO CHECK IF USER IS LOGGED
+    //
 }]);
 
 appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scope, $filter) {
@@ -11,29 +13,8 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
 	//
 	$scope.User = {};
 	$scope.image = {};
-
-
-	//
-	// WHEN GETTING ELEMENT, SET IMAGE OBJECT
-	//
-	/*if (angular.isDefined($scope.User.image) && $scope.User.image!=null) {
-        $scope.image.src = $scope.User.image.src;
-        $scope.image.name = $scope.User.image.name;
-        $scope.image.id = $scope.User.image.id;
-    }*/
-
-	//
-    // WATCH EXAMPLE
-    //
-    /*$scope.$watch(function () {
-        return locale.get();
-    }, function (newValue) {
-
-        if (angular.isDefined(newValue)) {
-            $scope.newAuthorForm.$setPristine();
-            _getObj();
-        }
-    });*/
+	$scope.submitted = false;
+	$scope.isCorrect = false;
 
 	//SUBMIT NEW FORM
     $scope.createUser = function () {
@@ -71,5 +52,39 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
 		   	 	$scope.User.networks[key] = $filter('urlResolverVal')(val);
 			}
         }
+    }
+}]);
+
+appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope, $filter) {
+
+	//
+	//	INIT OBJECTS
+	//
+	$scope.User = {};
+	$scope.image = {};
+	$scope.submitted = false;
+
+	//SUBMIT NEW FORM
+    $scope.loginUser = function () {
+        $scope.submitted = true;
+
+        if (Object.keys($scope.userLoginForm.$error).length == 0) {
+            _constructObj(); 
+
+             console.log($scope.User);
+        }
+    }
+
+	//CHECK FOR ERRORS
+    $scope.hasError = function (field, validation) {
+        if (validation) {
+            return (field.$dirty && field.$error[validation]) || ($scope.submitted && field.$error[validation]);
+        }
+        return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
+    };
+
+    //Construct final obj
+    var _constructObj = function () {
+
     }
 }]);

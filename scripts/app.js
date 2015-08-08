@@ -11,7 +11,10 @@ var app = angular.module('artistasluso', [
   'appDirectives',
   'appFilters',
   'angular.filter',
-  'ngAnimate'
+  'ngAnimate',
+  'ui.bootstrap',
+  'wysiwyg.module',
+  'ui.date'
 ]);
 
 app.config(['$routeProvider', function($routeProvider) {
@@ -37,6 +40,14 @@ app.config(['$routeProvider', function($routeProvider) {
 			templateUrl: 'scripts/views/event-detail.html',
 			controller: 'eventsDetailsCtrl'
 		}).
+		when('/new-event', {
+			templateUrl: 'scripts/views/event-new.html',
+			controller: 'eventFormCtrl'
+		}).
+		when('/edit-event/:id', {
+			templateUrl: 'scripts/views/event-new.html',
+			controller: 'eventFormCtrl'
+		}).
 		when('/artists', {
 			templateUrl: 'scripts/views/artists.html',
 			controller: 'artistsCtrl'
@@ -52,6 +63,18 @@ app.config(['$routeProvider', function($routeProvider) {
 		when('/countries', {
 			templateUrl: 'scripts/views/countries.html',
 			controller: 'countriesCtrl'
+		}).
+		when('/user', {
+			templateUrl: 'scripts/views/artist-detail.html',
+			controller: 'artistDetailsCtrl'
+		}).
+		when('/user/edit', {
+			templateUrl: 'scripts/views/artist-detail.html',
+			controller: 'artistDetailsCtrl'
+		}).
+		when('/user/my-events/list', {
+			templateUrl: 'scripts/views/events.html',
+			controller: 'eventsUserCtrl'
 		}).
 		otherwise({
 			redirectTo: '/'

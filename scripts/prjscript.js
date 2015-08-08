@@ -212,9 +212,10 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 	_init();
 }]);
 
-var appControllers = angular.module('appControllers');
-
 appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+	//
+	// NEED TO CHECK IF USER IS LOGGED
+	//
 	
 	//
 	// INIT FUNCTION
@@ -223,17 +224,56 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 		if ($routeParams.id){
 			_getArtist($routeParams.id);
 			_getMoreArtists();
+
+		// Get data from logged user
+		}else{
+			_getLoggedArtist();
+			_getMoreArtists();
 		}
 	}
 
 	//
 	// ARTISTS SERVICES
 	//
-	var _getArtist= function(id){
+	var _getArtist = function(id){
 		$scope.artist = 
 			{
-				id:id,
+				id:1,
 				name: 'Rui Gomes da Silva',
+				image: 'profile.jpg',
+				areas:[
+					{
+						id:1,
+						name: 'Design & Multimédia'
+					}
+				],
+				country: {
+					id:1,
+					name: 'Portugal'
+				},
+				networks:[
+					{
+						name: 'facebook',
+						url: 'www.facebook.com'
+					},
+					{
+						name: 'twitter',
+						url: 'www.twitter.com'
+					},
+					{
+						name: 'google-plus',
+						url: 'www.googleplus.com'
+					}
+				]
+			};
+		
+	}
+
+	var _getLoggedArtist = function(){
+		$scope.artist = 
+			{
+				id:1,
+				name: 'Ruis Gomes da Silva',
 				image: 'profile.jpg',
 				areas:[
 					{
@@ -448,7 +488,42 @@ appControllers.controller('countriesCtrl', ['$scope', '$routeParams', function (
 }]);
 var appControllers = angular.module('appControllers');
 
+appControllers.controller('datePickerCtrl', ['$scope','$routeParams', function ($scope,$routeParams) {
+    //
+    // INIT FUNCTION
+    //
+	var _init = function(){
+		// SET DATE PICKER OPTIONS
+        $scope.dateOptions = {
+            yearRange: '-0:-0',
+            showOtherMonths: true,
+            firstDay: 1,
+            dateFormat: "d MM yy"
+        };
+	}
+
+    _init();
+}]);
+var appControllers = angular.module('appControllers');
+
 appControllers.controller('eventsCtrl', ['$scope', function ($scope) {
+	//
+	// NEED TO CHECK IF USER IS LOGGED
+	//
+	
+	//
+	// Set if list is editable
+	//
+	$scope.editable = false;
+
+	//
+	// Set loggedin status
+	//
+	$scope.loggedIn = false;
+
+	//
+	// Get list of events
+	//
 	$scope.events = [
 		{
 			id: 1,
@@ -487,6 +562,13 @@ appControllers.controller('eventsCtrl', ['$scope', function ($scope) {
 			}
 		}
 	];
+
+	//
+    // Delete event
+    //   
+    $scope.deleteEl = function (el) {
+        console.log("Deleted with service: " + el);
+    };
 }]);
 
 appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
@@ -623,6 +705,157 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', functi
 	}
 	
 }]);
+
+appControllers.controller('eventsUserCtrl', ['$scope', function ($scope) {
+	//
+	// NEED TO CHECK IF USER IS LOGGED
+	//
+	
+	//
+	// Set if list is editable
+	//
+	$scope.editable = true;
+
+	//
+	// Set loggedin status
+	//
+	$scope.loggedIn = true;
+
+	//
+	// Get list of events
+	//
+	$scope.events = [
+		{
+			id: 1,
+			title: 'Abertura oficial do festival de janeiro',
+			dateStart: '20140313T00:00:00',
+			city: {
+				id:1,
+				title: 'Casa da Montanha'
+			},
+			country: {
+				id:1,
+				title:'Portugal'
+			},
+			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+			image: {
+				id:1,
+				url:'thumb.jpg'
+			}
+		},
+		{
+			id: 2,
+			title: 'Abertura oficial do festival de janeiro',
+			dateStart: '20140313T00:00:00',
+			city: {
+				id:1,
+				title: 'Casa da Montanha'
+			},
+			country: {
+				id:1,
+				title:'Portugal'
+			},
+			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+			image: {
+				id:1,
+				url:'thumb.jpg'
+			}
+		}
+	];
+
+	//
+    // Delete event
+    //   
+    $scope.deleteEl = function (el) {
+        console.log("Deleted with service: " + el);
+    };
+}]);
+
+appControllers.controller('eventFormCtrl', ['$scope','$routeParams', function ($scope,$routeParams) {
+	//
+	// NEED TO CHECK IF USER IS LOGGED
+	//
+	
+	//
+	//	INIT OBJECTS
+	//
+	$scope.Event = {};
+	$scope.image = {};
+	$scope.submitted = false;
+
+	// SET WYSIWYG MENU
+	$scope.Event.customMenu = [
+        ['bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript'],
+        ['font-size'],
+        ['remove-format'],
+        ['left-justify', 'center-justify', 'right-justify'],
+        ['link']
+    ];
+
+    // SET DATE PICKER OPTIONS
+    $scope.dateOptions = {
+        yearRange: '-0:-0',
+        showOtherMonths: true,
+        firstDay: 1,
+        dateFormat: "d MM yy"
+    };
+
+    //
+    // INIT FUNCTION
+    //
+	var _init = function(){
+		if ($routeParams.id){
+			$scope.intent = "edit";
+		}else{
+			$scope.intent = "new";
+		}
+	}
+
+	//
+	// SUBMIT FORM
+	//
+	$scope.submitEvent = function(){
+		$scope.submitted = true;
+
+        if (Object.keys($scope.eventForm.$error).length == 0) {
+            _constructObj(); 
+            console.log($scope.Event);
+
+            if ($routeParams.id){
+            	// UPDATE
+            	toastr.success('Evento alterado com sucesso!', '' ,{ timeOut: 5000 })
+            	
+             	console.log("update");
+            }else{
+            	// CREATE
+            	toastr.success('Evento criado com sucesso!', '' ,{ timeOut: 5000 })
+            	
+            	console.log("create");
+            }
+        }
+	}
+
+	//CHECK FOR ERRORS
+    $scope.hasError = function (field, validation) {
+        if (validation) {
+            return (field.$dirty && field.$error[validation]) || ($scope.submitted && field.$error[validation]);
+        }
+        return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
+    };
+
+	//Construct final obj
+    var _constructObj = function () {
+        //Set image if exists
+        if ($scope.image.src != undefined && $scope.image.id == null) {
+            $scope.Event.image = {};
+            $scope.Event.image.url = $scope.image.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, "");
+            $scope.Event.image.name = $scope.image.name;
+            $scope.Event.image.extension = $scope.image.extension;
+        }
+    }
+
+    _init();
+}]);
 var appControllers = angular.module('appControllers');
 
 appControllers.controller('homeCtrl', ['$scope', function ($scope) {
@@ -660,15 +893,18 @@ appControllers.controller('footerCtrl', ['$scope', function ($scope) {
 var appControllers = angular.module('appControllers');
 
 appControllers.controller('menuCtrl', ['$scope', function ($scope) {
+	//
+	// NEED TO CHECK IF USER IS LOGGED
+	//
 
 	var _curUser = null;
 	var _isLoggedIn = false;
 	var _isAdmin = false;
 	
 	var _getUserType = function(){
-		//Set scope vars
-		/*$scope.isLoggedIn = true;
-		$scope.isAdmin = true;*/
+		//Set scope vars from SERVICE
+		$scope.isLoggedIn = true;
+		$scope.isAdmin = true;
 
 		//Set local vars
 		_isLoggedIn = $scope.isLoggedIn;
@@ -724,7 +960,8 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 					id: _curUser.id,
 					title: _curUser.name,
 					type: (_isAdmin) ? 'admin' : 'regular',
-					related: 'user'
+					related: 'user',
+					url: '#/user',
 				}
 			);
 		}else{
@@ -755,8 +992,102 @@ appControllers.controller('projectCtrl', ['$scope', function ($scope) {
 }]);
 var appControllers = angular.module('appControllers');
 
+//
+// Controller responsible for modal behaviour
+//
+appControllers.controller('recoverPasswordModalCtrl',['$scope', '$modal','$log', function ($scope, $modal, $log) {
+
+    // Set animation
+    $scope.animationsEnabled = true;
+
+    // On modal open, create an instance
+    $scope.open = function (size) {
+
+        // Open modal with params
+        var modalInstance = $modal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'recoverForm.tpl.html',
+            controller: 'recoverPasswordModalInstanceCtrl',
+            size: size
+        });
+
+        // Promise resolved when the modal is closed and rejected on dismiss or OK
+        modalInstance.result.then(function () {            
+
+        }, function () {
+            
+        });
+    };
+}]);
+
+//
+// Controller responsible handling modal content and functions
+//
+appControllers.controller('recoverPasswordModalInstanceCtrl',['$scope','$modalInstance', function ($scope, $modalInstance) {
+
+    //
+    // Init modal object
+    //
+    $scope.Recover = {};
+    $scope.submitted = false;
+
+    //
+    // Set toastr options
+    //
+    toastr.options.preventDuplicates = true;
+
+    //
+    // Generic modal functions
+    //
+
+    // 
+    // On OK, resolves the result to a promise as SUCCESS
+    // It will submit the form on success
+    //
+    $scope.ok = function () {
+        $scope.submitted = true;
+
+        if (Object.keys($scope.recoverForm.$error).length == 0) {
+            toastr.success('E-mail de recuperação enviado!', '' ,{ timeOut: 5000 });
+            $modalInstance.close();
+        }        
+    };
+
+    // On CANCEL, resolves the result to a promise a ERROR
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+    //CHECK FOR ERRORS
+    $scope.hasError = function (field, validation) {
+        if (validation) {
+            return (field.$dirty && field.$error[validation]) || ($scope.submitted && field.$error[validation]);
+        }
+        return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
+    };
+}]);
+var appControllers = angular.module('appControllers');
+
+appControllers.controller('timePickerCtrl', ['$scope','$routeParams', function ($scope,$routeParams) {
+    //
+    // INIT FUNCTION
+    //
+	var _init = function(){
+
+        $scope.hstep = 1;
+        $scope.mstep = 1;
+
+        $scope.ismeridian = false;
+	}
+
+    _init();
+}]);
+var appControllers = angular.module('appControllers');
+
 appControllers.controller('userCtrl', ['$scope', function ($scope) {
-	
+	//
+    // NEED TO CHECK IF USER IS LOGGED
+    //
 }]);
 
 appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scope, $filter) {
@@ -766,29 +1097,8 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
 	//
 	$scope.User = {};
 	$scope.image = {};
-
-
-	//
-	// WHEN GETTING ELEMENT, SET IMAGE OBJECT
-	//
-	/*if (angular.isDefined($scope.User.image) && $scope.User.image!=null) {
-        $scope.image.src = $scope.User.image.src;
-        $scope.image.name = $scope.User.image.name;
-        $scope.image.id = $scope.User.image.id;
-    }*/
-
-	//
-    // WATCH EXAMPLE
-    //
-    /*$scope.$watch(function () {
-        return locale.get();
-    }, function (newValue) {
-
-        if (angular.isDefined(newValue)) {
-            $scope.newAuthorForm.$setPristine();
-            _getObj();
-        }
-    });*/
+	$scope.submitted = false;
+	$scope.isCorrect = false;
 
 	//SUBMIT NEW FORM
     $scope.createUser = function () {
@@ -826,6 +1136,40 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
 		   	 	$scope.User.networks[key] = $filter('urlResolverVal')(val);
 			}
         }
+    }
+}]);
+
+appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope, $filter) {
+
+	//
+	//	INIT OBJECTS
+	//
+	$scope.User = {};
+	$scope.image = {};
+	$scope.submitted = false;
+
+	//SUBMIT NEW FORM
+    $scope.loginUser = function () {
+        $scope.submitted = true;
+
+        if (Object.keys($scope.userLoginForm.$error).length == 0) {
+            _constructObj(); 
+
+             console.log($scope.User);
+        }
+    }
+
+	//CHECK FOR ERRORS
+    $scope.hasError = function (field, validation) {
+        if (validation) {
+            return (field.$dirty && field.$error[validation]) || ($scope.submitted && field.$error[validation]);
+        }
+        return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
+    };
+
+    //Construct final obj
+    var _constructObj = function () {
+
     }
 }]);
 var appFilters = angular.module('appFilters');
@@ -967,13 +1311,29 @@ appDirectives.directive('eventsList', [ function () {
 	    templateUrl: "scripts/directives/eventsList.html",
 	    scope:{
 	    	list: '=list',
-	    	max: '@?'
+	    	max: '@?',
+	    	editable: '@?',
+	    	deleteEl: '&?'
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){
 	    	if (scope.max==undefined){
 	    		scope.max = 'infinite';
 	    	}
+
+	    	//
+	    	// Eval editable to Bool
+	    	//
+	    	attr.$observe('editable', function() {
+			  scope.editable = scope.$eval(attr.editable);
+			});
+
+			//
+			// Delete element
+			//
+			scope.deleteEvent = function(el){
+				scope.deleteEl()(el);
+			}
 	    }
 	 };
 }]);
@@ -1027,11 +1387,10 @@ appDirectives.directive('login', [function () {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/login.html",
-	    scope:{
-	    
-	    },
+	    scope:true,
 	    replace: true,
 	    link: function(scope, el, attr){  
+	    	$('.selectpicker').selectpicker('render');
 	    } 
 	 };
 }]); 
@@ -1068,7 +1427,7 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
 		    // Highlight menu option to current view.
 		    //
 
-		    scope.defineCurrentView = function (el, leading) {
+		    scope.defineCurrentView = function (el, leading, customUrl) {
 
 		        //
 		        // Get the section from the view after, but
@@ -1085,14 +1444,14 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
 	                //
 
 	                // Is a 1 level
-	                if (angular.isDefined(el.url) && leading==null) {
+	                if (angular.isDefined(el.url) && leading==null && customUrl==null) {
 
                         if (viewUrl.indexOf(el.url)>=0 && viewUrl.length>=el.url.length) {                           
                             return true;
                         }
 
                     // Is a 2 level
-                    }else if (angular.isDefined(el.id) && leading!=null) {
+                    }else if (angular.isDefined(el.id) && leading!=null && customUrl==null) {
 
                     	leading.active = false;
                     	el.active = false;
@@ -1107,10 +1466,36 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
                     	if (viewUrl==el.url) {                           
                             return true;
                         }
+                    }else if (customUrl!=null && viewUrl.indexOf(customUrl)>=0 && viewUrl.length==customUrl.length) {                           
+                        return true;
+
                     }
+                    
 	            }
 		        
 		    }
+	    }
+	 };
+}]);
+var appDirectives = angular.module('appDirectives');
+
+appDirectives.directive('recoverPassword', [function () {
+	return {
+	    restrict: 'E',
+	    templateUrl: "scripts/directives/recoverPassword.html",
+	    scope:true,
+	    replace: true,
+	    link: function(scope, el, attr){  
+	    } 
+	 };
+}]); 
+var appDirectives = angular.module('appDirectives');
+
+appDirectives.directive('selectPicker', [ function () {
+	return {
+	    restrict: 'A',
+	    link: function(scope, el, attr){
+	    	$('.selectpicker').selectpicker('render');
 	    }
 	 };
 }]);
@@ -1146,6 +1531,55 @@ appDirectives.directive('social', [function () {
 	    } 
 	 };
 }]); 
+var appDirectives = angular.module('appDirectives');
+
+appDirectives.directive('timePicker', [ function () {
+	return {
+	    restrict: 'E',
+	    templateUrl: "scripts/directives/timePicker.html",
+	    scope: true,
+	    transclude:true,
+	    replace: true,
+	    require: 'ngModel',
+	    link: function(scope, el, attr, ngModel){
+	    	var first = true;	    	
+
+	    	//
+	    	// Set if no date is provided
+	    	//
+	    	if (ngModel.$modalValue==undefined){
+	    		var d = new Date();
+			    d.setHours( 0 );
+			    d.setMinutes( 0 );
+			    scope.useObj = d;
+	    	}
+
+	    	//
+	    	// Since it is isolated scope with inherence, 
+	    	// it is necessary to set the ViewValue and render with it
+	    	//
+	    	scope.changed = function () {
+	    		var dateString = scope.useObj.getHours()+":"+scope.useObj.getMinutes()+":00";
+	    		ngModel.$setViewValue(dateString);
+    			ngModel.$render();
+			};
+
+			//
+			// Watch for changes in model
+			//
+			scope.$watch(function () {
+              return ngModel.$modelValue;
+           	}, function(newValue) {
+               if (newValue!=undefined){
+					if (first){
+						scope.useObj = scope.$eval(attr.timeObj);						
+					}		
+					first = false;			
+				}
+           });
+	    }
+	 };
+}]);
 'use strict';
 
 app.directive('uploadPreview', ['$log', function ($log) {

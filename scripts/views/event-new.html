@@ -1,0 +1,158 @@
+<div class="event-form">
+	<div class="banner">
+		<section>
+			<div class="banner-title-one">{{intent == 'new' ? 'Novo' : 'Editar'}} Evento</div>
+			<div class="banner-title-two">{{intent == 'new' ? 'New' : 'Edit'}} Event</div>
+		</section>
+	</div>
+	
+	
+	<div class="forms-container container-fluid">
+		<div class="row">
+			<form name="eventForm" select-picker>
+				<div class="col-xs-12 col-md-8">
+					<h1>
+						{{intent == 'new' ? 'Novo' : 'Editar'}} evento
+					</h1>
+				
+					<section>
+						<!--NAME-->
+						<div class="form-group">
+							<input type="text" name="title" id="title" placeholder="Titulo do evento" required class="form-control" ng-model="Event.title"/>
+							<label for="title">Título do evento</label>
+							<!--ERROR MESSAGE-->
+			                <div ng-show="hasError(eventForm.title)" class="errorBox">
+			                    <span class="error" ng-show="hasError(eventForm.title,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+			                </div>
+						</div>
+
+						<!--ISLAND-->
+						<div class="form-group">
+							<select class="selectpicker" name="island" id="island" ng-model="Event.island" data-live-search="true" data-size="auto" class="form-control" required>
+							    <option value="">Ilhas</option>
+							    <option value="1">Mustard</option>
+							    <option value="2">Ketchup</option>
+							    <option value="3">Relish</option>
+						  	</select>
+							<label for="island">Escolha a ilha onde decorrerá o evento</label>
+							<!--ERROR MESSAGE-->
+			                <div ng-show="hasError(eventForm.island) || Event.island<1 || Event.island==''" class="errorBox">
+			                    <span class="error" ng-show="hasError(eventForm.island)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+			                </div>
+						</div>
+
+						<!--PLACE-->
+						<div class="form-group">
+							<input type="text" name="place" id="place" placeholder="Câmara Municipal" required class="form-control" ng-model="Event.place"/>
+							<label for="place">Em que espaço decorrerá o evento?</label>
+							<!--ERROR MESSAGE-->
+			                <div ng-show="hasError(eventForm.place)" class="errorBox">
+			                    <span class="error" ng-show="hasError(eventForm.place,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+			                </div>
+						</div>
+							
+						<!--START DATE TIME-->
+						<div class="form-group">
+							<div class="row">
+								<div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 form-group">
+									<input type="text" ui-date="dateOptions" id="dateStart" ng-required="true" name="dateStart" class="datePicker" ui-date-format="d MM yy" ng-model="Event.dateStart" ng-controller="datePickerCtrl">
+									<label for="dateStart">Data de início</label> 
+								</div>
+								<div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
+									<time-picker ng-model="Event.timeStart" id="timeStart"></time-picker>
+									<label class="required" for="timeStart">Hora de ínício</label> 
+								</div>
+							</div>							 
+						</div>
+
+						<!--END DATE TIME-->
+						<div class="form-group">
+							<div class="row">
+								<div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 form-group">
+									<input type="text" ui-date="dateOptions" id="dateEnd" ng-required="false" name="dateEnd" class="datePicker" ui-date-format="d MM yy" ng-model="Event.dateEnd" ng-controller="datePickerCtrl">
+									<label for="dateEnd">Data de fim</label> 
+								</div>
+								<div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
+									<time-picker ng-model="Event.timeEnd" id="timeEnd"></time-picker>
+									<label for="timeEnd">Hora de fim</label> 
+								</div>
+							</div>							 
+						</div> 
+						
+
+						<!--DESCRIPTION-->
+						<div class="form-group">
+							<!-- <textarea name="description" id="description" rows="10" placeholder="Descreva os detalhes do evento aqui." maxlength="5000" required class="form-control" ng-model="Event.description" ng-class="{'error-box': hasError(eventForm.description)}" ng-trim="false"></textarea> -->
+							<wysiwyg textarea-id="description" textarea-class="form-control" maxlength="5000" textarea-height="80px" textarea-name="textareaQuestion" textarea-required ng-model="Event.description" enable-bootstrap-title="true" textarea-menu="Event.customMenu"></wysiwyg>
+
+							<label for="description">Descrição do evento</label>
+
+							<!--ERROR MESSAGE-->
+			                <div ng-show="(Event.description==undefined || Event.description==null || Event.description=='' || Event.description.length==0) && submitted" class="errorBox">
+			                    <span class="error"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+			                </div>
+						</div>
+
+						<!--OTHER DETAILS-->
+						<div class="form-group">
+							<textarea name="details" id="details" rows="2" placeholder="Escreva aqui a sua biografia em português..." maxlength="500" required class="form-control" ng-model="Event.details" ng-trim="false"></textarea>
+							<label for="details">Informação sobre os preços e locais de aquisição:</label>
+							<div class="requiredNote">{{Event.details.length || 0}}/500</div>
+							<!--ERROR MESSAGE-->
+			                <div ng-show="hasError(eventForm.details)" class="errorBox">
+			                    <span class="error" ng-show="hasError(eventForm.details,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+			                </div>
+						</div>
+			
+					</section>
+
+
+				</div>
+
+				<div class="col-xs-12 col-md-4">
+					<h3>
+						Imagem
+					</h3>
+					<!--IMAGE-->
+						<div class="form-group">
+							<label class="required">Carregue uma imagem alusiva</label>			
+			                <div class="file-upload">
+			                	<div class="file-name-container">{{(image.name) ? image.name : 'Nenhum arquivo selecionado'}}</div>
+								<label for="file-upload" class="file-label">Escolher arquivo</label>
+								<input type="file" upload-preview max-width="900" max-height="900" image="image" id="file-upload" name="fileInput" class="fileInput"/>
+							</div>
+							<div class="requiredNote">
+			                    A imagem não deve ter mais de 900px de largura e/ou 900px de altura e só pode ser carregada em formato .jpg, .jpeg, .png ou .gif.
+			                </div>
+			                <!--ERROR MESSAGE-->
+			                <div ng-show="((!image.src && submitted) || image.fileError)" class="errorBox">
+			                    <div ng-show="!image.src && submitted">
+			                        <span class="error"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+			                    </div>
+			                    <div ng-show="image.fileError">
+			                        <span class="alerts"><i class="fa fa-exclamation-circle"></i> Tipo de ficheiro não é permitido</span>
+			                    </div>
+			                </div>
+			
+			
+							<!--IMAGE PREVIEW-->
+			                <div class="image-preview" ng-show="image.src">
+			                    <div class="imageContainer" id="image" objimg="Event.image" image-actions>
+			                        <div class="img-helper-section">
+			                            <span class="deleteOption bold" ng-click="deleteImage()"><i class="fa fa-close"></i>{{image.name}}</span>
+			                        </div>
+			
+			                        <img ng-src="{{image.src}}" alt="Preview" />
+			                    </div>
+			                </div>
+						</div>
+				</div>
+			</form>			
+		</div>		
+	</div>
+
+	<section class="form-actions">
+		<button type="button" name="signup" class="btn submit-form" ng-click="submitEvent()">{{intent == 'new' ? 'Criar' : 'Guardar'}}</button>
+	</section>
+	
+</div>

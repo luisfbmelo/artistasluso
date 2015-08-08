@@ -13,7 +13,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li ng-repeat="item in menu | filter: {related: '!user'}" ng-class="{'active': defineCurrentView(item, null) || item.active}">
+                <li ng-repeat="item in menu | filter: {related: '!user'}" ng-class="{'active': defineCurrentView(item, null, null) || item.active}">
                     <a href="{{item.url}}" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.style!='static'">
                         {{item.title}} <span class="caret" ng-if="item.subs!=undefined && item.subs.length>0"></span>
                     </a>
@@ -22,7 +22,7 @@
                         {{item.title}} <span class="caret" ng-if="item.subs!=undefined && item.subs.length>0"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu" ng-if="item.subs!=undefined && item.subs.length>0 && item.type==undefined">
-                        <li ng-repeat="sub in item.subs" ng-class="{'active': defineCurrentView(sub, item) || sub.active}">
+                        <li ng-repeat="sub in item.subs" ng-class="{'active': defineCurrentView(sub, item, null) || sub.active}">
                             <a href="{{item.url+'/'+sub.id | urlResolver}}" ng-if="sub.url==undefined">{{sub.title}}</a>
                             <a href="{{sub.url}}" ng-if="sub.url!=undefined">{{sub.title}}</a>                
                         </li>
@@ -31,11 +31,14 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" ng-repeat="item in menu | filter: {related: 'user'}" ng-class="{'active': defineCurrentView(item, null) || item.active}">
-                    <a href="#/" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.type">{{item.title}} <span class="caret"></span></a>
+                <li class="dropdown" ng-repeat="item in menu | filter: {related: 'user'}" ng-class="{'active': defineCurrentView(item, null, null) || item.active}">
+                <button type="button" class="dropdown-toggle" data-toggle="dropdown" ng-if="item.type">
+                        {{item.title}} <span class="caret" ng-if="item.subs!=undefined && item.subs.length>0"></span>
+                    </button>
                     <ul class="dropdown-menu" role="menu" ng-if="item.type">
-                        <li><a href="#/arts/artist/{{item.id}}">MEU PERFIL</a></li>
-                        <li><a href="#/arts/edit/{{item.id}}">EDITAR PERFIL</a></li>
+                        <li ng-class="{'active': defineCurrentView(item, null, '#/user')}"><a href="#/user">MEU PERFIL</a></li>
+                        <li ng-class="{'active': defineCurrentView(item, null, '#/user/edit')}"><a href="#/user/edit">EDITAR PERFIL</a></li>
+                        <li ng-class="{'active': defineCurrentView(item, null, '#/user/my-events/list')}"><a href="#/user/my-events/list">MEUS EVENTOS</a></li>                        
                         <li><a href="#/logout">SAIR</a></li>
                     </ul>
 

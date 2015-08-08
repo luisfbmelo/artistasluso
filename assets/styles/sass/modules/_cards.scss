@@ -72,4 +72,26 @@
 	.card-options{
 		padding:0 16px 16px;
 	}
+
+	.item-options{
+		padding:16px;
+		text-align: left;
+		border-top:1px solid $ultralight-gray;
+
+		a{
+			color:$light-red;
+			text-align:center;
+			text-transform:uppercase;
+			font-weight:500;
+
+			& + a{
+				padding-left:16px;
+			}			
+
+			&:hover{
+				@include opacity(0.6);
+				text-decoration:none;
+			}
+		}
+	}
 }

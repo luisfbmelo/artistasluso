@@ -22,7 +22,7 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
 		    // Highlight menu option to current view.
 		    //
 
-		    scope.defineCurrentView = function (el, leading) {
+		    scope.defineCurrentView = function (el, leading, customUrl) {
 
 		        //
 		        // Get the section from the view after, but
@@ -39,14 +39,14 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
 	                //
 
 	                // Is a 1 level
-	                if (angular.isDefined(el.url) && leading==null) {
+	                if (angular.isDefined(el.url) && leading==null && customUrl==null) {
 
                         if (viewUrl.indexOf(el.url)>=0 && viewUrl.length>=el.url.length) {                           
                             return true;
                         }
 
                     // Is a 2 level
-                    }else if (angular.isDefined(el.id) && leading!=null) {
+                    }else if (angular.isDefined(el.id) && leading!=null && customUrl==null) {
 
                     	leading.active = false;
                     	el.active = false;
@@ -61,7 +61,11 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
                     	if (viewUrl==el.url) {                           
                             return true;
                         }
+                    }else if (customUrl!=null && viewUrl.indexOf(customUrl)>=0 && viewUrl.length==customUrl.length) {                           
+                        return true;
+
                     }
+                    
 	            }
 		        
 		    }

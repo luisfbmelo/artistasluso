@@ -11,7 +11,7 @@
 
 			<!--USERNAME-->
 			<div class="form-group">
-				<input type="text" name="name" id="name" placeholder="João Pedro" required class="form-control" ng-model="User.name" ng-class="{'error-box': hasError(newUserForm.name)}"/>
+				<input type="text" name="name" id="name" placeholder="João Pedro" required class="form-control" ng-model="User.name"/>
 				<label for="name">Nome artístico, do grupo ou organização</label>
 				<!--ERROR MESSAGE-->
                 <div ng-show="hasError(newUserForm.name)" class="errorBox">
@@ -22,10 +22,7 @@
 
 			<!--EMAIL-->
 			<div class="form-group">
-				<input type="email" name="email" id="email" required placeholder="mail@mail.com" class="form-control" ng-model="User.email" 
-				ng-class="{'error-box': hasError(newUserForm.email,'required'),
-				'alert-box': hasError(newUserForm.email,'email')}"
-				/>
+				<input type="email" name="email" id="email" required placeholder="mail@mail.com" class="form-control"/>
 				<label for="email">E-mail</label>
 				<!--ERROR MESSAGE-->
                 <div ng-show="hasError(newUserForm.email)" class="errorBox">
@@ -36,7 +33,7 @@
 
 			<!--PASSWORD-->
 			<div class="form-group">
-				<input type="password" name="password" id="password" required class="form-control" ng-model="User.password" ng-class="{'error-box': hasError(newUserForm.password)}"/>
+				<input type="password" name="password" id="password" required class="form-control" ng-model="User.password" />
 				<label for="password">Palavra-passe</label>
 				<!--ERROR MESSAGE-->
                 <div ng-show="hasError(newUserForm.password)" class="errorBox">
@@ -46,7 +43,7 @@
 
 			<!--CONF PASSWORD-->
 			<div class="form-group">
-				<input type="password" name="confPassword" id="confPassword" required class="form-control" ng-model="User.confPassword" ng-class="{'error-box': hasError(newUserForm.confPassword) || (User.confPassword!=User.password && submitted)}"/>
+				<input type="password" name="confPassword" id="confPassword" required class="form-control" ng-model="User.confPassword" />
 				<label for="confPassword">Repetir palavra-passe</label>
 				<!--ERROR MESSAGE-->
                 <div ng-show="hasError(newUserForm.confPassword) || (User.confPassword!=User.password && submitted)" class="errorBox">
@@ -57,7 +54,7 @@
 
 			<!--COUNTRY-->
 			<div class="form-group">
-				<select class="selectpicker" name="country" id="country" ng-model="User.country" data-live-search="true" data-size="auto" class="form-control" required ng-class="{'error-box': hasError(newUserForm.country) || User.country<1 || User.country==''}">
+				<select class="selectpicker" name="country" id="country" ng-model="User.country" data-live-search="true" data-size="auto" class="form-control" required>
 				    <option value="">Países</option>
 				    <option value="1">Mustard</option>
 				    <option value="2">Ketchup</option>
@@ -72,7 +69,7 @@
 
 			<!--DISTRICT-->
 			<div class="form-group">
-				<select class="selectpicker" name="district" id="district" ng-model="User.district" data-live-search="true" data-size="auto" class="form-control"  required ng-class="{'error-box': hasError(newUserForm.district) || User.district<1 || User.district==''}">
+				<select class="selectpicker" name="district" id="district" ng-model="User.district" data-live-search="true" data-size="auto" class="form-control"  required>
 				    <option value="">Distritos</option>
 				    <option value="1">Mustard</option>
 				    <option value="2">Ketchup</option>
@@ -87,7 +84,7 @@
 
 			<!--ARTS-->
 			<div class="form-group">
-				<select class="selectpicker" name="art" id="art" ng-model="User.art" data-live-search="true" data-size="auto" class="form-control" required ng-class="{'error-box': hasError(newUserForm.art) || User.art<1 || User.art==''}">
+				<select class="selectpicker" name="art" id="art" ng-model="User.art" data-live-search="true" data-size="auto" class="form-control" required>
 				    <option value="">Áreas artísticas</option>
 				    <option value="1">Mustard</option>
 				    <option value="2">Ketchup</option>
@@ -102,7 +99,7 @@
 
 			<!--OCUPATION-->
 			<div class="form-group">
-				<input type="text" name="ocupation" id="ocupation" placeholder="Designer" required class="form-control" ng-model="User.ocupation" ng-class="{'error-box': hasError(newUserForm.ocupation)}"/>
+				<input type="text" name="ocupation" id="ocupation" placeholder="Designer" required class="form-control" ng-model="User.ocupation" />
 				<label for="ocupation">Especifique a sua ocupação artística</label>
 				<!--ERROR MESSAGE-->
                 <div ng-show="hasError(newUserForm.ocupation)" class="errorBox">
@@ -114,12 +111,12 @@
 			<div class="form-group">
 				<label class="required">Carregue uma imagem alusiva</label>			
                 <div class="file-upload">
-                	<div class="file-name-container" ng-class="{'error-box': (!image.src && submitted) || image.fileError}">{{(image.name) ? image.name : 'Nenhum arquivo selecionado'}}</div>
+                	<div class="file-name-container" >{{(image.name) ? image.name : 'Nenhum arquivo selecionado'}}</div>
 					<label for="file-upload" class="file-label">Escolher arquivo</label>
-					<input type="file" upload-preview max-width="500" max-height="500" image="image" id="file-upload" name="fileInput" class="fileInput"/>
+					<input type="file" upload-preview max-width="900" max-height="900" image="image" id="file-upload" name="fileInput" class="fileInput"/>
 				</div>
 				<div class="requiredNote">
-                    Imagens devem ter as dimensões máximas 500x500px.
+                    A imagem não deve ter mais de 900px de largura e/ou 900px de altura e só pode ser carregada em formato .jpg, .jpeg, .png ou .gif.
                 </div>
                 <!--ERROR MESSAGE-->
                 <div ng-show="((!image.src && submitted) || image.fileError)" class="errorBox">
@@ -152,8 +149,9 @@
 
 			<!--BIO PT-->
 			<div class="form-group">
-				<textarea name="biopt" id="biopt" rows="10" placeholder="Escreva aqui a sua biografia em português..." required class="form-control" ng-model="User.bios.biopt" ng-class="{'error-box': hasError(newUserForm.biopt)}"></textarea>
+				<textarea name="biopt" id="biopt" rows="10" placeholder="Escreva aqui a sua biografia em português..." maxlength="500" required class="form-control" ng-model="User.bios.biopt" ng-trim="false"></textarea>
 				<label for="biopt">Descreva uma biografia sucinta em português</label>
+				<div class="requiredNote">{{User.bios.biopt.length || 0}}/500</div>
 				<!--ERROR MESSAGE-->
                 <div ng-show="hasError(newUserForm.biopt)" class="errorBox">
                     <span class="error" ng-show="hasError(newUserForm.biopt,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
@@ -162,8 +160,9 @@
 
 			<!--BIO EN-->
 			<div class="form-group">
-				<textarea  name="bioen" id="bioen" rows="10" placeholder="Hello! I'm John" required class="form-control" ng-model="User.bios.bioen" ng-class="{'error-box': hasError(newUserForm.bioen)}"></textarea>
+				<textarea  name="bioen" id="bioen" rows="10" placeholder="Hello! I'm John" maxlength="500" required class="form-control" ng-model="User.bios.bioen" ng-trim="false"></textarea>
 				<label for="bioen">Descreva uma biografia sucinta em inglês</label>
+				<div class="requiredNote">{{User.bios.bioen.length || 0}}/500</div>
 				<!--ERROR MESSAGE-->
                 <div ng-show="hasError(newUserForm.bioen)" class="errorBox">
                     <span class="error" ng-show="hasError(newUserForm.bioen,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
@@ -172,8 +171,9 @@
 
 			<!--BIO OTHER-->
 			<div class="form-group">
-				<textarea  type="text" name="bioother" id="bioother" rows="10" placeholder="Escreva aqui a sua biografia noutro idioma..." required class="form-control" ng-model="User.bios.bioother" ng-class="{'error-box': hasError(newUserForm.bioother)}"></textarea>
+				<textarea  type="text" name="bioother" id="bioother" rows="10" maxlength="500" placeholder="Escreva aqui a sua biografia noutro idioma..." required class="form-control" ng-model="User.bios.bioother" ng-trim="false"></textarea>
 				<label for="bioother">Descreva uma biografia sucinta noutro idioma</label>
+				<div class="requiredNote">{{User.bios.bioother.length || 0}}/500</div>
 				<!--ERROR MESSAGE-->
                 <div ng-show="hasError(newUserForm.bioother)" class="errorBox">
                     <span class="error" ng-show="hasError(newUserForm.bioother,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
@@ -181,6 +181,7 @@
 			</div>
 		</section>
 
+		<!--NETWORKS-->
 		<section class="virtualplaces-container">
 			<h4>
 				Sítios Virtuais
@@ -208,7 +209,7 @@
 		
 	</form>
 	<section class="form-actions">
-			<button type="button" name="signup" class="btn submit-form" ng-click="createUser()">Registar-me</button>
-		</section>
+		<button type="button" name="signup" class="btn submit-form" ng-click="createUser()">Registar-me</button>
+	</section>
 	
 </div>

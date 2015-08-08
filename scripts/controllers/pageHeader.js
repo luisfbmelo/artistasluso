@@ -1,15 +1,18 @@
 var appControllers = angular.module('appControllers');
 
 appControllers.controller('menuCtrl', ['$scope', function ($scope) {
+	//
+	// NEED TO CHECK IF USER IS LOGGED
+	//
 
 	var _curUser = null;
 	var _isLoggedIn = false;
 	var _isAdmin = false;
 	
 	var _getUserType = function(){
-		//Set scope vars
-		/*$scope.isLoggedIn = true;
-		$scope.isAdmin = true;*/
+		//Set scope vars from SERVICE
+		$scope.isLoggedIn = true;
+		$scope.isAdmin = true;
 
 		//Set local vars
 		_isLoggedIn = $scope.isLoggedIn;
@@ -65,7 +68,8 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 					id: _curUser.id,
 					title: _curUser.name,
 					type: (_isAdmin) ? 'admin' : 'regular',
-					related: 'user'
+					related: 'user',
+					url: '#/user',
 				}
 			);
 		}else{

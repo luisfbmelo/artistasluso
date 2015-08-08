@@ -154,6 +154,11 @@ div.logo {
  * CHANGE PLACEHOLDER COLOR
  * 
  */
+/**
+ *
+ * CALC FUNCTION
+ *
+ */
 /* line 1, ../../sass/base/_generic.scss */
 html, body {
   height: 100%;
@@ -235,8 +240,22 @@ h2 {
   font-weight: 700;
 }
 
+/* line 75, ../../sass/base/_generic.scss */
+h3 {
+  font-size: 20px;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* line 80, ../../sass/base/_generic.scss */
+h4 {
+  font-size: 16px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
 /*LISTS ELEMENTS*/
-/* line 77, ../../sass/base/_generic.scss */
+/* line 87, ../../sass/base/_generic.scss */
 .other-list .other-title {
   color: #717171;
   text-transform: uppercase;
@@ -245,6 +264,14 @@ h2 {
   display: block;
   margin: 36px 0 0;
   font-weight: 700;
+}
+
+/* line 98, ../../sass/base/_generic.scss */
+.link:hover {
+  text-decoration: underline;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  cursor: pointer;
 }
 
 /* line 1, ../../sass/base/_text.scss */
@@ -528,6 +555,29 @@ h2 {
 .card-container .card-options {
   padding: 0 16px 16px;
 }
+/* line 76, ../../sass/modules/_cards.scss */
+.card-container .item-options {
+  padding: 16px;
+  text-align: left;
+  border-top: 1px solid #e9e9e9;
+}
+/* line 81, ../../sass/modules/_cards.scss */
+.card-container .item-options a {
+  color: #f34235;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+/* line 87, ../../sass/modules/_cards.scss */
+.card-container .item-options a + a {
+  padding-left: 16px;
+}
+/* line 91, ../../sass/modules/_cards.scss */
+.card-container .item-options a:hover {
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  text-decoration: none;
+}
 
 /*BUTTONS*/
 /* line 1, ../../sass/modules/_buttons.scss */
@@ -561,7 +611,7 @@ h2 {
   box-shadow: none;
 }
 /* line 26, ../../sass/modules/_buttons.scss */
-.btn.submit-form {
+.btn.submit-form, .btn.add-new {
   background-color: #202020;
   color: white;
   -webkit-border-radius: 0 !important;
@@ -575,9 +625,34 @@ h2 {
   padding: 10px 20px;
 }
 /* line 38, ../../sass/modules/_buttons.scss */
-.btn.submit-form:hover, .btn.submit-form:active, .btn.submit-form:focus {
+.btn.submit-form:hover:not(.empty-bg), .btn.submit-form:active:not(.empty-bg), .btn.submit-form:focus:not(.empty-bg), .btn.add-new:hover:not(.empty-bg), .btn.add-new:active:not(.empty-bg), .btn.add-new:focus:not(.empty-bg) {
   opacity: 0.6;
   filter: alpha(opacity=60);
+}
+/* line 42, ../../sass/modules/_buttons.scss */
+.btn.submit-form.empty-bg, .btn.add-new.empty-bg {
+  background-color: white;
+  color: #202020;
+  border: 1px solid #202020;
+}
+/* line 47, ../../sass/modules/_buttons.scss */
+.btn.submit-form.empty-bg:hover, .btn.add-new.empty-bg:hover {
+  background-color: #202020;
+  color: white;
+}
+/* line 54, ../../sass/modules/_buttons.scss */
+.btn.add-new {
+  margin-bottom: 16px;
+}
+
+/* line 59, ../../sass/modules/_buttons.scss */
+.wysiwyg-menu {
+  margin-bottom: 10px;
+}
+/* line 61, ../../sass/modules/_buttons.scss */
+.wysiwyg-menu button, .wysiwyg-menu .wysiwyg-select {
+  -webkit-border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 /*HOME PAGE*/
@@ -736,6 +811,18 @@ h2 {
     margin-top: 16px;
   }
 }
+/*FORM*/
+/* line 102, ../../sass/modules/_events.scss */
+.event-form {
+  position: relative;
+  padding: 50px 0 50px;
+  background-color: white;
+}
+/* line 108, ../../sass/modules/_events.scss */
+.event-form .forms-container h1, .event-form .forms-container h2, .event-form .forms-container h3, .event-form .forms-container h4, .event-form .forms-container h5 {
+  margin-bottom: 40px;
+}
+
 /*ARTISTS PAGE*/
 /* line 1, ../../sass/modules/_artists.scss */
 .artists-page {
@@ -1258,15 +1345,16 @@ h2 {
   padding: 50px 0 50px;
   background-color: white;
 }
-/* line 6, ../../sass/modules/_enter.scss */
-.enter-container .banner {
+
+/* line 7, ../../sass/modules/_enter.scss */
+.banner {
   height: 150px;
   background-color: #202020;
   padding: 32px;
   position: relative;
 }
-/* line 15, ../../sass/modules/_enter.scss */
-.enter-container .banner section {
+/* line 16, ../../sass/modules/_enter.scss */
+.banner section {
   position: absolute;
   top: 50%;
   left: 32px;
@@ -1276,63 +1364,79 @@ h2 {
   -o-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-/* line 22, ../../sass/modules/_enter.scss */
-.enter-container .banner .banner-title-one,
-.enter-container .banner .banner-title-two {
+/* line 23, ../../sass/modules/_enter.scss */
+.banner .banner-title-one,
+.banner .banner-title-two {
   text-transform: uppercase;
   color: white;
 }
-/* line 28, ../../sass/modules/_enter.scss */
-.enter-container .banner .banner-title-one {
+/* line 29, ../../sass/modules/_enter.scss */
+.banner .banner-title-one {
   font-size: 25px;
   font-size: 1.5625rem;
 }
-/* line 32, ../../sass/modules/_enter.scss */
-.enter-container .banner .banner-title-two {
+/* line 33, ../../sass/modules/_enter.scss */
+.banner .banner-title-two {
   font-size: 22px;
   font-size: 1.375rem;
 }
-/* line 37, ../../sass/modules/_enter.scss */
-.enter-container .forms-container {
+
+/* line 38, ../../sass/modules/_enter.scss */
+.forms-container {
   padding: 0 32px 32px;
 }
 
 /*SIGNUP*/
 /* line 45, ../../sass/modules/_enter.scss */
-.signup-form h1 {
-  font-size: 24px;
-  font-size: 1.5rem;
+.signup-form.recover-form, .login-form.recover-form, .recover-form.recover-form, .event-form.recover-form {
+  margin-top: 40px;
+}
+/* line 49, ../../sass/modules/_enter.scss */
+.signup-form h1, .signup-form h2, .signup-form h3, .signup-form h4, .login-form h1, .login-form h2, .login-form h3, .login-form h4, .recover-form h1, .recover-form h2, .recover-form h3, .recover-form h4, .event-form h1, .event-form h2, .event-form h3, .event-form h4 {
   font-weight: bold;
   text-transform: uppercase;
   margin: 32px 0 16px;
 }
-/* line 52, ../../sass/modules/_enter.scss */
-.signup-form h4 {
-  font-size: 16px;
-  font-size: 1rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  margin: 32px 0 16px;
-}
-/* line 59, ../../sass/modules/_enter.scss */
-.signup-form section:not(.virtualplaces-container) h4 {
+/* line 56, ../../sass/modules/_enter.scss */
+.signup-form section:not(.virtualplaces-container) h4, .login-form section:not(.virtualplaces-container) h4, .recover-form section:not(.virtualplaces-container) h4, .event-form section:not(.virtualplaces-container) h4 {
   margin-bottom: 40px;
 }
-/* line 63, ../../sass/modules/_enter.scss */
-.signup-form label {
+/* line 60, ../../sass/modules/_enter.scss */
+.signup-form section, .login-form section, .recover-form section, .event-form section {
+  margin-bottom: 20px;
+}
+/* line 62, ../../sass/modules/_enter.scss */
+.signup-form section .form-group:last-child, .login-form section .form-group:last-child, .recover-form section .form-group:last-child, .event-form section .form-group:last-child {
+  margin-bottom: 0;
+}
+/* line 67, ../../sass/modules/_enter.scss */
+.signup-form label, .login-form label, .recover-form label, .event-form label {
   display: block;
   color: #b5b5b5;
   margin-bottom: 10px;
 }
-/* line 69, ../../sass/modules/_enter.scss */
-.signup-form .virtualplaces input {
+/* line 73, ../../sass/modules/_enter.scss */
+.signup-form .virtualplaces input, .login-form .virtualplaces input, .recover-form .virtualplaces input, .event-form .virtualplaces input {
   margin-bottom: 25px;
 }
-/* line 73, ../../sass/modules/_enter.scss */
+/* line 77, ../../sass/modules/_enter.scss */
 .signup-form input,
 .signup-form textarea,
-.signup-form select,
-.signup-form .bootstrap-select button {
+.signup-form .wysiwyg-textarea,
+.signup-form select:not(.wysiwyg-select),
+.signup-form .bootstrap-select button, .login-form input,
+.login-form textarea,
+.login-form .wysiwyg-textarea,
+.login-form select:not(.wysiwyg-select),
+.login-form .bootstrap-select button, .recover-form input,
+.recover-form textarea,
+.recover-form .wysiwyg-textarea,
+.recover-form select:not(.wysiwyg-select),
+.recover-form .bootstrap-select button, .event-form input,
+.event-form textarea,
+.event-form .wysiwyg-textarea,
+.event-form select:not(.wysiwyg-select),
+.event-form .bootstrap-select button {
   background: #e9e9e9;
   color: #717171;
   border: none;
@@ -1345,63 +1449,63 @@ h2 {
   height: auto;
 }
 /* line 273, ../../sass/helpers/_mixins.scss */
-.signup-form ::-webkit-input-placeholder {
+.signup-form ::-webkit-input-placeholder, .login-form ::-webkit-input-placeholder, .recover-form ::-webkit-input-placeholder, .event-form ::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
   color: #b5b5b5;
   font-style: italic;
 }
 /* line 277, ../../sass/helpers/_mixins.scss */
-.signup-form :-moz-placeholder {
+.signup-form :-moz-placeholder, .login-form :-moz-placeholder, .recover-form :-moz-placeholder, .event-form :-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
   color: #b5b5b5;
   opacity: 1;
   font-style: italic;
 }
 /* line 283, ../../sass/helpers/_mixins.scss */
-.signup-form ::-moz-placeholder {
+.signup-form ::-moz-placeholder, .login-form ::-moz-placeholder, .recover-form ::-moz-placeholder, .event-form ::-moz-placeholder {
   /* Mozilla Firefox 19+ */
   color: #b5b5b5;
   opacity: 1;
   font-style: italic;
 }
 /* line 289, ../../sass/helpers/_mixins.scss */
-.signup-form :-ms-input-placeholder {
+.signup-form :-ms-input-placeholder, .login-form :-ms-input-placeholder, .recover-form :-ms-input-placeholder, .event-form :-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: #b5b5b5;
   font-style: italic;
 }
-/* line 92, ../../sass/modules/_enter.scss */
-.signup-form .bootstrap-select .dropdown-menu {
+/* line 95, ../../sass/modules/_enter.scss */
+.signup-form .bootstrap-select .dropdown-menu, .login-form .bootstrap-select .dropdown-menu, .recover-form .bootstrap-select .dropdown-menu, .event-form .bootstrap-select .dropdown-menu {
   background: white;
 }
-/* line 96, ../../sass/modules/_enter.scss */
-.signup-form .bootstrap-select .dropdown-menu li a {
+/* line 99, ../../sass/modules/_enter.scss */
+.signup-form .bootstrap-select .dropdown-menu li a, .login-form .bootstrap-select .dropdown-menu li a, .recover-form .bootstrap-select .dropdown-menu li a, .event-form .bootstrap-select .dropdown-menu li a {
   padding: 10px 10px;
 }
-/* line 100, ../../sass/modules/_enter.scss */
-.signup-form .bootstrap-select .dropdown-menu li.active a {
+/* line 103, ../../sass/modules/_enter.scss */
+.signup-form .bootstrap-select .dropdown-menu li.active a, .login-form .bootstrap-select .dropdown-menu li.active a, .recover-form .bootstrap-select .dropdown-menu li.active a, .event-form .bootstrap-select .dropdown-menu li.active a {
   background-color: #717171;
 }
-/* line 108, ../../sass/modules/_enter.scss */
-.signup-form .bootstrap-select button.disabled {
+/* line 111, ../../sass/modules/_enter.scss */
+.signup-form .bootstrap-select button.disabled, .login-form .bootstrap-select button.disabled, .recover-form .bootstrap-select button.disabled, .event-form .bootstrap-select button.disabled {
   color: #b5b5b5;
   cursor: not-allowed;
 }
-/* line 114, ../../sass/modules/_enter.scss */
-.signup-form .bootstrap-select .bs-searchbox {
+/* line 117, ../../sass/modules/_enter.scss */
+.signup-form .bootstrap-select .bs-searchbox, .login-form .bootstrap-select .bs-searchbox, .recover-form .bootstrap-select .bs-searchbox, .event-form .bootstrap-select .bs-searchbox {
   margin-bottom: 10px;
 }
-/* line 117, ../../sass/modules/_enter.scss */
-.signup-form .bootstrap-select .bs-searchbox input {
+/* line 120, ../../sass/modules/_enter.scss */
+.signup-form .bootstrap-select .bs-searchbox input, .login-form .bootstrap-select .bs-searchbox input, .recover-form .bootstrap-select .bs-searchbox input, .event-form .bootstrap-select .bs-searchbox input {
   background-color: white;
   border: 1px solid #b5b5b5;
 }
-/* line 124, ../../sass/modules/_enter.scss */
-.signup-form .virt-place {
+/* line 127, ../../sass/modules/_enter.scss */
+.signup-form .virt-place, .login-form .virt-place, .recover-form .virt-place, .event-form .virt-place {
   position: relative;
 }
-/* line 126, ../../sass/modules/_enter.scss */
-.signup-form .virt-place i {
+/* line 129, ../../sass/modules/_enter.scss */
+.signup-form .virt-place i, .login-form .virt-place i, .recover-form .virt-place i, .event-form .virt-place i {
   position: absolute;
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -1411,8 +1515,8 @@ h2 {
   transform: translateY(-50%);
   left: 15px;
 }
-/* line 133, ../../sass/modules/_enter.scss */
-.signup-form .virt-place input {
+/* line 136, ../../sass/modules/_enter.scss */
+.signup-form .virt-place input, .login-form .virt-place input, .recover-form .virt-place input, .event-form .virt-place input {
   padding-left: 40px;
 }
 
@@ -1432,66 +1536,81 @@ h2 {
   text-align: center;
 }
 
-/* line 18, ../../sass/modules/_forms.scss */
+/* line 19, ../../sass/modules/_forms.scss */
 input:required ~ label:after,
 textarea:required ~ label:after,
+.wysiwyg-textarea:required ~ label:after,
 select:required ~ label:after {
   content: " * ";
+  display: inline-block;
+  padding-left: 5px;
 }
 
-/* line 26, ../../sass/modules/_forms.scss */
+/* line 28, ../../sass/modules/_forms.scss */
+textarea {
+  resize: vertical;
+}
+
+/* line 33, ../../sass/modules/_forms.scss */
 .required:after {
   content: " * ";
+  display: inline-block;
+  padding-left: 5px;
 }
 
-/* line 32, ../../sass/modules/_forms.scss */
+/* line 42, ../../sass/modules/_forms.scss */
 .form-group {
   position: relative;
-  margin-bottom: 45px;
+  margin-bottom: 50px;
 }
-/* line 36, ../../sass/modules/_forms.scss */
+/* line 46, ../../sass/modules/_forms.scss */
 .form-group label:not(.virtualplaces-label):not(.file-label) {
   position: absolute;
   top: 0;
-  -webkit-transform: translateY(-150%);
-  -moz-transform: translateY(-150%);
-  -ms-transform: translateY(-150%);
-  -o-transform: translateY(-150%);
-  transform: translateY(-150%);
+  -webkit-transform: translateY(-130%);
+  -moz-transform: translateY(-130%);
+  -ms-transform: translateY(-130%);
+  -o-transform: translateY(-130%);
+  transform: translateY(-130%);
 }
 
-/* line 44, ../../sass/modules/_forms.scss */
+/* line 54, ../../sass/modules/_forms.scss */
+.wysiwyg-textarea {
+  min-height: 150px !important;
+}
+
+/* line 58, ../../sass/modules/_forms.scss */
 .image-preview {
   margin-top: 10px;
 }
-/* line 47, ../../sass/modules/_forms.scss */
+/* line 61, ../../sass/modules/_forms.scss */
 .image-preview .img-helper-section {
   margin-bottom: 10px;
 }
-/* line 51, ../../sass/modules/_forms.scss */
+/* line 65, ../../sass/modules/_forms.scss */
 .image-preview .deleteOption i {
   color: #d22e2e;
   padding-right: 10px;
 }
-/* line 56, ../../sass/modules/_forms.scss */
+/* line 70, ../../sass/modules/_forms.scss */
 .image-preview .deleteOption:hover {
   cursor: pointer;
   opacity: 0.6;
   filter: alpha(opacity=60);
 }
-/* line 62, ../../sass/modules/_forms.scss */
+/* line 76, ../../sass/modules/_forms.scss */
 .image-preview img {
   max-height: 150px;
 }
 
 /*FILE UPLOAD*/
-/* line 68, ../../sass/modules/_forms.scss */
+/* line 82, ../../sass/modules/_forms.scss */
 .file-upload {
   display: block;
   position: relative;
 }
 
-/* line 73, ../../sass/modules/_forms.scss */
+/* line 87, ../../sass/modules/_forms.scss */
 .file-name-container {
   padding: 10px 15px;
   background: #e9e9e9;
@@ -1501,7 +1620,7 @@ select:required ~ label:after {
   line-height: 1.4;
 }
 
-/* line 81, ../../sass/modules/_forms.scss */
+/* line 95, ../../sass/modules/_forms.scss */
 .file-upload label {
   position: absolute;
   top: 50%;
@@ -1520,14 +1639,14 @@ select:required ~ label:after {
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease;
 }
-/* line 92, ../../sass/modules/_forms.scss */
+/* line 106, ../../sass/modules/_forms.scss */
 .file-upload label:hover {
   cursor: pointer;
   opacity: 0.6;
   filter: alpha(opacity=60);
 }
 
-/* line 99, ../../sass/modules/_forms.scss */
+/* line 113, ../../sass/modules/_forms.scss */
 .file-upload input {
   position: fixed;
   top: 100%;
@@ -1540,7 +1659,7 @@ select:required ~ label:after {
   z-index: -1;
 }
 
-/* line 112, ../../sass/modules/_forms.scss */
+/* line 126, ../../sass/modules/_forms.scss */
 .requiredNote {
   font-size: 14px;
   font-size: 0.875rem;
@@ -1573,15 +1692,225 @@ select:required ~ label:after {
   display: block;
   margin-bottom: 5px;
 }
+/* line 22, ../../sass/modules/_alerts.scss */
+.errorBox.card {
+  background-color: #d22e2e;
+  color: white;
+  padding: 10px 15px;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  -webkit-border-radius: 3px !important;
+  border-radius: 3px !important;
+}
+/* line 29, ../../sass/modules/_alerts.scss */
+.errorBox.card span {
+  margin-bottom: 0;
+}
 
-/* line 23, ../../sass/modules/_alerts.scss */
+/* line 35, ../../sass/modules/_alerts.scss */
 .error-box {
   border: 1px solid #d22e2e !important;
 }
 
-/* line 27, ../../sass/modules/_alerts.scss */
+/* line 39, ../../sass/modules/_alerts.scss */
 .alert-box {
   border: 1px solid #fe9f00 !important;
+}
+
+/*MODALS*/
+/* line 1, ../../sass/modules/_modals.scss */
+.modal-content {
+  -webkit-border-radius: 0 !important;
+  border-radius: 0 !important;
+  padding: 16px;
+}
+
+/* line 7, ../../sass/modules/_modals.scss */
+.modal-body h1 {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+
+/* line 14, ../../sass/modules/_modals.scss */
+.modal-footer {
+  border: none;
+  text-align: center;
+}
+
+/*TIMEPICKER*/
+/* line 2, ../../sass/modules/_timepicker.scss */
+.time-picker a {
+  width: 100%;
+}
+
+/*DATEPICKER*/
+/* line 1, ../../sass/modules/_datepicker.scss */
+.ui-datepicker {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  display: none;
+  margin-top: 4px;
+}
+
+/* line 8, ../../sass/modules/_datepicker.scss */
+.ui-datepicker a {
+  color: #717171;
+}
+
+/* line 12, ../../sass/modules/_datepicker.scss */
+.ui-datepicker a,
+.ui-datepicker a:hover {
+  text-decoration: none;
+}
+
+/* line 16, ../../sass/modules/_datepicker.scss */
+.ui-datepicker a:hover,
+.ui-datepicker td:hover a:not(.ui-state-active) {
+  color: #2A6496;
+  -webkit-transition: color 0.1s ease-in-out;
+  -moz-transition: color 0.1s ease-in-out;
+  -o-transition: color 0.1s ease-in-out;
+  transition: color 0.1s ease-in-out;
+}
+
+/* line 24, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-header {
+  text-align: center;
+  padding: 10px;
+  background-color: #2e3641;
+  color: white;
+  border-bottom: 1px solid #3a414d;
+}
+
+/* line 32, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-header a {
+  color: white !important;
+}
+
+/* line 35, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-title {
+  font-weight: 600;
+}
+
+/* line 38, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 20px;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: default;
+  font-style: normal;
+  font-weight: normal;
+  height: 20px;
+  line-height: 1;
+  width: 30px;
+}
+
+/* line 53, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-prev {
+  float: left;
+  text-align: left;
+}
+
+/* line 57, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-next {
+  float: right;
+  text-align: right;
+}
+
+/* line 61, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-prev:before {
+  content: "\f104";
+}
+
+/* line 64, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-next:before {
+  content: "\f105";
+}
+
+/* line 67, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-next:hover,
+.ui-datepicker .ui-datepicker-prev:hover {
+  cursor: pointer;
+}
+
+/* line 72, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-icon {
+  display: none;
+}
+
+/* line 75, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-calendar {
+  width: 100%;
+}
+
+/* line 78, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-calendar thead {
+  background-color: #2e3641;
+  color: #ccc;
+  font-size: 12px;
+  border-bottom: none !important;
+}
+
+/* line 85, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-calendar thead tr th {
+  border-radius: 0 !important;
+  font-weight: 400;
+  padding: 1em 0;
+}
+
+/* line 91, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-calendar th,
+.ui-datepicker .ui-datepicker-calendar td {
+  text-align: center;
+}
+
+/* line 95, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-calendar td {
+  -webkit-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  -moz-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  -o-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+  transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+}
+
+/* line 101, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-calendar td:not(.ui-datepicker-current-day):not(.ui-datepicker-other-month):hover {
+  background-color: #eee;
+  cursor: pointer;
+}
+
+/* line 105, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-calendar td a {
+  text-decoration: none;
+  display: block;
+  padding: 0.6em 0.8em;
+}
+
+/* line 110, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-current-day {
+  border-radius: 0 !important;
+  background-color: #717171;
+}
+
+/* line 114, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-current-day a {
+  color: #fff;
+}
+
+/* line 117, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-calendar .ui-datepicker-unselectable:hover a {
+  background-color: #fff;
+  cursor: default;
+}
+
+/* line 122, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-calendar td.ui-datepicker-other-month {
+  color: #d8d8d8 !important;
 }
 
 /*FOOTER*/

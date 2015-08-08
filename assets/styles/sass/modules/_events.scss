@@ -97,3 +97,16 @@
 		}
 	}
 }
+
+/*FORM*/
+.event-form{
+	position:relative;
+	padding:$bar-height 0 $bar-height;
+	background-color:white;
+
+	.forms-container{
+		h1,h2,h3,h4,h5{
+			margin-bottom:40px;
+		}
+	}
+}

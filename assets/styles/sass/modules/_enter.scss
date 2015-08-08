@@ -2,62 +2,66 @@
 	position:relative;
 	padding:$bar-height 0 $bar-height;
 	background-color:white;
+}
 
-	.banner{
-		height:$banner-height;
+.banner{
+	height:$banner-height;
 
-		background-color:$black;
+	background-color:$black;
 
-		padding:32px;
+	padding:32px;
 
-		position:relative;
+	position:relative;
 
-		section{
-			position:absolute;
-			top:50%;
-			left:32px;
-			@include translateY(-50%);
-		}
-
-		.banner-title-one,
-		.banner-title-two{
-			text-transform: uppercase;
-			color:white;
-		}
-
-		.banner-title-one{
-			@include font-size(25px);
-		}
-
-		.banner-title-two{
-			@include font-size(22px);
-		}
+	section{
+		position:absolute;
+		top:50%;
+		left:32px;
+		@include translateY(-50%);
 	}
 
-	.forms-container{
-		padding:0 32px 32px;
+	.banner-title-one,
+	.banner-title-two{
+		text-transform: uppercase;
+		color:white;
+	}
+
+	.banner-title-one{
+		@include font-size(25px);
+	}
+
+	.banner-title-two{
+		@include font-size(22px);
 	}
 }
 
+.forms-container{
+	padding:0 32px 32px;
+}
+
 /*SIGNUP*/
-.signup-form{
+.signup-form, .login-form, .recover-form,.event-form{
 
-	h1{
-		@include font-size(24px);
+	&.recover-form{
+		margin-top:40px;
+	}
+
+	h1,h2,h3,h4{
 		font-weight:bold;
 		text-transform: uppercase;
 		margin:32px 0 16px;
 	}
 
-	h4{
-		@include font-size(16px);
-		font-weight:bold;
-		text-transform: uppercase;
-		margin:32px 0 16px;
-	}
 
 	section:not(.virtualplaces-container) h4{
 		margin-bottom:40px;
+	}
+
+	section{
+		margin-bottom:20px;
+		.form-group:last-child{
+			margin-bottom:0;
+		}
 	}
 
 	label{
@@ -72,7 +76,8 @@
 
 	input,
 	textarea,
-	select,
+	.wysiwyg-textarea,
+	select:not(.wysiwyg-select),
 	.bootstrap-select button{
 		background:$ultralight-gray;
 		color:$dark-gray;
@@ -81,8 +86,6 @@
 		@include border-radius(0);
 		padding: 10px 15px;
 		height:auto;
-
-
 	}
 
 	@include placeholder-color($light-gray);

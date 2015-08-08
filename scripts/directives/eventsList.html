@@ -30,6 +30,10 @@
 			<section class="card-options">
 				<a href="#/events/{{event.id}}" class="btn cta text-red">Saber mais</a>
 			</section>
+			<section class="item-options" ng-if="editable">
+				<a href="#/edit-event/{{event.id}}">Editar</a>
+				<a href="" ng-click="deleteEvent(event)">Apagar</a>				
+			</section>
 		</div>
 
 	</div>

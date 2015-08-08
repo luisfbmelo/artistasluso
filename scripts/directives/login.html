@@ -1,3 +1,49 @@
-<div>
+<div class="login-form" ng-controller="userLoginCtrl">
+	<h1>
+		Login
+	</h1>
+	
+	<form name="userLoginForm" novalidate>
+		<section class="login-section">
+			<h4>
+				Introduza os seus dados de login
+			</h4>
+
+			<!--EMAIL-->
+			<div class="form-group">
+				<input type="email" name="email" id="email" required placeholder="mail@mail.com" class="form-control" ng-model="User.email" />
+				<label for="email">E-mail</label>
+				<!--ERROR MESSAGE-->
+                <div ng-show="hasError(userLoginForm.email)" class="errorBox">
+                    <span class="error" ng-show="hasError(userLoginForm.email,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                    <span class="alerts" ng-show="hasError(userLoginForm.email,'email')"><i class="fa fa-exclamation-circle"></i> Formato de e-mail é inválido</span>
+                </div>
+			</div>
+
+			<!--PASSWORD-->
+			<div class="form-group">
+				<input type="password" name="password" id="password" required class="form-control" ng-model="User.password" />
+				<label for="password">Palavra-passe</label>
+				<!--ERROR MESSAGE-->
+                <div ng-show="hasError(userLoginForm.password)" class="errorBox">
+                    <span class="error" ng-show="hasError(userLoginForm.password,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                </div>
+
+                <!--WRONG DATA-->
+	            <div ng-show="submitted && !isCorrect" class="errorBox card">
+	                <span><i class="fa fa-times-circle"></i> E-mail ou palavra-passe incorretos. Por favor, insira dados válidos.</span>
+	            </div>
+			</div>
+		</section>	
+
+		<section>
+			<div class"form-group">
+				<recover-password></recover-password>
+			</div>
+		</section>	
+	</form>
+	<section class="form-actions">
+		<button type="button" name="login" class="btn submit-form" ng-click="loginUser()">Login</button>
+	</section>
 	
 </div>
