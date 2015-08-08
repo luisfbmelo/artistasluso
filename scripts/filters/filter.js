@@ -28,3 +28,16 @@ appFilters.filter('urlResolver', function(){
 	    return result;
 	}
 });
+
+appFilters.filter('urlResolverVal', function(){
+	return function(input){
+		var result;
+	    var startingUrl = "http://";
+	    if (input.startsWith("www")) {
+	        result = startingUrl + input;
+	    } else {
+	        result = null;
+	    }
+	    return result;
+	}
+});

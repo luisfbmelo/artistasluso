@@ -8,8 +8,8 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 	
 	var _getUserType = function(){
 		//Set scope vars
-		$scope.isLoggedIn = true;
-		$scope.isAdmin = true;
+		/*$scope.isLoggedIn = true;
+		$scope.isAdmin = true;*/
 
 		//Set local vars
 		_isLoggedIn = $scope.isLoggedIn;
@@ -73,7 +73,7 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 				{
 					style: 'link',
 					title: 'Entrar',
-					url: '#/login',
+					url: '#/enter',
 					related: 'user'
 				}
 			);

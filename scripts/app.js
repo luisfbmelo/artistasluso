@@ -21,6 +21,10 @@ app.config(['$routeProvider', function($routeProvider) {
 			templateUrl: 'scripts/views/home.html',
 			controller: 'homeCtrl'
 		}).
+		when('/enter', {
+			templateUrl: 'scripts/views/enter.html',
+			controller: 'userCtrl'
+		}).
 		when('/project', {
 			templateUrl: 'scripts/views/project.html',
 			controller: 'projectCtrl'

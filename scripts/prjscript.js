@@ -667,8 +667,8 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 	
 	var _getUserType = function(){
 		//Set scope vars
-		$scope.isLoggedIn = true;
-		$scope.isAdmin = true;
+		/*$scope.isLoggedIn = true;
+		$scope.isAdmin = true;*/
 
 		//Set local vars
 		_isLoggedIn = $scope.isLoggedIn;
@@ -732,7 +732,7 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 				{
 					style: 'link',
 					title: 'Entrar',
-					url: '#/login',
+					url: '#/enter',
 					related: 'user'
 				}
 			);
@@ -752,6 +752,81 @@ var appControllers = angular.module('appControllers');
 
 appControllers.controller('projectCtrl', ['$scope', function ($scope) {
 	
+}]);
+var appControllers = angular.module('appControllers');
+
+appControllers.controller('userCtrl', ['$scope', function ($scope) {
+	
+}]);
+
+appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scope, $filter) {
+
+	//
+	//	INIT OBJECTS
+	//
+	$scope.User = {};
+	$scope.image = {};
+
+
+	//
+	// WHEN GETTING ELEMENT, SET IMAGE OBJECT
+	//
+	/*if (angular.isDefined($scope.User.image) && $scope.User.image!=null) {
+        $scope.image.src = $scope.User.image.src;
+        $scope.image.name = $scope.User.image.name;
+        $scope.image.id = $scope.User.image.id;
+    }*/
+
+	//
+    // WATCH EXAMPLE
+    //
+    /*$scope.$watch(function () {
+        return locale.get();
+    }, function (newValue) {
+
+        if (angular.isDefined(newValue)) {
+            $scope.newAuthorForm.$setPristine();
+            _getObj();
+        }
+    });*/
+
+	//SUBMIT NEW FORM
+    $scope.createUser = function () {
+        $scope.submitted = true;
+
+        if (Object.keys($scope.newUserForm.$error).length == 0) {
+            _constructObj(); 
+
+             console.log($scope.User);
+        }
+    }
+
+	//CHECK FOR ERRORS
+    $scope.hasError = function (field, validation) {
+        if (validation) {
+            return (field.$dirty && field.$error[validation]) || ($scope.submitted && field.$error[validation]);
+        }
+        return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
+    };
+
+    //Construct final obj
+    var _constructObj = function () {
+        //Set image if exists
+        if ($scope.image.src != undefined && $scope.image.id == null) {
+            $scope.User.image = {};
+            $scope.User.image.url = $scope.image.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, "");
+            $scope.User.image.name = $scope.image.name;
+            $scope.User.image.extension = $scope.image.extension;
+        }
+
+        //Set the correct url
+        if ($scope.User.networks!=undefined){
+        	for (var key in $scope.User.networks) {
+			    var val = $scope.User.networks[key];
+		   	 	$scope.User.networks[key] = $filter('urlResolverVal')(val);
+			}
+        }
+    }
 }]);
 var appFilters = angular.module('appFilters');
 
@@ -779,6 +854,19 @@ appFilters.filter('urlResolver', function(){
 	        result = startingUrl + input;
 	    } else {
 	        result = input;
+	    }
+	    return result;
+	}
+});
+
+appFilters.filter('urlResolverVal', function(){
+	return function(input){
+		var result;
+	    var startingUrl = "http://";
+	    if (input.startsWith("www")) {
+	        result = startingUrl + input;
+	    } else {
+	        result = null;
 	    }
 	    return result;
 	}
@@ -935,6 +1023,20 @@ app.directive('dynFbCommentBox', function () {
 });
 var appDirectives = angular.module('appDirectives');
 
+appDirectives.directive('login', [function () {
+	return {
+	    restrict: 'E',
+	    templateUrl: "scripts/directives/login.html",
+	    scope:{
+	    
+	    },
+	    replace: true,
+	    link: function(scope, el, attr){  
+	    } 
+	 };
+}]); 
+var appDirectives = angular.module('appDirectives');
+
 appDirectives.directive('pageFooter', [function () {
 	return {
 	    restrict: 'E',
@@ -1014,6 +1116,19 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
 }]);
 var appDirectives = angular.module('appDirectives');
 
+appDirectives.directive('signup', [function () {
+	return {
+	    restrict: 'E',
+	    templateUrl: "scripts/directives/signup.html",
+	    scope:true,
+	    replace: true,
+	    link: function(scope, el, attr){  
+	    	$('.selectpicker').selectpicker('render');
+	    } 
+	 };
+}]); 
+var appDirectives = angular.module('appDirectives');
+
 appDirectives.directive('social', [function () {
 	return {
 	    restrict: 'E',
@@ -1031,3 +1146,100 @@ appDirectives.directive('social', [function () {
 	    } 
 	 };
 }]); 
+'use strict';
+
+app.directive('uploadPreview', ['$log', function ($log) {
+    return {
+        restrict: 'A',
+        scope: {
+            image: "=?image",
+            maxWidth: "@?maxWidth",
+            maxHeight: "@?maxHeight"
+        },
+        link: function (scope, elem, attrs) {
+            var reader = new FileReader();
+            var tempImg = new Image();
+            reader.onload = function (e) {
+                tempImg.src = e.target.result;
+                tempImg.onload = function () {
+                    var w = this.width,
+                        h = this.height;
+
+                    //SET MAX SIZES
+                    scope.maxWidth = angular.isDefined(scope.maxWidth) ? scope.maxWidth : 1080;
+                    scope.maxHeight = angular.isDefined(scope.maxHeight) ? scope.maxHeight : 760;
+
+
+                    if (h <= scope.maxHeight && w <= scope.maxWidth) {
+                        var thisFile = elem[0].files[0];
+
+                        scope.image.src = e.target.result;
+                        //set file name
+                        scope.image.name = thisFile.name;
+
+                        //set file extension
+                        scope.image.extension = thisFile.name.substr(thisFile.name.lastIndexOf('.') + 1);
+
+                        //clear errors
+                        scope.image.fileError = null;
+
+                        //clear id if exists
+                        scope.image.id = null;
+
+                    } else {
+                        toastr.error('Imagens devem ter no máximo ' + scope.maxWidth + 'x' + scope.maxHeight + 'px!');
+                    }
+
+                    angular.element(".imageSpinPlaceholder").removeClass('spinner');
+                    angular.element(".fileInput").val(null);
+                    scope.$apply();
+                }
+
+            }
+
+            elem.on('change', function () {
+                //check if file is image
+                if (elem[0].files[0].type.match('image.*')) {
+                    //read file
+                    reader.readAsDataURL(elem[0].files[0]);
+
+                    //set loading
+                    angular.element(".imageSpinPlaceholder").addClass('spinner');
+
+                } else {
+
+                    toastr.error('Formato não permitido.');
+
+                    //clear all fields
+                    scope.image.src = null;
+                    scope.image.id = null;
+                    angular.element(".fileInput").val(null);
+
+                    //set type as forbidden
+                    scope.image.fileError = true;
+                    scope.$apply();
+
+                }
+            });
+        }
+    };
+}]);
+
+app.directive('imageActions', function () {
+    return {
+        restrict: "A",
+        scope: false,
+        link: function (scope, elem, attr) {
+            scope.deleteImage = function () {
+                scope.image.src = null;
+                scope.image.id = null;
+                scope.image.name = null;
+                scope.image.extension = null;
+                scope.image.fileError = null;
+
+                // Reset author
+                scope.innerImage = scope.$eval(attr.objimg);
+            }
+        }
+    };
+});

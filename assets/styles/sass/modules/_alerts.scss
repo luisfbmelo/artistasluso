@@ -1,0 +1,29 @@
+.errorBox{
+	
+	@include font-size(14px);
+	margin-top:10px;
+	.error{
+		color:$dark-red;
+	}
+
+	.alerts{
+		color:$dark-yellow;
+	}
+
+	i{
+		padding-right:10px;
+	}
+
+	span{
+		display:block;
+		margin-bottom:5px;
+	}
+}
+
+.error-box{
+	border:1px solid $dark-red!important;
+}
+
+.alert-box{
+	border:1px solid $dark-yellow!important;
+}

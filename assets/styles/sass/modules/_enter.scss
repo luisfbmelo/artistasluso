@@ -1,0 +1,139 @@
+.enter-container{
+	position:relative;
+	padding:$bar-height 0 $bar-height;
+	background-color:white;
+
+	.banner{
+		height:$banner-height;
+
+		background-color:$black;
+
+		padding:32px;
+
+		position:relative;
+
+		section{
+			position:absolute;
+			top:50%;
+			left:32px;
+			@include translateY(-50%);
+		}
+
+		.banner-title-one,
+		.banner-title-two{
+			text-transform: uppercase;
+			color:white;
+		}
+
+		.banner-title-one{
+			@include font-size(25px);
+		}
+
+		.banner-title-two{
+			@include font-size(22px);
+		}
+	}
+
+	.forms-container{
+		padding:0 32px 32px;
+	}
+}
+
+/*SIGNUP*/
+.signup-form{
+
+	h1{
+		@include font-size(24px);
+		font-weight:bold;
+		text-transform: uppercase;
+		margin:32px 0 16px;
+	}
+
+	h4{
+		@include font-size(16px);
+		font-weight:bold;
+		text-transform: uppercase;
+		margin:32px 0 16px;
+	}
+
+	section:not(.virtualplaces-container) h4{
+		margin-bottom:40px;
+	}
+
+	label{
+		display:block;
+		color:$light-gray;
+		margin-bottom:10px;
+	}
+	
+	.virtualplaces input{
+		margin-bottom:25px;
+	}
+
+	input,
+	textarea,
+	select,
+	.bootstrap-select button{
+		background:$ultralight-gray;
+		color:$dark-gray;
+		border:none;
+		@include box-shadow(none);
+		@include border-radius(0);
+		padding: 10px 15px;
+		height:auto;
+
+
+	}
+
+	@include placeholder-color($light-gray);
+
+	.bootstrap-select {
+
+		.dropdown-menu{
+			background:white;
+
+			li{
+				a{
+					padding:10px 10px;
+				}
+				&.active{
+					a{
+						background-color:$dark-gray;
+					}
+				}
+			}
+		}
+
+		button{
+			&.disabled{
+				color:$light-gray;
+				cursor: not-allowed;
+			}
+		}
+
+		.bs-searchbox{
+			margin-bottom:10px;
+
+			input{
+				background-color:white;
+				border: 1px solid $light-gray;
+			}
+		}
+	}
+
+	.virt-place{
+		position:relative;
+		i{
+			position:absolute;
+			top:50%;
+			@include translateY(-50%);
+			left:15px;
+		}
+
+		input{
+			padding-left:40px;
+		}
+	}
+}
+
+/*LOGIN*/

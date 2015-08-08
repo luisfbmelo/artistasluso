@@ -16,3 +16,27 @@
 		text-decoration:none;
 	}
 }
+
+.btn{
+	&:focus, &:active:focus, &.active:focus,&:active{
+		outline:none!important;
+		@include box-shadow(none);
+	}
+
+	&.submit-form{
+		background-color:$black;
+		color:white;
+		@include border-radius(0);
+
+		@include transition(all 0.2s ease);
+
+		text-transform: uppercase;
+
+		padding:10px 20px;
+
+
+		&:hover,&:active,&:focus{
+			@include opacity(0.6);
+		}
+	}
+}
