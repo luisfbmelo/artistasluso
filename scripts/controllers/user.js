@@ -20,7 +20,7 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
     $scope.createUser = function () {
         $scope.submitted = true;
 
-        if (Object.keys($scope.newUserForm.$error).length == 0) {
+        if (Object.keys($scope.newUserForm.$error).length == 0 && $scope.image.src) {
             _constructObj(); 
 
              console.log($scope.User);
@@ -86,5 +86,87 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope
     //Construct final obj
     var _constructObj = function () {
 
+    }
+}]);
+
+appControllers.controller('userEditCtrl', ['$scope','$filter', function ($scope, $filter) {
+
+    //
+    //  INIT OBJECTS
+    //
+    $scope.User = {
+        id:1,
+        name: 'Luis',
+        email: 'luisfbmelo91@gmail.com',
+        password: 'asdasd',
+        confPassword: null,
+        country: {
+            id:1,
+            name: 'Portugal'
+        },
+        district: {
+            id:1,
+            name: 'Açores'
+        },
+        art:{
+            id:1,
+            name: 'Arte Digital'
+        },
+        ocupation: 'Fotógrafo',
+        bios:[
+            {
+                id:1,
+                biopt: 'asd',
+                bioen: 'asd',
+                bioother: 'asd'
+            }
+        ],
+        image:{
+            id:1,
+            name: 'image.jpg',
+            src: 'asd',
+            extension: 'jpg'
+        }
+    };
+    $scope.image = {};
+    $scope.submitted = false;
+    $scope.isCorrect = false;
+
+    //SUBMIT NEW FORM
+    $scope.updateProfile = function () {
+        $scope.submitted = true;
+
+        if (Object.keys($scope.userForm.$error).length == 0 && $scope.image.src) {
+            _constructObj(); 
+
+             console.log($scope.User);
+        }
+    }
+
+    //CHECK FOR ERRORS
+    $scope.hasError = function (field, validation) {
+        if (validation) {
+            return (field.$dirty && field.$error[validation]) || ($scope.submitted && field.$error[validation]);
+        }
+        return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
+    };
+
+    //Construct final obj
+    var _constructObj = function () {
+        //Set image if exists
+        if ($scope.image.src != undefined && $scope.image.id == null) {
+            $scope.User.image = {};
+            $scope.User.image.src = $scope.image.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, "");
+            $scope.User.image.name = $scope.image.name;
+            $scope.User.image.extension = $scope.image.extension;
+        }
+
+        //Set the correct url
+        if ($scope.User.networks!=undefined){
+            for (var key in $scope.User.networks) {
+                var val = $scope.User.networks[key];
+                $scope.User.networks[key] = $filter('urlResolverVal')(val);
+            }
+        }
     }
 }]);

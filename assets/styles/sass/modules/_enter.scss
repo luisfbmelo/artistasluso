@@ -4,43 +4,12 @@
 	background-color:white;
 }
 
-.banner{
-	height:$banner-height;
-
-	background-color:$black;
-
-	padding:32px;
-
-	position:relative;
-
-	section{
-		position:absolute;
-		top:50%;
-		left:32px;
-		@include translateY(-50%);
-	}
-
-	.banner-title-one,
-	.banner-title-two{
-		text-transform: uppercase;
-		color:white;
-	}
-
-	.banner-title-one{
-		@include font-size(25px);
-	}
-
-	.banner-title-two{
-		@include font-size(22px);
-	}
-}
-
 .forms-container{
 	padding:0 32px 32px;
 }
 
 /*SIGNUP*/
-.signup-form, .login-form, .recover-form,.event-form{
+.signup-form, .login-form, .recover-form,.event-form, .user-form{
 
 	&.recover-form{
 		margin-top:40px;

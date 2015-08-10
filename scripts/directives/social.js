@@ -1,6 +1,6 @@
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('social', [function () {
+appDirectives.directive('social', ['$location', function ($location) {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/social.html",
@@ -9,11 +9,16 @@ appDirectives.directive('social', [function () {
 	    	textClass: '@?',
 	    	text: '@?',
 	    	action: '@?',
-	    	containerClass: '@?'
+	    	containerClass: '@?',
+	    	obj: '=?'
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){
-	    	console.log(scope.networks);  
+	    	scope.curLoc = encodeURIComponent($location.absUrl());
+
+	    	scope.encodeEl = function(el){
+	    		return encodeURIComponent(el);
+	    	}
 	    } 
 	 };
 }]); 

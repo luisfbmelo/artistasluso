@@ -3,6 +3,7 @@
 		<header>Já reunímos</header>
 		<p id="total-num">{{artists.length}}</p>
 		<label for="total-num">Artistas lusos</label>
+		<a href="#/admin-report" class="admin-report" ng-if="isLoggedIn && isAdmin">Ver relatório</a>
 	</div>	
 
 	<colored-stats list="artists" group-by-prop="art.name" display-prop="art.name" route="artists" detail-prop="art.id"></colored-stats>

@@ -1,6 +1,11 @@
 var appControllers = angular.module('appControllers');
 
 appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+	//
+	// NEED TO CHECK IF USER IS LOGGED
+	//
+	$scope.isLoggedIn = true;
+	$scope.isAdmin = true;
 	
 	//
 	// INIT FUNCTION
@@ -28,7 +33,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -41,7 +46,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -54,7 +59,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -67,7 +72,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -80,7 +85,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -93,7 +98,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -247,7 +252,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 						name: 'Design & Multimédia'
 					}
 				],
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				},
@@ -281,7 +286,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 						name: 'Design & Multimédia'
 					}
 				],
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				},
@@ -313,7 +318,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -326,7 +331,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -339,7 +344,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -352,7 +357,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -365,7 +370,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -378,7 +383,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -817,7 +822,7 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', function ($
 	$scope.submitEvent = function(){
 		$scope.submitted = true;
 
-        if (Object.keys($scope.eventForm.$error).length == 0) {
+        if (Object.keys($scope.eventForm.$error).length == 0 && $scope.image.src) {
             _constructObj(); 
             console.log($scope.Event);
 
@@ -1068,6 +1073,252 @@ appControllers.controller('recoverPasswordModalInstanceCtrl',['$scope','$modalIn
 }]);
 var appControllers = angular.module('appControllers');
 
+appControllers.controller('reportsCtrl', ['$scope','$routeParams', function ($scope,$routeParams) {
+    //
+    // INIT CONFIG
+    //
+    $scope.entryLimit = 3;
+    $scope.currentLast = 0;
+
+    //
+    // INIT FUNCTION
+    //
+	var _init = function(){
+		_getArtsArt();
+        _getArtsCountry();
+        _getAllArts();
+	}
+
+    var _getArtsArt = function(){
+        $scope.artsArt = [
+            {
+                id:1,
+                name: 'Artes Digitais',
+                totalArts: 37
+            },
+            {
+                id:2,
+                name: 'Artes Plásticas',
+                totalArts: 37
+            },
+            {
+                id:3,
+                name: 'Cinema & Vídeo',
+                totalArts: 37
+            },
+            {
+                id:4,
+                name: 'Literatura',
+                totalArts: 37
+            },
+            {
+                id:5,
+                name: 'Música',
+                totalArts: 37
+            },
+            {
+                id:6,
+                name: 'Performance',
+                totalArts: 37
+            },
+            {
+                id:7,
+                name: 'Tradicional',
+                totalArts: 37
+            },
+            {
+                id:8,
+                name: 'Organizações',
+                totalArts: 37
+            }
+        ];
+
+        //
+        // Create number of columns for iterator
+        //
+        var artCols = Math.ceil($scope.artsArt.length/$scope.entryLimit);
+        $scope.artCols = [];
+        for(var i = 0; i < artCols; i++) {
+            $scope.artCols.push(i);
+        }
+    }
+
+    var _getArtsCountry = function(){
+        $scope.artsCountry = [
+            {
+                id:1,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:2,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:3,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:4,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:5,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:6,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:7,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:8,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:9,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:10,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:12,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:13,
+                name: 'País',
+                totalArts: 37
+            },
+            {
+                id:14,
+                name: 'País',
+                totalArts: 37
+            }
+        ];
+
+        //
+        // Create number of columns for iterator
+        //
+        var countryCols = Math.ceil($scope.artsCountry.length/$scope.entryLimit);
+        $scope.countryCols = [];
+        for(var i = 0; i < countryCols; i++) {
+            $scope.countryCols.push(i);
+        }
+    }
+
+    var _getAllArts = function(){
+        $scope.allArts = [
+            {
+                id:1,
+                name: 'User1',
+                email: 'mail@mail.com',
+                countryLive:{
+                    id:1,
+                    name: 'Portugal'
+                }
+            },
+            {
+                id:2,
+                name: 'User1',
+                email: 'mail@mail.com',
+                countryLive:{
+                    id:1,
+                    name: 'Portugal'
+                }
+            },
+            {
+                id:3,
+                name: 'User1',
+                email: 'mail@mail.com',
+                countryLive:{
+                    id:1,
+                    name: 'Portugal'
+                }
+            },
+            {
+                id:4,
+                name: 'User1',
+                email: 'mail@mail.com',
+                countryLive:{
+                    id:1,
+                    name: 'Portugal'
+                }
+            },
+            {
+                id:5,
+                name: 'User1',
+                email: 'mail@mail.com',
+                countryLive:{
+                    id:1,
+                    name: 'Portugal'
+                }
+            },
+            {
+                id:6,
+                name: 'User1',
+                email: 'mail@mail.com',
+                countryLive:{
+                    id:1,
+                    name: 'Portugal'
+                }
+            },
+            {
+                id:7,
+                name: 'User1',
+                email: 'mail@mail.com',
+                countryLive:{
+                    id:1,
+                    name: 'Portugal'
+                }
+            },
+            {
+                id:8,
+                name: 'User1',
+                email: 'mail@mail.com',
+                countryLive:{
+                    id:1,
+                    name: 'Portugal'
+                }
+            },
+            {
+                id:9,
+                name: 'User1',
+                email: 'mail@mail.com',
+                countryLive:{
+                    id:1,
+                    name: 'Portugal'
+                }
+            }
+        ];
+    }
+
+    //
+    // Set element to start new list
+    //
+    $scope.setCurrentLast = function(){
+        $scope.currentLast++;
+    }
+
+    _init();
+}]);
+var appControllers = angular.module('appControllers');
+
 appControllers.controller('timePickerCtrl', ['$scope','$routeParams', function ($scope,$routeParams) {
     //
     // INIT FUNCTION
@@ -1104,7 +1355,7 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
     $scope.createUser = function () {
         $scope.submitted = true;
 
-        if (Object.keys($scope.newUserForm.$error).length == 0) {
+        if (Object.keys($scope.newUserForm.$error).length == 0 && $scope.image.src) {
             _constructObj(); 
 
              console.log($scope.User);
@@ -1172,6 +1423,88 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope
 
     }
 }]);
+
+appControllers.controller('userEditCtrl', ['$scope','$filter', function ($scope, $filter) {
+
+    //
+    //  INIT OBJECTS
+    //
+    $scope.User = {
+        id:1,
+        name: 'Luis',
+        email: 'luisfbmelo91@gmail.com',
+        password: 'asdasd',
+        confPassword: null,
+        country: {
+            id:1,
+            name: 'Portugal'
+        },
+        district: {
+            id:1,
+            name: 'Açores'
+        },
+        art:{
+            id:1,
+            name: 'Arte Digital'
+        },
+        ocupation: 'Fotógrafo',
+        bios:[
+            {
+                id:1,
+                biopt: 'asd',
+                bioen: 'asd',
+                bioother: 'asd'
+            }
+        ],
+        image:{
+            id:1,
+            name: 'image.jpg',
+            src: 'asd',
+            extension: 'jpg'
+        }
+    };
+    $scope.image = {};
+    $scope.submitted = false;
+    $scope.isCorrect = false;
+
+    //SUBMIT NEW FORM
+    $scope.updateProfile = function () {
+        $scope.submitted = true;
+
+        if (Object.keys($scope.userForm.$error).length == 0 && $scope.image.src) {
+            _constructObj(); 
+
+             console.log($scope.User);
+        }
+    }
+
+    //CHECK FOR ERRORS
+    $scope.hasError = function (field, validation) {
+        if (validation) {
+            return (field.$dirty && field.$error[validation]) || ($scope.submitted && field.$error[validation]);
+        }
+        return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
+    };
+
+    //Construct final obj
+    var _constructObj = function () {
+        //Set image if exists
+        if ($scope.image.src != undefined && $scope.image.id == null) {
+            $scope.User.image = {};
+            $scope.User.image.src = $scope.image.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, "");
+            $scope.User.image.name = $scope.image.name;
+            $scope.User.image.extension = $scope.image.extension;
+        }
+
+        //Set the correct url
+        if ($scope.User.networks!=undefined){
+            for (var key in $scope.User.networks) {
+                var val = $scope.User.networks[key];
+                $scope.User.networks[key] = $filter('urlResolverVal')(val);
+            }
+        }
+    }
+}]);
 var appFilters = angular.module('appFilters');
 
 //home background
@@ -1215,6 +1548,316 @@ appFilters.filter('urlResolverVal', function(){
 	    return result;
 	}
 });
+
+appFilters.filter('startFrom', function () {
+    return function (input, start) {
+        if (input) {
+            start = +start;
+            return input.slice(start);
+        }
+        return [];
+    }
+});
+/*// ============================================================================
+// Project: Toolkit
+// Name/Class: 
+// Created On: 18/Mar/2015
+// Author: João Carreiro (joao.carreiro@cybermap.pt)
+// Company: Cybermap Lda.
+// Description:
+// ============================================================================
+
+'use strict';
+
+angular.module('toolkit').service('tkAuthInterceptorService', ['$q', '$injector', '$location', 'localStorageService', 'tkRuntime', function ($q, $injector, $location, localStorageService, tkRuntime) {
+
+    //
+    // Default configuration for this service.
+    //
+
+    var _defaultConfig = {
+        STATUS_401: {
+            LOGGED_IN_URL: '/',
+            NOT_LOGGED_IN_URL: '/'
+        }
+    };
+
+    var _config = {};
+
+    //
+    // Process settings. Merge the defined settings
+    // for this component found in the runtime with 
+    // default values.
+    //
+
+    var _processConfig = function () {
+
+        //
+        // Fetch the configuration for this service, merge
+        // with default values and set the scope object.
+        //
+
+        $.extend(true, _config, _defaultConfig, tkRuntime.get("service.tkAuthInterceptorService"));
+    }
+
+    //
+    // Request part for interceptor.
+    //
+
+    var _request = function (config) {
+
+        config.headers = config.headers || {};
+
+        //
+        // If the credential are in the local 
+        // storage add them to the request.
+        //
+
+        var authData = localStorageService.get('authorizationData');
+        if (authData) {
+            config.headers.Authorization = 'Bearer ' + authData.token;
+        }
+
+        return config;
+    }
+
+    //
+    // Response part for the interceptor.
+    //
+
+    var _responseError = function (rejection) {
+
+        //
+        // In case the service fails what to do????
+        //
+
+        if (rejection.status === 401) {
+
+            var path = '/';
+
+            var loggedIn = angular.isDefined(localStorageService.get('authorizationData'));
+
+            if (loggedIn) {
+
+                //
+                // If case we wish to clear the token info, 
+                // run the following code.
+                //
+                // var tkAuthService = $injector.get('tkAuthService');
+                // authService.logOut();
+                //
+
+                path = _config.STATUS_401.LOGGED_IN_URL;
+            }
+            else {
+
+                path = _config.STATUS_401.NOT_LOGGED_IN_URL;
+            }
+
+            $location.path(path);
+        }
+
+        return $q.reject(rejection);
+    }
+
+    //
+    // Service API.
+    //
+
+    return {
+        request: _request,
+        responseError: _responseError,
+        processConfig: _processConfig
+    };
+}]);*/
+/*// ============================================================================
+// Project: Toolkit
+// Name/Class: tkAuthService
+// Created On: 18/Mar/2015
+// Author: João Carreiro (joao.carreiro@cybermap.pt)
+// Company: Cybermap Lda.
+// Description: Authentication service definition.
+// ============================================================================
+
+'use strict';
+
+angular.module('toolkit').service('tkAuthService', ['$http', '$q', 'localStorageService', 'tkRuntime', function ($http, $q, localStorageService, tkRuntime) {
+
+    //
+    // DTO with authentication information.
+    // 
+
+    var _authentication = {
+
+        isAuth: false,
+        userName: "",
+        info: null
+    };
+
+    //
+    // Service configuration/settings.
+    //
+
+    var _defaultConfig = {
+
+        settings: {
+            loginUrl: ''
+        },
+
+        errMsg: {
+            MSG_INVALID_LOGIN_CREDENTIALS: 'Please fill username and password fields!',
+            MSG_NO_LOGIN_URL_IS_DEFINED: 'INTERNAL: No login url is defined!'
+        }
+    };
+
+    var _config = {};
+
+    //
+    // Process settings. Merge the defined settings
+    // for this component found in the runtime with 
+    // default values.
+    //
+
+    var _processConfig = function () {
+
+        //
+        // Fetch the configuration for this service, merge
+        // with default values and set the scope object.
+        //
+
+        $.extend(true, _config, _defaultConfig, tkRuntime.get("service.tkAuthService"));
+    }
+
+    //
+    // Method to verify the login data and this service
+    // configuration settings.
+    // @param loginData the user's login information.
+    //        { userName :: string, password :: string }
+    //
+
+    var _verify = function (loginData) {
+
+        //
+        // Default output, no error condition.
+        //
+
+        var output = { error: false, msg: '' };
+
+        if (!toolkit.util.AreDefined(loginData, loginData.userName, loginData.password)) {
+
+            //
+            // ERROR: Invalid login data.
+            //
+
+            output.error = true;
+            output.msg = _config.errMsg.MSG_INVALID_LOGIN_CREDENTIALS;
+        }
+        else if (!toolkit.util.IsDefined(_config.settings.loginUrl)) {
+
+            //
+            // ERROR: No login url is defined!
+            //
+
+            output.error = true;
+            output.msg = _config.errMsg.MSG_NO_LOGIN_URL_IS_DEFINED;
+        }
+
+        return output;
+    };
+
+    //    
+    // Perform login use the configuration url to log the user.
+    // Returns a promise to caller. 
+    // @param loginData the user's login information.
+    //        { userName :: string, password :: string }
+    //
+
+    var _login = function (loginData) {
+
+        var deferred = $q.defer();
+
+        if (toolkit.util.AreDefined(loginData, _config.settings.loginUrl)) {
+
+            //
+            // Resolve the login url.
+            //
+
+            var loginUrl = toolkit.url.Resolve(_config.settings.loginUrl);
+
+            //
+            // Everything check outs, perform the login.
+            //
+
+            var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
+
+            $http.post(loginUrl, data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+                .success(function (response) {
+
+                    //
+                    // Login succeded, fill the authorization data with the name and token.
+                    //
+
+                    localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, info: response });
+
+                    _authentication.isAuth = true;
+                    _authentication.userName = loginData.userName;
+                    _authentication.info = response;
+
+                    deferred.resolve(response);
+                })
+                .error(function (err, status) {
+
+                    _logout();
+                    deferred.reject(err);
+                });
+        }
+
+        return deferred.promise;
+    };
+
+    //
+    // Function to logout the current user.
+    // Removes authentication data from local
+    // storage and sets appropriate flags.
+    //
+
+    var _logout = function () {
+
+        localStorageService.remove('authorizationData');
+        _authentication.isAuth = false;
+        _authentication.userName = '';
+        _authentication.info = null;
+    };
+
+    //
+    // Function to fetch from local storage the authentication
+    // data and set this services state accordingly.
+    //
+
+    var _fillAuthData = function () {
+
+        var authData = localStorageService.get('authorizationData');
+
+        if (authData) {
+            _authentication.isAuth = true;
+            _authentication.userName = authData.userName;
+            _authentication.info = authData.info;
+        }
+    }
+
+    //
+    // Service protocol. API.
+    //
+
+    return {
+        login: _login,
+        logOut: _logout,
+        verify: _verify,
+        processConfig: _processConfig,
+        fillAuthData: _fillAuthData,
+        authentication: _authentication
+    };
+}]);*/
 var appServices = angular.module('appServices');
 
 appServices.factory('LoginService', ['$rootScope', function ($rootScope) {
@@ -1339,7 +1982,7 @@ appDirectives.directive('eventsList', [ function () {
 }]);
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('facebookComments', ['$location', function ($location) {
+appDirectives.directive('facebookComments', ['$location','$timeout', function ($location,$timeout) {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/facebookComments.html",
@@ -1355,7 +1998,7 @@ appDirectives.directive('facebookComments', ['$location', function ($location) {
 	 };
 }]);
 
-app.directive('dynFbCommentBox', function () {
+app.directive('dynFbCommentBox',['$timeout', function ($timeout) {
     function createHTML(href, numposts, colorscheme, width) {
         return '<div class="fb-comments" ' +
                        'data-href="' + href + '" ' +
@@ -1370,17 +2013,26 @@ app.directive('dynFbCommentBox', function () {
         restrict: 'A',
         scope: {},
         link: function postLink(scope, elem, attrs) {
-            attrs.$observe('pageHref', function (newValue) {
-                var href        = newValue;
-                var numposts    = attrs.numposts    || 5;
-                var colorscheme = attrs.colorscheme || 'light';
-                var width = attrs.width || '100%';
-                elem.html(createHTML(href, numposts, colorscheme, width));
+          //
+          // Use timeout in order to be called after all watches are done and FB script is loaded
+          //
+          attrs.$observe('pageHref', function (newValue) {
+              var href        = newValue;
+              var numposts    = attrs.numposts    || 5;
+              var colorscheme = attrs.colorscheme || 'light';
+              var width = attrs.width || '100%';
+              elem.html(createHTML(href, numposts, colorscheme, width));
+              $timeout(function () {
+            if (typeof FB != 'undefined'){
                 FB.XFBML.parse(elem[0]);
-            });
+              }
+          });
+          });
+
+          
         }
     };
-});
+}]);
 var appDirectives = angular.module('appDirectives');
 
 appDirectives.directive('login', [function () {
@@ -1514,7 +2166,7 @@ appDirectives.directive('signup', [function () {
 }]); 
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('social', [function () {
+appDirectives.directive('social', ['$location', function ($location) {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/social.html",
@@ -1523,11 +2175,16 @@ appDirectives.directive('social', [function () {
 	    	textClass: '@?',
 	    	text: '@?',
 	    	action: '@?',
-	    	containerClass: '@?'
+	    	containerClass: '@?',
+	    	obj: '=?'
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){
-	    	console.log(scope.networks);  
+	    	scope.curLoc = encodeURIComponent($location.absUrl());
+
+	    	scope.encodeEl = function(el){
+	    		return encodeURIComponent(el);
+	    	}
 	    } 
 	 };
 }]); 

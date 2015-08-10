@@ -311,7 +311,7 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', function ($
 	$scope.submitEvent = function(){
 		$scope.submitted = true;
 
-        if (Object.keys($scope.eventForm.$error).length == 0) {
+        if (Object.keys($scope.eventForm.$error).length == 0 && $scope.image.src) {
             _constructObj(); 
             console.log($scope.Event);
 

@@ -1,6 +1,11 @@
 var appControllers = angular.module('appControllers');
 
 appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+	//
+	// NEED TO CHECK IF USER IS LOGGED
+	//
+	$scope.isLoggedIn = true;
+	$scope.isAdmin = true;
 	
 	//
 	// INIT FUNCTION
@@ -28,7 +33,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -41,7 +46,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -54,7 +59,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -67,7 +72,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -80,7 +85,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -93,7 +98,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -247,7 +252,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 						name: 'Design & Multimédia'
 					}
 				],
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				},
@@ -281,7 +286,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 						name: 'Design & Multimédia'
 					}
 				],
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				},
@@ -313,7 +318,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -326,7 +331,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -339,7 +344,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -352,7 +357,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -365,7 +370,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}
@@ -378,7 +383,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 					id:1,
 					name: 'Design & Multimédia'
 				},
-				country: {
+				countryLive: {
 					id:1,
 					name: 'Portugal'
 				}

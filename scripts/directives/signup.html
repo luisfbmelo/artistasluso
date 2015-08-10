@@ -3,7 +3,7 @@
 		Registar
 	</h1>
 	
-	<form name="newUserForm" novalidate>
+	<form name="newUserForm" enctype="multipart/form-data" novalidate>
 		<section>
 			<h4>
 				Informações básicas
@@ -22,7 +22,7 @@
 
 			<!--EMAIL-->
 			<div class="form-group">
-				<input type="email" name="email" id="email" required placeholder="mail@mail.com" class="form-control"/>
+				<input type="email" name="email" id="email" required placeholder="mail@mail.com" class="form-control" ng-model="User.email"/>
 				<label for="email">E-mail</label>
 				<!--ERROR MESSAGE-->
                 <div ng-show="hasError(newUserForm.email)" class="errorBox">
@@ -60,10 +60,25 @@
 				    <option value="2">Ketchup</option>
 				    <option value="3">Relish</option>
 			  	</select>
-				<label for="country">Selecione o local de nascimento ou descendência portuguesa</label>
+				<label for="country">Selecione o país de residência</label>
 				<!--ERROR MESSAGE-->
                 <div ng-show="hasError(newUserForm.country) || User.country<1 || User.country==''" class="errorBox">
                     <span class="error" ng-show="hasError(newUserForm.country)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                </div>
+			</div>
+
+			<!--COUNTRY PARENT-->
+			<div class="form-group">
+				<select class="selectpicker" name="countryDesc" id="countryDesc" ng-model="User.countryDesc" data-live-search="true" data-size="auto" class="form-control" required>
+				    <option value="">Países</option>
+				    <option value="1">Mustard</option>
+				    <option value="2">Ketchup</option>
+				    <option value="3">Relish</option>
+			  	</select>
+				<label for="countryDesc">Selecione o local de nascimento ou descendência portuguesa</label>
+				<!--ERROR MESSAGE-->
+                <div ng-show="hasError(newUserForm.countryDesc) || User.countryDesc<1 || User.countryDesc==''" class="errorBox">
+                    <span class="error" ng-show="hasError(newUserForm.countryDesc)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 

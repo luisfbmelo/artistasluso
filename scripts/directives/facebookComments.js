@@ -1,6 +1,6 @@
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('facebookComments', ['$location', function ($location) {
+appDirectives.directive('facebookComments', ['$location','$timeout', function ($location,$timeout) {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/facebookComments.html",
@@ -16,7 +16,7 @@ appDirectives.directive('facebookComments', ['$location', function ($location) {
 	 };
 }]);
 
-app.directive('dynFbCommentBox', function () {
+app.directive('dynFbCommentBox',['$timeout', function ($timeout) {
     function createHTML(href, numposts, colorscheme, width) {
         return '<div class="fb-comments" ' +
                        'data-href="' + href + '" ' +
@@ -31,14 +31,23 @@ app.directive('dynFbCommentBox', function () {
         restrict: 'A',
         scope: {},
         link: function postLink(scope, elem, attrs) {
-            attrs.$observe('pageHref', function (newValue) {
-                var href        = newValue;
-                var numposts    = attrs.numposts    || 5;
-                var colorscheme = attrs.colorscheme || 'light';
-                var width = attrs.width || '100%';
-                elem.html(createHTML(href, numposts, colorscheme, width));
+          //
+          // Use timeout in order to be called after all watches are done and FB script is loaded
+          //
+          attrs.$observe('pageHref', function (newValue) {
+              var href        = newValue;
+              var numposts    = attrs.numposts    || 5;
+              var colorscheme = attrs.colorscheme || 'light';
+              var width = attrs.width || '100%';
+              elem.html(createHTML(href, numposts, colorscheme, width));
+              $timeout(function () {
+            if (typeof FB != 'undefined'){
                 FB.XFBML.parse(elem[0]);
-            });
+              }
+          });
+          });
+
+          
         }
     };
-});
+}]);

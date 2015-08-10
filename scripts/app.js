@@ -69,12 +69,16 @@ app.config(['$routeProvider', function($routeProvider) {
 			controller: 'artistDetailsCtrl'
 		}).
 		when('/user/edit', {
-			templateUrl: 'scripts/views/artist-detail.html',
-			controller: 'artistDetailsCtrl'
+			templateUrl: 'scripts/views/artist-edit.html',
+			controller: 'userEditCtrl'
 		}).
 		when('/user/my-events/list', {
 			templateUrl: 'scripts/views/events.html',
 			controller: 'eventsUserCtrl'
+		}).
+		when('/admin-report', {
+			templateUrl: 'scripts/views/admin-report.html',
+			controller: 'reportsCtrl'
 		}).
 		otherwise({
 			redirectTo: '/'

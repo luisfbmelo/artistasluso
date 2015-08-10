@@ -1,0 +1,42 @@
+a.admin-report{
+	display:block;
+	margin:10px 0;
+	color:$light-gray;
+	font-style:italic;
+}
+
+.admin-report-page{
+	position:relative;
+	padding:$bar-height 0 $bar-height;
+	background-color:white;
+
+	.report-title{
+		margin-top:5px;
+		margin-bottom:40px;
+		text-align:center;
+	}
+
+	.report-list{
+		padding:32px 16px;		
+
+		&.art-list{
+			background-color:$ultralight-gray;
+			border-bottom:1px solid $light-gray;
+		}
+
+		ul{
+			list-style:none;
+			margin:0;
+			padding:0;
+
+			li{
+				margin-bottom:10px;
+				text-transform: uppercase;
+			}
+		}
+	}
+
+	.report-column{
+		margin-bottom:15px;
+	}
+}
