@@ -1,44 +1,18 @@
-/*// ============================================================================
-// Project: Toolkit
-// Name/Class: 
-// Created On: 18/Mar/2015
-// Author: João Carreiro (joao.carreiro@cybermap.pt)
-// Company: Cybermap Lda.
-// Description:
-// ============================================================================
+var appServices = angular.module('appServices');
 
-'use strict';
-
-angular.module('toolkit').service('tkAuthInterceptorService', ['$q', '$injector', '$location', 'localStorageService', 'tkRuntime', function ($q, $injector, $location, localStorageService, tkRuntime) {
+appServices.service('authInterceptorService', ['$q', '$injector', '$location', 'sessionStorage', function ($q, $injector, $location, sessionStorage) {
 
     //
     // Default configuration for this service.
     //
 
-    var _defaultConfig = {
+    var _config = {
         STATUS_401: {
-            LOGGED_IN_URL: '/',
-            NOT_LOGGED_IN_URL: '/'
+            LOGGED_IN_URL: '#/',
+            NOT_LOGGED_IN_URL: '#/enter'
         }
     };
 
-    var _config = {};
-
-    //
-    // Process settings. Merge the defined settings
-    // for this component found in the runtime with 
-    // default values.
-    //
-
-    var _processConfig = function () {
-
-        //
-        // Fetch the configuration for this service, merge
-        // with default values and set the scope object.
-        //
-
-        $.extend(true, _config, _defaultConfig, tkRuntime.get("service.tkAuthInterceptorService"));
-    }
 
     //
     // Request part for interceptor.
@@ -53,7 +27,7 @@ angular.module('toolkit').service('tkAuthInterceptorService', ['$q', '$injector'
         // storage add them to the request.
         //
 
-        var authData = localStorageService.get('authorizationData');
+        var authData = sessionStorage.get('authorizationData');
         if (authData) {
             config.headers.Authorization = 'Bearer ' + authData.token;
         }
@@ -75,7 +49,7 @@ angular.module('toolkit').service('tkAuthInterceptorService', ['$q', '$injector'
 
             var path = '/';
 
-            var loggedIn = angular.isDefined(localStorageService.get('authorizationData'));
+            var loggedIn = angular.isDefined(sessionStorage.get('authorizationData'));
 
             if (loggedIn) {
 
@@ -106,7 +80,6 @@ angular.module('toolkit').service('tkAuthInterceptorService', ['$q', '$injector'
 
     return {
         request: _request,
-        responseError: _responseError,
-        processConfig: _processConfig
+        responseError: _responseError
     };
-}]);*/
+}]);

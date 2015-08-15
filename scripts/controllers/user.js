@@ -6,7 +6,7 @@ appControllers.controller('userCtrl', ['$scope', function ($scope) {
     //
 }]);
 
-appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scope, $filter) {
+appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams', 'countriesService', 'districtsService', 'categoriesService', 'networksService', 'biosService', 'usersService', function ($scope, $filter, $routeParams, countriesService, districtsService, categoriesService, networksService, biosService, usersService) {
 
 	//
 	//	INIT OBJECTS
@@ -16,6 +16,36 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
 	$scope.submitted = false;
 	$scope.isCorrect = false;
 
+    //
+    // INIT LISTS DATA
+    //
+    $scope.countries = [];
+    $scope.districts = [];
+    $scope.categories = [];
+    $scope.bios = [];
+    $scope.networks = [];
+
+
+    //
+    // INIT FUNCTION
+    //
+    var _init = function(){
+        _getCountries();
+        _getDistricts();
+        _getCategories();
+        _getBios();
+        _getNetworks();
+
+        //
+        // WHAT TO DO
+        //
+        if ($routeParams.id){
+            $scope.intent = "edit";
+        }else{
+            $scope.intent = "new";
+        }
+    }
+
 	//SUBMIT NEW FORM
     $scope.createUser = function () {
         $scope.submitted = true;
@@ -24,6 +54,12 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
             _constructObj(); 
 
              console.log($scope.User);
+
+             if ($routeParams.id){
+                _updateUser($scope.User);
+            }else{
+                _createUser($scope.User);
+            }
         }
     }
 
@@ -52,7 +88,81 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
 		   	 	$scope.User.networks[key] = $filter('urlResolverVal')(val);
 			}
         }
+
+        $scope.User.cur_country_id = $scope.User.cur_country_id!=undefined ? $scope.User.cur_country_id.id : null;
+        $scope.User.desc_country_id = $scope.User.desc_country_id!=undefined ? $scope.User.desc_country_id.id : null;
+        $scope.User.dist_id = $scope.User.dist_id!=undefined ? $scope.User.dist_id.id : null;
+        $scope.User.cat_id = $scope.User.cat_id!=undefined ? $scope.User.cat_id.id : null; 
+
     }
+
+    //
+    // SERVICES
+    //
+    var _createUser = function(item){
+        usersService.create(item).then(function (data) {
+            toastr.success('Utilizador criado!', '' ,{ timeOut: 5000 });
+        }, function (error) {
+            toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+    }
+    
+    var _getCountries = function(){
+        countriesService.list().then(function (data) {
+            $scope.countries=data;
+
+        }, function (error) {
+            toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+    }
+
+    var _getDistricts = function(){
+        districtsService.list().then(function (data) {
+            $scope.districts = data;
+        }, function (error) {
+            toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+    }
+
+    var _getCategories = function(){
+        categoriesService.list().then(function (data) {
+            $scope.categories = data;
+        }, function (error) {
+            toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+    }
+
+    var _getBios = function(){
+        biosService.list().then(function (data) {
+            $scope.bios = data;
+
+            //SET USER BIOS
+            $scope.User.bios = [];
+            for (var a=0;a<data.length;a++){
+                $scope.User.bios[a] = {};
+                $scope.User.bios[a].bio_id = data[a].id;
+            }
+        }, function (error) {
+            toastr.error(String(error), '' ,{ timeOut: 5000 });
+        });
+    }
+
+    var _getNetworks = function(){
+        networksService.list().then(function (data) {
+            $scope.networks = data;
+
+            //SET USER SOCIAL NETWORKS
+            $scope.User.social = [];
+            for (var a=0;a<data.length;a++){
+                $scope.User.social[a] = {};
+                $scope.User.social[a].network_id = data[a].id;
+            }
+        }, function (error) {
+            toastr.error(String(error), '' ,{ timeOut: 5000 });
+        });
+    }
+
+    _init();
 }]);
 
 appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope, $filter) {
@@ -86,87 +196,5 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope
     //Construct final obj
     var _constructObj = function () {
 
-    }
-}]);
-
-appControllers.controller('userEditCtrl', ['$scope','$filter', function ($scope, $filter) {
-
-    //
-    //  INIT OBJECTS
-    //
-    $scope.User = {
-        id:1,
-        name: 'Luis',
-        email: 'luisfbmelo91@gmail.com',
-        password: 'asdasd',
-        confPassword: null,
-        country: {
-            id:1,
-            name: 'Portugal'
-        },
-        district: {
-            id:1,
-            name: 'Açores'
-        },
-        art:{
-            id:1,
-            name: 'Arte Digital'
-        },
-        ocupation: 'Fotógrafo',
-        bios:[
-            {
-                id:1,
-                biopt: 'asd',
-                bioen: 'asd',
-                bioother: 'asd'
-            }
-        ],
-        image:{
-            id:1,
-            name: 'image.jpg',
-            src: 'asd',
-            extension: 'jpg'
-        }
-    };
-    $scope.image = {};
-    $scope.submitted = false;
-    $scope.isCorrect = false;
-
-    //SUBMIT NEW FORM
-    $scope.updateProfile = function () {
-        $scope.submitted = true;
-
-        if (Object.keys($scope.userForm.$error).length == 0 && $scope.image.src) {
-            _constructObj(); 
-
-             console.log($scope.User);
-        }
-    }
-
-    //CHECK FOR ERRORS
-    $scope.hasError = function (field, validation) {
-        if (validation) {
-            return (field.$dirty && field.$error[validation]) || ($scope.submitted && field.$error[validation]);
-        }
-        return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
-    };
-
-    //Construct final obj
-    var _constructObj = function () {
-        //Set image if exists
-        if ($scope.image.src != undefined && $scope.image.id == null) {
-            $scope.User.image = {};
-            $scope.User.image.src = $scope.image.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, "");
-            $scope.User.image.name = $scope.image.name;
-            $scope.User.image.extension = $scope.image.extension;
-        }
-
-        //Set the correct url
-        if ($scope.User.networks!=undefined){
-            for (var key in $scope.User.networks) {
-                var val = $scope.User.networks[key];
-                $scope.User.networks[key] = $filter('urlResolverVal')(val);
-            }
-        }
     }
 }]);

@@ -1,6 +1,6 @@
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('countriesCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'countriesService', function ($scope, $routeParams, countriesService) {
 	
 	//
 	// INIT FUNCTION
@@ -12,68 +12,16 @@ appControllers.controller('countriesCtrl', ['$scope', '$routeParams', function (
 	}
 
 	//
-	// ARTISTS SERVICES
+	// SERVICES
 	//
 
 	var _getCountriesIds = function(){
-		$scope.countries = [
-			{
-				id:1,
-				country: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:2,
-				country: {
-					id:1,
-					name: 'França'
-				}
-			},
-			{
-				id:3,
-				country: {
-					id:3,
-					name: 'Índia'
-				}
-			},
-			{
-				id:4,
-				country: {
-					id:4,
-					name: 'Espanha'
-				}
-			},
-			{
-				id:5,
-				country: {
-					id:5,
-					name: 'Noruega'
-				}
-			},
-			{
-				id:6,
-				country: {
-					id:6,
-					name: 'Eua'
-				}
-			},
-			{
-				id:7,
-				country: {
-					id:6,
-					name: 'Eua'
-				}
-			},
-			{
-				id:8,
-				country: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-		];
+		countriesService.list().then(function (data) {
+			$scope.countries = data;
+
+        }, function (error) {
+        	toastr.error(error, '' ,{ timeOut: 5000 });
+        });
 	}
 
 	var _getNetworks = function(){

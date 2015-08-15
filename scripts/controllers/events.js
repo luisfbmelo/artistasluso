@@ -265,7 +265,7 @@ appControllers.controller('eventsUserCtrl', ['$scope', function ($scope) {
     };
 }]);
 
-appControllers.controller('eventFormCtrl', ['$scope','$routeParams', function ($scope,$routeParams) {
+appControllers.controller('eventFormCtrl', ['$scope','$routeParams', 'countriesService', function ($scope,$routeParams, countriesService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
@@ -276,6 +276,11 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', function ($
 	$scope.Event = {};
 	$scope.image = {};
 	$scope.submitted = false;
+
+	//
+	// INIT LISTS DATA
+	//
+	$scope.countries = [];
 
 	// SET WYSIWYG MENU
 	$scope.Event.customMenu = [
@@ -298,6 +303,14 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', function ($
     // INIT FUNCTION
     //
 	var _init = function(){
+		//
+		// GET LISTS OF EXTRA DATA
+		//
+		_getCountries();
+
+		//
+		// WHAT TO DO
+		//
 		if ($routeParams.id){
 			$scope.intent = "edit";
 		}else{
@@ -347,6 +360,17 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', function ($
             $scope.Event.image.extension = $scope.image.extension;
         }
     }
+
+    //
+    // SERVICES
+    //
+    var _getCountries = function(){
+		countriesService.list().then(function (data) {
+			$scope.countries = data;
+        }, function (error) {
+        	toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+	}
 
     _init();
 }]);

@@ -9,7 +9,7 @@
 	
 	<div class="forms-container container-fluid">
 		<div class="row">
-			<form name="eventForm" enctype="multipart/form-data" select-picker>
+			<form name="eventForm" enctype="multipart/form-data">
 				<div class="col-xs-12 col-md-8">
 					<h1>
 						{{intent == 'new' ? 'Novo' : 'Editar'}} evento
@@ -28,16 +28,14 @@
 
 						<!--ISLAND-->
 						<div class="form-group">
-							<select class="selectpicker" name="island" id="island" ng-model="Event.island" data-live-search="true" data-size="auto" class="form-control" required>
-							    <option value="">Ilhas</option>
-							    <option value="1">Mustard</option>
-							    <option value="2">Ketchup</option>
-							    <option value="3">Relish</option>
+
+							<select class="selectpicker" name="country" id="country" ng-model="Event.country_id" data-live-search="true" data-size="auto" class="form-control" required ng-options="country.name for country in countries track by country.id" select-picker ng-change="updatePicker()" obj="countries">
+							    <option value="">Países</option>
 						  	</select>
-							<label for="island">Escolha a ilha onde decorrerá o evento</label>
+							<label for="country">Escolha o país onde decorrerá o evento</label>
 							<!--ERROR MESSAGE-->
-			                <div ng-show="hasError(eventForm.island) || Event.island<1 || Event.island==''" class="errorBox">
-			                    <span class="error" ng-show="hasError(eventForm.island)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+			                <div ng-show="hasError(eventForm.country) || Event.country_id<1 || Event.country_id==''" class="errorBox">
+			                    <span class="error" ng-show="hasError(eventForm.country)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
 			                </div>
 						</div>
 

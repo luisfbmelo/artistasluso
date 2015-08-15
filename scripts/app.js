@@ -17,7 +17,7 @@ var app = angular.module('artistasluso', [
   'ui.date'
 ]);
 
-app.config(['$routeProvider', function($routeProvider) {
+app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
 
 	$routeProvider.
 		when('/', {
@@ -70,7 +70,7 @@ app.config(['$routeProvider', function($routeProvider) {
 		}).
 		when('/user/edit', {
 			templateUrl: 'scripts/views/artist-edit.html',
-			controller: 'userEditCtrl'
+			controller: 'userSignupCtrl'
 		}).
 		when('/user/my-events/list', {
 			templateUrl: 'scripts/views/events.html',
@@ -83,4 +83,9 @@ app.config(['$routeProvider', function($routeProvider) {
 		otherwise({
 			redirectTo: '/'
 		});
+
+	//
+	// Add interceptor
+	//
+	$httpProvider.interceptors.push('authInterceptorService');
 }]);	

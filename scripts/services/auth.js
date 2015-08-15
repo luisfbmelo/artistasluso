@@ -1,15 +1,6 @@
-/*// ============================================================================
-// Project: Toolkit
-// Name/Class: tkAuthService
-// Created On: 18/Mar/2015
-// Author: João Carreiro (joao.carreiro@cybermap.pt)
-// Company: Cybermap Lda.
-// Description: Authentication service definition.
-// ============================================================================
+var appServices = angular.module('appServices');
 
-'use strict';
-
-angular.module('toolkit').service('tkAuthService', ['$http', '$q', 'localStorageService', 'tkRuntime', function ($http, $q, localStorageService, tkRuntime) {
+appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($http, $q, sessionStorage) {
 
     //
     // DTO with authentication information.
@@ -26,7 +17,7 @@ angular.module('toolkit').service('tkAuthService', ['$http', '$q', 'localStorage
     // Service configuration/settings.
     //
 
-    var _defaultConfig = {
+    var _config = {
 
         settings: {
             loginUrl: ''
@@ -38,23 +29,6 @@ angular.module('toolkit').service('tkAuthService', ['$http', '$q', 'localStorage
         }
     };
 
-    var _config = {};
-
-    //
-    // Process settings. Merge the defined settings
-    // for this component found in the runtime with 
-    // default values.
-    //
-
-    var _processConfig = function () {
-
-        //
-        // Fetch the configuration for this service, merge
-        // with default values and set the scope object.
-        //
-
-        $.extend(true, _config, _defaultConfig, tkRuntime.get("service.tkAuthService"));
-    }
 
     //
     // Method to verify the login data and this service
@@ -71,7 +45,7 @@ angular.module('toolkit').service('tkAuthService', ['$http', '$q', 'localStorage
 
         var output = { error: false, msg: '' };
 
-        if (!toolkit.util.AreDefined(loginData, loginData.userName, loginData.password)) {
+        if (!angular.isDefined(loginData) || angular.isDefined(loginData.userName) || angular.isDefined(loginData.password)) {
 
             //
             // ERROR: Invalid login data.
@@ -80,7 +54,7 @@ angular.module('toolkit').service('tkAuthService', ['$http', '$q', 'localStorage
             output.error = true;
             output.msg = _config.errMsg.MSG_INVALID_LOGIN_CREDENTIALS;
         }
-        else if (!toolkit.util.IsDefined(_config.settings.loginUrl)) {
+        else if (!angular.isDefined(_config.settings.loginUrl)) {
 
             //
             // ERROR: No login url is defined!
@@ -104,28 +78,30 @@ angular.module('toolkit').service('tkAuthService', ['$http', '$q', 'localStorage
 
         var deferred = $q.defer();
 
-        if (toolkit.util.AreDefined(loginData, _config.settings.loginUrl)) {
+        if (angular.isDefined(loginData) && angular.isDefined(_config.settings.loginUrl)) {
 
             //
             // Resolve the login url.
             //
 
-            var loginUrl = toolkit.url.Resolve(_config.settings.loginUrl);
+            var loginUrl = _config.settings.loginUrl;
 
             //
             // Everything check outs, perform the login.
             //
+            var headers = {
+                'username': loginData.userName,
+                'password': loginData.password
+            }
 
-            var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
-
-            $http.post(loginUrl, data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+            $http.post(loginUrl, headers)
                 .success(function (response) {
 
                     //
                     // Login succeded, fill the authorization data with the name and token.
                     //
 
-                    localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, info: response });
+                    sessionStorage.set('authorizationData', { token: response.access_token, userName: loginData.userName, info: response });
 
                     _authentication.isAuth = true;
                     _authentication.userName = loginData.userName;
@@ -151,7 +127,7 @@ angular.module('toolkit').service('tkAuthService', ['$http', '$q', 'localStorage
 
     var _logout = function () {
 
-        localStorageService.remove('authorizationData');
+        sessionStorage.remove('authorizationData');
         _authentication.isAuth = false;
         _authentication.userName = '';
         _authentication.info = null;
@@ -164,7 +140,7 @@ angular.module('toolkit').service('tkAuthService', ['$http', '$q', 'localStorage
 
     var _fillAuthData = function () {
 
-        var authData = localStorageService.get('authorizationData');
+        var authData = sessionStorage.get('authorizationData');
 
         if (authData) {
             _authentication.isAuth = true;
@@ -181,8 +157,7 @@ angular.module('toolkit').service('tkAuthService', ['$http', '$q', 'localStorage
         login: _login,
         logOut: _logout,
         verify: _verify,
-        processConfig: _processConfig,
         fillAuthData: _fillAuthData,
         authentication: _authentication
     };
-}]);*/
+}]);

@@ -396,7 +396,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 }]);
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('countriesCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'countriesService', function ($scope, $routeParams, countriesService) {
 	
 	//
 	// INIT FUNCTION
@@ -408,68 +408,16 @@ appControllers.controller('countriesCtrl', ['$scope', '$routeParams', function (
 	}
 
 	//
-	// ARTISTS SERVICES
+	// SERVICES
 	//
 
 	var _getCountriesIds = function(){
-		$scope.countries = [
-			{
-				id:1,
-				country: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:2,
-				country: {
-					id:1,
-					name: 'França'
-				}
-			},
-			{
-				id:3,
-				country: {
-					id:3,
-					name: 'Índia'
-				}
-			},
-			{
-				id:4,
-				country: {
-					id:4,
-					name: 'Espanha'
-				}
-			},
-			{
-				id:5,
-				country: {
-					id:5,
-					name: 'Noruega'
-				}
-			},
-			{
-				id:6,
-				country: {
-					id:6,
-					name: 'Eua'
-				}
-			},
-			{
-				id:7,
-				country: {
-					id:6,
-					name: 'Eua'
-				}
-			},
-			{
-				id:8,
-				country: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-		];
+		countriesService.list().then(function (data) {
+			$scope.countries = data;
+
+        }, function (error) {
+        	toastr.error(error, '' ,{ timeOut: 5000 });
+        });
 	}
 
 	var _getNetworks = function(){
@@ -776,7 +724,7 @@ appControllers.controller('eventsUserCtrl', ['$scope', function ($scope) {
     };
 }]);
 
-appControllers.controller('eventFormCtrl', ['$scope','$routeParams', function ($scope,$routeParams) {
+appControllers.controller('eventFormCtrl', ['$scope','$routeParams', 'countriesService', function ($scope,$routeParams, countriesService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
@@ -787,6 +735,11 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', function ($
 	$scope.Event = {};
 	$scope.image = {};
 	$scope.submitted = false;
+
+	//
+	// INIT LISTS DATA
+	//
+	$scope.countries = [];
 
 	// SET WYSIWYG MENU
 	$scope.Event.customMenu = [
@@ -809,6 +762,14 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', function ($
     // INIT FUNCTION
     //
 	var _init = function(){
+		//
+		// GET LISTS OF EXTRA DATA
+		//
+		_getCountries();
+
+		//
+		// WHAT TO DO
+		//
 		if ($routeParams.id){
 			$scope.intent = "edit";
 		}else{
@@ -858,6 +819,17 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', function ($
             $scope.Event.image.extension = $scope.image.extension;
         }
     }
+
+    //
+    // SERVICES
+    //
+    var _getCountries = function(){
+		countriesService.list().then(function (data) {
+			$scope.countries = data;
+        }, function (error) {
+        	toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+	}
 
     _init();
 }]);
@@ -1341,7 +1313,7 @@ appControllers.controller('userCtrl', ['$scope', function ($scope) {
     //
 }]);
 
-appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scope, $filter) {
+appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams', 'countriesService', 'districtsService', 'categoriesService', 'networksService', 'biosService', 'usersService', function ($scope, $filter, $routeParams, countriesService, districtsService, categoriesService, networksService, biosService, usersService) {
 
 	//
 	//	INIT OBJECTS
@@ -1351,6 +1323,36 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
 	$scope.submitted = false;
 	$scope.isCorrect = false;
 
+    //
+    // INIT LISTS DATA
+    //
+    $scope.countries = [];
+    $scope.districts = [];
+    $scope.categories = [];
+    $scope.bios = [];
+    $scope.networks = [];
+
+
+    //
+    // INIT FUNCTION
+    //
+    var _init = function(){
+        _getCountries();
+        _getDistricts();
+        _getCategories();
+        _getBios();
+        _getNetworks();
+
+        //
+        // WHAT TO DO
+        //
+        if ($routeParams.id){
+            $scope.intent = "edit";
+        }else{
+            $scope.intent = "new";
+        }
+    }
+
 	//SUBMIT NEW FORM
     $scope.createUser = function () {
         $scope.submitted = true;
@@ -1359,6 +1361,12 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
             _constructObj(); 
 
              console.log($scope.User);
+
+             if ($routeParams.id){
+                _updateUser($scope.User);
+            }else{
+                _createUser($scope.User);
+            }
         }
     }
 
@@ -1387,7 +1395,81 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', function ($scop
 		   	 	$scope.User.networks[key] = $filter('urlResolverVal')(val);
 			}
         }
+
+        $scope.User.cur_country_id = $scope.User.cur_country_id!=undefined ? $scope.User.cur_country_id.id : null;
+        $scope.User.desc_country_id = $scope.User.desc_country_id!=undefined ? $scope.User.desc_country_id.id : null;
+        $scope.User.dist_id = $scope.User.dist_id!=undefined ? $scope.User.dist_id.id : null;
+        $scope.User.cat_id = $scope.User.cat_id!=undefined ? $scope.User.cat_id.id : null; 
+
     }
+
+    //
+    // SERVICES
+    //
+    var _createUser = function(item){
+        usersService.create(item).then(function (data) {
+            toastr.success('Utilizador criado!', '' ,{ timeOut: 5000 });
+        }, function (error) {
+            toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+    }
+    
+    var _getCountries = function(){
+        countriesService.list().then(function (data) {
+            $scope.countries=data;
+
+        }, function (error) {
+            toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+    }
+
+    var _getDistricts = function(){
+        districtsService.list().then(function (data) {
+            $scope.districts = data;
+        }, function (error) {
+            toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+    }
+
+    var _getCategories = function(){
+        categoriesService.list().then(function (data) {
+            $scope.categories = data;
+        }, function (error) {
+            toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+    }
+
+    var _getBios = function(){
+        biosService.list().then(function (data) {
+            $scope.bios = data;
+
+            //SET USER BIOS
+            $scope.User.bios = [];
+            for (var a=0;a<data.length;a++){
+                $scope.User.bios[a] = {};
+                $scope.User.bios[a].bio_id = data[a].id;
+            }
+        }, function (error) {
+            toastr.error(String(error), '' ,{ timeOut: 5000 });
+        });
+    }
+
+    var _getNetworks = function(){
+        networksService.list().then(function (data) {
+            $scope.networks = data;
+
+            //SET USER SOCIAL NETWORKS
+            $scope.User.social = [];
+            for (var a=0;a<data.length;a++){
+                $scope.User.social[a] = {};
+                $scope.User.social[a].network_id = data[a].id;
+            }
+        }, function (error) {
+            toastr.error(String(error), '' ,{ timeOut: 5000 });
+        });
+    }
+
+    _init();
 }]);
 
 appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope, $filter) {
@@ -1421,88 +1503,6 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope
     //Construct final obj
     var _constructObj = function () {
 
-    }
-}]);
-
-appControllers.controller('userEditCtrl', ['$scope','$filter', function ($scope, $filter) {
-
-    //
-    //  INIT OBJECTS
-    //
-    $scope.User = {
-        id:1,
-        name: 'Luis',
-        email: 'luisfbmelo91@gmail.com',
-        password: 'asdasd',
-        confPassword: null,
-        country: {
-            id:1,
-            name: 'Portugal'
-        },
-        district: {
-            id:1,
-            name: 'Açores'
-        },
-        art:{
-            id:1,
-            name: 'Arte Digital'
-        },
-        ocupation: 'Fotógrafo',
-        bios:[
-            {
-                id:1,
-                biopt: 'asd',
-                bioen: 'asd',
-                bioother: 'asd'
-            }
-        ],
-        image:{
-            id:1,
-            name: 'image.jpg',
-            src: 'asd',
-            extension: 'jpg'
-        }
-    };
-    $scope.image = {};
-    $scope.submitted = false;
-    $scope.isCorrect = false;
-
-    //SUBMIT NEW FORM
-    $scope.updateProfile = function () {
-        $scope.submitted = true;
-
-        if (Object.keys($scope.userForm.$error).length == 0 && $scope.image.src) {
-            _constructObj(); 
-
-             console.log($scope.User);
-        }
-    }
-
-    //CHECK FOR ERRORS
-    $scope.hasError = function (field, validation) {
-        if (validation) {
-            return (field.$dirty && field.$error[validation]) || ($scope.submitted && field.$error[validation]);
-        }
-        return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
-    };
-
-    //Construct final obj
-    var _constructObj = function () {
-        //Set image if exists
-        if ($scope.image.src != undefined && $scope.image.id == null) {
-            $scope.User.image = {};
-            $scope.User.image.src = $scope.image.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, "");
-            $scope.User.image.name = $scope.image.name;
-            $scope.User.image.extension = $scope.image.extension;
-        }
-
-        //Set the correct url
-        if ($scope.User.networks!=undefined){
-            for (var key in $scope.User.networks) {
-                var val = $scope.User.networks[key];
-                $scope.User.networks[key] = $filter('urlResolverVal')(val);
-            }
-        }
     }
 }]);
 var appFilters = angular.module('appFilters');
@@ -1558,47 +1558,434 @@ appFilters.filter('startFrom', function () {
         return [];
     }
 });
-/*// ============================================================================
-// Project: Toolkit
-// Name/Class: 
-// Created On: 18/Mar/2015
-// Author: João Carreiro (joao.carreiro@cybermap.pt)
-// Company: Cybermap Lda.
-// Description:
-// ============================================================================
+var appServices = angular.module('appServices');
 
-'use strict';
+appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($http, $q, sessionStorage) {
 
-angular.module('toolkit').service('tkAuthInterceptorService', ['$q', '$injector', '$location', 'localStorageService', 'tkRuntime', function ($q, $injector, $location, localStorageService, tkRuntime) {
+    //
+    // DTO with authentication information.
+    // 
+
+    var _authentication = {
+
+        isAuth: false,
+        userName: "",
+        info: null
+    };
+
+    //
+    // Service configuration/settings.
+    //
+
+    var _config = {
+
+        settings: {
+            loginUrl: ''
+        },
+
+        errMsg: {
+            MSG_INVALID_LOGIN_CREDENTIALS: 'Please fill username and password fields!',
+            MSG_NO_LOGIN_URL_IS_DEFINED: 'INTERNAL: No login url is defined!'
+        }
+    };
+
+
+    //
+    // Method to verify the login data and this service
+    // configuration settings.
+    // @param loginData the user's login information.
+    //        { userName :: string, password :: string }
+    //
+
+    var _verify = function (loginData) {
+
+        //
+        // Default output, no error condition.
+        //
+
+        var output = { error: false, msg: '' };
+
+        if (!angular.isDefined(loginData) || angular.isDefined(loginData.userName) || angular.isDefined(loginData.password)) {
+
+            //
+            // ERROR: Invalid login data.
+            //
+
+            output.error = true;
+            output.msg = _config.errMsg.MSG_INVALID_LOGIN_CREDENTIALS;
+        }
+        else if (!angular.isDefined(_config.settings.loginUrl)) {
+
+            //
+            // ERROR: No login url is defined!
+            //
+
+            output.error = true;
+            output.msg = _config.errMsg.MSG_NO_LOGIN_URL_IS_DEFINED;
+        }
+
+        return output;
+    };
+
+    //    
+    // Perform login use the configuration url to log the user.
+    // Returns a promise to caller. 
+    // @param loginData the user's login information.
+    //        { userName :: string, password :: string }
+    //
+
+    var _login = function (loginData) {
+
+        var deferred = $q.defer();
+
+        if (angular.isDefined(loginData) && angular.isDefined(_config.settings.loginUrl)) {
+
+            //
+            // Resolve the login url.
+            //
+
+            var loginUrl = _config.settings.loginUrl;
+
+            //
+            // Everything check outs, perform the login.
+            //
+            var headers = {
+                'username': loginData.userName,
+                'password': loginData.password
+            }
+
+            $http.post(loginUrl, headers)
+                .success(function (response) {
+
+                    //
+                    // Login succeded, fill the authorization data with the name and token.
+                    //
+
+                    sessionStorage.set('authorizationData', { token: response.access_token, userName: loginData.userName, info: response });
+
+                    _authentication.isAuth = true;
+                    _authentication.userName = loginData.userName;
+                    _authentication.info = response;
+
+                    deferred.resolve(response);
+                })
+                .error(function (err, status) {
+
+                    _logout();
+                    deferred.reject(err);
+                });
+        }
+
+        return deferred.promise;
+    };
+
+    //
+    // Function to logout the current user.
+    // Removes authentication data from local
+    // storage and sets appropriate flags.
+    //
+
+    var _logout = function () {
+
+        sessionStorage.remove('authorizationData');
+        _authentication.isAuth = false;
+        _authentication.userName = '';
+        _authentication.info = null;
+    };
+
+    //
+    // Function to fetch from local storage the authentication
+    // data and set this services state accordingly.
+    //
+
+    var _fillAuthData = function () {
+
+        var authData = sessionStorage.get('authorizationData');
+
+        if (authData) {
+            _authentication.isAuth = true;
+            _authentication.userName = authData.userName;
+            _authentication.info = authData.info;
+        }
+    }
+
+    //
+    // Service protocol. API.
+    //
+
+    return {
+        login: _login,
+        logOut: _logout,
+        verify: _verify,
+        fillAuthData: _fillAuthData,
+        authentication: _authentication
+    };
+}]);
+var appServices = angular.module('appServices');
+
+appServices.factory('biosService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
+	//
+	// INIT CONFIG
+	//
+	var API = 'API/api/web/v1/bios';
+
+	//
+	// Generate a service promise.
+	//
+
+	var GET_SERVICE_PROMISE = function ($q, $http, verb, url, body) {
+
+	    var deferred = $q.defer();
+
+	    var header = { 'Content-Type': 'application/json' };
+
+	    var call = null != body ? $http[verb](url, body, {headers:header}) : $http[verb](url, {headers:header});
+
+	    call.success(function (data) {
+
+	        deferred.resolve(data);
+
+	    }).error(function (err, status) {
+
+	        deferred.reject({ err: err, status: status });
+	    });
+
+	    return deferred.promise;
+	}
+
+	//
+    // Web API.
+    //
+
+    var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
+    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API); }
+    var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
+    var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
+
+    return {
+        'create': _create,
+        'get': _get,
+        'list': _list,
+        'update': _update,
+        'delete': _delete,
+    }
+}]);
+var appServices = angular.module('appServices');
+
+appServices.factory('categoriesService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
+	//
+	// INIT CONFIG
+	//
+	var API = 'API/api/web/v1/categories';
+
+	//
+	// Generate a service promise.
+	//
+
+	var GET_SERVICE_PROMISE = function ($q, $http, verb, url, body) {
+
+	    var deferred = $q.defer();
+
+	    var header = { 'Content-Type': 'application/json' };
+
+	    var call = null != body ? $http[verb](url, body, {headers:header}) : $http[verb](url, {headers:header});
+
+	    call.success(function (data) {
+
+	        deferred.resolve(data);
+
+	    }).error(function (err, status) {
+
+	        deferred.reject({ err: err, status: status });
+	    });
+
+	    return deferred.promise;
+	}
+
+	//
+    // Web API.
+    //
+
+    var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
+    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API); }
+    var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
+    var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
+
+    return {
+        'create': _create,
+        'get': _get,
+        'list': _list,
+        'update': _update,
+        'delete': _delete,
+    }
+}]);
+var appServices = angular.module('appServices');
+
+appServices.factory('countriesService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
+	//
+	// INIT CONFIG
+	//
+	var API = 'API/api/web/v1/countries';
+
+	//
+	// Generate a service promise.
+	//
+
+	var GET_SERVICE_PROMISE = function ($q, $http, verb, url, body) {
+
+	    var deferred = $q.defer();
+
+	    var header = { 'Content-Type': 'application/json' };
+
+	    var call = null != body ? $http[verb](url, body, {headers:header}) : $http[verb](url, {headers:header});
+
+	    call.success(function (data) {
+
+	        deferred.resolve(data);
+
+	    }).error(function (err, status) {
+
+	        deferred.reject({ err: err, status: status });
+	    });
+
+	    return deferred.promise;
+	}
+
+	//
+    // Web API.
+    //
+
+    var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
+    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API); }
+    var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
+    var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
+
+    return {
+        'create': _create,
+        'get': _get,
+        'list': _list,
+        'update': _update,
+        'delete': _delete,
+    }
+}]);
+var appServices = angular.module('appServices');
+
+appServices.factory('districtsService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
+	//
+	// INIT CONFIG
+	//
+	var API = 'API/api/web/v1/districts';
+
+	//
+	// Generate a service promise.
+	//
+
+	var GET_SERVICE_PROMISE = function ($q, $http, verb, url, body) {
+
+	    var deferred = $q.defer();
+
+	    var header = { 'Content-Type': 'application/json' };
+
+	    var call = null != body ? $http[verb](url, body, {headers:header}) : $http[verb](url, {headers:header});
+
+	    call.success(function (data) {
+
+	        deferred.resolve(data);
+
+	    }).error(function (err, status) {
+
+	        deferred.reject({ err: err, status: status });
+	    });
+
+	    return deferred.promise;
+	}
+
+	//
+    // Web API.
+    //
+
+    var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
+    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API); }
+    var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
+    var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
+
+    return {
+        'create': _create,
+        'get': _get,
+        'list': _list,
+        'update': _update,
+        'delete': _delete,
+    }
+}]);
+var appServices = angular.module('appServices');
+
+appServices.factory('eventsService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
+	//
+	// INIT CONFIG
+	//
+	var API = 'API/api/web/v1/events';
+
+	//
+	// Generate a service promise.
+	//
+
+	var GET_SERVICE_PROMISE = function ($q, $http, verb, url, body) {
+
+	    var deferred = $q.defer();
+
+	    var header = { 'Content-Type': 'application/json' };
+
+	    var call = null != body ? $http[verb](url, body, {headers:header}) : $http[verb](url, {headers:header});
+
+	    call.success(function (data) {
+
+	        deferred.resolve(data);
+
+	    }).error(function (err, status) {
+
+	        deferred.reject({ err: err, status: status });
+	    });
+
+	    return deferred.promise;
+	}
+
+	//
+    // Web API.
+    //
+
+    var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
+    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API); }
+    var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
+    var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
+
+    return {
+        'create': _create,
+        'get': _get,
+        'list': _list,
+        'update': _update,
+        'delete': _delete,
+    }
+}]);
+var appServices = angular.module('appServices');
+
+appServices.service('authInterceptorService', ['$q', '$injector', '$location', 'sessionStorage', function ($q, $injector, $location, sessionStorage) {
 
     //
     // Default configuration for this service.
     //
 
-    var _defaultConfig = {
+    var _config = {
         STATUS_401: {
-            LOGGED_IN_URL: '/',
-            NOT_LOGGED_IN_URL: '/'
+            LOGGED_IN_URL: '#/',
+            NOT_LOGGED_IN_URL: '#/enter'
         }
     };
 
-    var _config = {};
-
-    //
-    // Process settings. Merge the defined settings
-    // for this component found in the runtime with 
-    // default values.
-    //
-
-    var _processConfig = function () {
-
-        //
-        // Fetch the configuration for this service, merge
-        // with default values and set the scope object.
-        //
-
-        $.extend(true, _config, _defaultConfig, tkRuntime.get("service.tkAuthInterceptorService"));
-    }
 
     //
     // Request part for interceptor.
@@ -1613,7 +2000,7 @@ angular.module('toolkit').service('tkAuthInterceptorService', ['$q', '$injector'
         // storage add them to the request.
         //
 
-        var authData = localStorageService.get('authorizationData');
+        var authData = sessionStorage.get('authorizationData');
         if (authData) {
             config.headers.Authorization = 'Bearer ' + authData.token;
         }
@@ -1635,7 +2022,7 @@ angular.module('toolkit').service('tkAuthInterceptorService', ['$q', '$injector'
 
             var path = '/';
 
-            var loggedIn = angular.isDefined(localStorageService.get('authorizationData'));
+            var loggedIn = angular.isDefined(sessionStorage.get('authorizationData'));
 
             if (loggedIn) {
 
@@ -1666,198 +2053,9 @@ angular.module('toolkit').service('tkAuthInterceptorService', ['$q', '$injector'
 
     return {
         request: _request,
-        responseError: _responseError,
-        processConfig: _processConfig
+        responseError: _responseError
     };
-}]);*/
-/*// ============================================================================
-// Project: Toolkit
-// Name/Class: tkAuthService
-// Created On: 18/Mar/2015
-// Author: João Carreiro (joao.carreiro@cybermap.pt)
-// Company: Cybermap Lda.
-// Description: Authentication service definition.
-// ============================================================================
-
-'use strict';
-
-angular.module('toolkit').service('tkAuthService', ['$http', '$q', 'localStorageService', 'tkRuntime', function ($http, $q, localStorageService, tkRuntime) {
-
-    //
-    // DTO with authentication information.
-    // 
-
-    var _authentication = {
-
-        isAuth: false,
-        userName: "",
-        info: null
-    };
-
-    //
-    // Service configuration/settings.
-    //
-
-    var _defaultConfig = {
-
-        settings: {
-            loginUrl: ''
-        },
-
-        errMsg: {
-            MSG_INVALID_LOGIN_CREDENTIALS: 'Please fill username and password fields!',
-            MSG_NO_LOGIN_URL_IS_DEFINED: 'INTERNAL: No login url is defined!'
-        }
-    };
-
-    var _config = {};
-
-    //
-    // Process settings. Merge the defined settings
-    // for this component found in the runtime with 
-    // default values.
-    //
-
-    var _processConfig = function () {
-
-        //
-        // Fetch the configuration for this service, merge
-        // with default values and set the scope object.
-        //
-
-        $.extend(true, _config, _defaultConfig, tkRuntime.get("service.tkAuthService"));
-    }
-
-    //
-    // Method to verify the login data and this service
-    // configuration settings.
-    // @param loginData the user's login information.
-    //        { userName :: string, password :: string }
-    //
-
-    var _verify = function (loginData) {
-
-        //
-        // Default output, no error condition.
-        //
-
-        var output = { error: false, msg: '' };
-
-        if (!toolkit.util.AreDefined(loginData, loginData.userName, loginData.password)) {
-
-            //
-            // ERROR: Invalid login data.
-            //
-
-            output.error = true;
-            output.msg = _config.errMsg.MSG_INVALID_LOGIN_CREDENTIALS;
-        }
-        else if (!toolkit.util.IsDefined(_config.settings.loginUrl)) {
-
-            //
-            // ERROR: No login url is defined!
-            //
-
-            output.error = true;
-            output.msg = _config.errMsg.MSG_NO_LOGIN_URL_IS_DEFINED;
-        }
-
-        return output;
-    };
-
-    //    
-    // Perform login use the configuration url to log the user.
-    // Returns a promise to caller. 
-    // @param loginData the user's login information.
-    //        { userName :: string, password :: string }
-    //
-
-    var _login = function (loginData) {
-
-        var deferred = $q.defer();
-
-        if (toolkit.util.AreDefined(loginData, _config.settings.loginUrl)) {
-
-            //
-            // Resolve the login url.
-            //
-
-            var loginUrl = toolkit.url.Resolve(_config.settings.loginUrl);
-
-            //
-            // Everything check outs, perform the login.
-            //
-
-            var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
-
-            $http.post(loginUrl, data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
-                .success(function (response) {
-
-                    //
-                    // Login succeded, fill the authorization data with the name and token.
-                    //
-
-                    localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, info: response });
-
-                    _authentication.isAuth = true;
-                    _authentication.userName = loginData.userName;
-                    _authentication.info = response;
-
-                    deferred.resolve(response);
-                })
-                .error(function (err, status) {
-
-                    _logout();
-                    deferred.reject(err);
-                });
-        }
-
-        return deferred.promise;
-    };
-
-    //
-    // Function to logout the current user.
-    // Removes authentication data from local
-    // storage and sets appropriate flags.
-    //
-
-    var _logout = function () {
-
-        localStorageService.remove('authorizationData');
-        _authentication.isAuth = false;
-        _authentication.userName = '';
-        _authentication.info = null;
-    };
-
-    //
-    // Function to fetch from local storage the authentication
-    // data and set this services state accordingly.
-    //
-
-    var _fillAuthData = function () {
-
-        var authData = localStorageService.get('authorizationData');
-
-        if (authData) {
-            _authentication.isAuth = true;
-            _authentication.userName = authData.userName;
-            _authentication.info = authData.info;
-        }
-    }
-
-    //
-    // Service protocol. API.
-    //
-
-    return {
-        login: _login,
-        logOut: _logout,
-        verify: _verify,
-        processConfig: _processConfig,
-        fillAuthData: _fillAuthData,
-        authentication: _authentication
-    };
-}]);*/
+}]);
 var appServices = angular.module('appServices');
 
 appServices.factory('LoginService', ['$rootScope', function ($rootScope) {
@@ -1868,6 +2066,127 @@ appServices.factory('LoginService', ['$rootScope', function ($rootScope) {
 	       ];
 	    }
 	 };
+}]);
+var appServices = angular.module('appServices');
+
+appServices.factory('networksService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
+	//
+	// INIT CONFIG
+	//
+	var API = 'API/api/web/v1/networks';
+
+	//
+	// Generate a service promise.
+	//
+
+	var GET_SERVICE_PROMISE = function ($q, $http, verb, url, body) {
+
+	    var deferred = $q.defer();
+
+	    var header = { 'Content-Type': 'application/json' };
+
+	    var call = null != body ? $http[verb](url, body, {headers:header}) : $http[verb](url, {headers:header});
+
+	    call.success(function (data) {
+
+	        deferred.resolve(data);
+
+	    }).error(function (err, status) {
+
+	        deferred.reject({ err: err, status: status });
+	    });
+
+	    return deferred.promise;
+	}
+
+	//
+    // Web API.
+    //
+
+    var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
+    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API); }
+    var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
+    var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
+
+    return {
+        'create': _create,
+        'get': _get,
+        'list': _list,
+        'update': _update,
+        'delete': _delete,
+    }
+}]);
+var appServices = angular.module('appServices');
+
+appServices.factory('sessionStorage', ['$rootScope','$window', function ($rootScope, $window) {
+    var _getValue = function(id){      
+      return $window.sessionStorage.getItem(id);
+    }
+        
+    var _addItem = function(id, value){
+        $window.sessionStorage.setItem(id, value);
+    }
+    
+    var _removeItem = function(id){
+      $window.sessionStorage.removeItem(id);
+    }
+
+    return {
+        'get': _getValue,
+        'set': _addItem,
+        'remove': _removeItem
+    }
+}]);
+var appServices = angular.module('appServices');
+
+appServices.factory('usersService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
+	//
+	// INIT CONFIG
+	//
+	var API = 'API/api/web/v1/users';
+
+	//
+	// Generate a service promise.
+	//
+
+	var GET_SERVICE_PROMISE = function ($q, $http, verb, url, body) {
+
+	    var deferred = $q.defer();
+
+ 		var header = { 'Content-Type': 'application/json' };
+
+	    var call = null != body ? $http[verb](url, body, {headers:header}) : $http[verb](url, {headers:header});
+
+	    call.success(function (data) {
+
+	        deferred.resolve(data);
+
+	    }).error(function (err, status) {
+
+	        deferred.reject({ err: err, status: status });
+	    });
+
+	    return deferred.promise; 
+	}
+
+	//
+    // Web API.
+    //
+
+    var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API, item);}
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
+    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API+"?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
+    var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
+    var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
+
+    return {
+        'create': _create,
+        'get': _get,
+        'list': _list,
+        'update': _update,
+        'delete': _delete,
+    }
 }]);
 var appDirectives = angular.module('appDirectives');
 
@@ -2143,11 +2462,35 @@ appDirectives.directive('recoverPassword', [function () {
 }]); 
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('selectPicker', [ function () {
+appDirectives.directive('selectPicker', ['$timeout', function ($timeout) {
 	return {
 	    restrict: 'A',
 	    link: function(scope, el, attr){
-	    	$('.selectpicker').selectpicker('render');
+	    	el.selectpicker('render');
+
+	    	scope.$watch(attr.obj, function() {
+			   $timeout(function() {
+			      el.selectpicker('refresh');
+			   });
+			});
+
+			if (attr.id == 'district'){
+				el.prop('disabled',true);
+				el.selectpicker('refresh');
+			}
+
+			scope.setDistrict = function(obj){
+				var distEl = $('.selectpicker#district');
+				if (obj.id == 189 && distEl.is(':disabled')){
+					distEl.prop('disabled',false);
+					distEl.selectpicker('refresh');
+
+				}else if(distEl.is(':enabled')){
+					distEl.prop('disabled',true);
+					distEl.selectpicker('refresh');
+					distEl.selectpicker('deselectAll');
+				}
+			}
 	    }
 	 };
 }]);

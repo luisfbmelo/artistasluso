@@ -54,60 +54,48 @@
 
 			<!--COUNTRY-->
 			<div class="form-group">
-				<select class="selectpicker" name="country" id="country" ng-model="User.country" data-live-search="true" data-size="auto" class="form-control" required>
+				<select class="selectpicker" name="country" id="country" ng-model="User.cur_country_id" data-live-search="true" data-size="auto" class="form-control" required select-picker ng-options="country.name for country in countries track by country.id" obj="countries">
 				    <option value="">Países</option>
-				    <option value="1">Mustard</option>
-				    <option value="2">Ketchup</option>
-				    <option value="3">Relish</option>
 			  	</select>
 				<label for="country">Selecione o país de residência</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.country) || User.country<1 || User.country==''" class="errorBox">
+                <div ng-show="hasError(newUserForm.country) || User.cur_country_id<1 || User.cur_country_id==''" class="errorBox">
                     <span class="error" ng-show="hasError(newUserForm.country)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 
 			<!--COUNTRY PARENT-->
 			<div class="form-group">
-				<select class="selectpicker" name="countryDesc" id="countryDesc" ng-model="User.countryDesc" data-live-search="true" data-size="auto" class="form-control" required>
+				<select class="selectpicker" name="countryDesc" id="countryDesc" ng-model="User.desc_country_id" data-live-search="true" data-size="auto" class="form-control" required select-picker ng-options="country.name for country in countries track by country.id" obj="countries" ng-change="setDistrict(User.desc_country_id)">
 				    <option value="">Países</option>
-				    <option value="1">Mustard</option>
-				    <option value="2">Ketchup</option>
-				    <option value="3">Relish</option>
 			  	</select>
 				<label for="countryDesc">Selecione o local de nascimento ou descendência portuguesa</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.countryDesc) || User.countryDesc<1 || User.countryDesc==''" class="errorBox">
+                <div ng-show="hasError(newUserForm.countryDesc) || User.desc_country_id<1 || User.desc_country_id==''" class="errorBox">
                     <span class="error" ng-show="hasError(newUserForm.countryDesc)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 
 			<!--DISTRICT-->
 			<div class="form-group">
-				<select class="selectpicker" name="district" id="district" ng-model="User.district" data-live-search="true" data-size="auto" class="form-control"  required>
+				<select class="selectpicker" name="district" id="district" ng-model="User.dist_id" data-live-search="true" data-size="auto" class="form-control"  ng-required="User.desc_country_id.id == 189" select-picker ng-options="district.name for district in districts track by district.id" obj="districts">
 				    <option value="">Distritos</option>
-				    <option value="1">Mustard</option>
-				    <option value="2">Ketchup</option>
-				    <option value="3">Relish</option>
 			  	</select>
 				<label for="district">Selecione o distrito</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.district) || User.district<1 || User.district==''" class="errorBox">
+                <div ng-show="hasError(newUserForm.district) || User.dist_id<1 || User.dist_id==''" class="errorBox">
                     <span class="error" ng-show="hasError(newUserForm.district)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 
 			<!--ARTS-->
 			<div class="form-group">
-				<select class="selectpicker" name="art" id="art" ng-model="User.art" data-live-search="true" data-size="auto" class="form-control" required>
+				<select class="selectpicker" name="art" id="art" ng-model="User.cat_id" data-live-search="true" data-size="auto" class="form-control" required select-picker ng-options="art.name for art in categories track by art.id" obj="categories">
 				    <option value="">Áreas artísticas</option>
-				    <option value="1">Mustard</option>
-				    <option value="2">Ketchup</option>
-				    <option value="3">Relish</option>
 			  	</select>
 				<label for="art">Selecione a sua área artística</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.art) || User.art<1 || User.art==''" class="errorBox">
+                <div ng-show="hasError(newUserForm.art) || User.cat_id<1 || User.cat_id==''" class="errorBox">
                     <span class="error" ng-show="hasError(newUserForm.art)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
@@ -163,35 +151,18 @@
 			</h4>
 
 			<!--BIO PT-->
-			<div class="form-group">
-				<textarea name="biopt" id="biopt" rows="10" placeholder="Escreva aqui a sua biografia em português..." maxlength="500" required class="form-control" ng-model="User.bios.biopt" ng-trim="false"></textarea>
-				<label for="biopt">Descreva uma biografia sucinta em português</label>
-				<div class="requiredNote">{{User.bios.biopt.length || 0}}/500</div>
+			<div class="form-group" ng-repeat="bio in bios">
+				<textarea name="{{bio.name}}" id="{{bio.name}}" rows="10" placeholder="Escreva aqui a sua biografia..." maxlength="500" required class="form-control" ng-model="User.bios[$index].bio" ng-trim="false"></textarea>
+				<label for="{{bio.name}}">
+				{{bio.name=='biopt' ? 'Descreva uma biografia sucinta em português' : ''}}
+				{{bio.name=='bioen' ? 'Descreva uma biografia sucinta em inglês' : ''}}
+				{{bio.name=='bioother' ? 'Descreva uma biografia sucinta noutro idioma' : ''}}
+				
+				</label>
+				<div class="requiredNote">{{User.bios[$index].bio.length || 0}}/500</div>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.biopt)" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.biopt,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
-                </div>
-			</div>
-
-			<!--BIO EN-->
-			<div class="form-group">
-				<textarea  name="bioen" id="bioen" rows="10" placeholder="Hello! I'm John" maxlength="500" required class="form-control" ng-model="User.bios.bioen" ng-trim="false"></textarea>
-				<label for="bioen">Descreva uma biografia sucinta em inglês</label>
-				<div class="requiredNote">{{User.bios.bioen.length || 0}}/500</div>
-				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.bioen)" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.bioen,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
-                </div>
-			</div>
-
-			<!--BIO OTHER-->
-			<div class="form-group">
-				<textarea  type="text" name="bioother" id="bioother" rows="10" maxlength="500" placeholder="Escreva aqui a sua biografia noutro idioma..." required class="form-control" ng-model="User.bios.bioother" ng-trim="false"></textarea>
-				<label for="bioother">Descreva uma biografia sucinta noutro idioma</label>
-				<div class="requiredNote">{{User.bios.bioother.length || 0}}/500</div>
-				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.bioother)" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.bioother,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                <div ng-show="hasError(newUserForm.{{bio.name}})" class="errorBox">
+                    <span class="error" ng-show="hasError(newUserForm.{{bio.name}},'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 		</section>
@@ -207,15 +178,10 @@
 				<label for="virtualplaces" class="virtualplaces-label">Preencha apenas os campos onde está inscrito</label>
 
 				<div class="virtualplaces" id="virtualplaces">
-					<input type="text" name="website" id="website" placeholder="www.website.com" class="form-control" ng-model="User.networks.website"/>
-
-					<div class="virt-place"><input type="text" name="facebook" id="facebook" placeholder="www.facebook.com" class="form-control" ng-model="User.networks.facebook"/><i class="fa fa-facebook-square"></i></div>
-
-					<div class="virt-place"><input type="text" name="twitter" id="twitter" placeholder="www.twitter.com" class="form-control" ng-model="User.networks.twitter"/><i class="fa fa-twitter-square"></i></div>
-
-					<div class="virt-place"><input type="text" name="vimeo" id="vimeo" placeholder="www.vimeo.com" class="form-control" ng-model="User.networks.vimeo"/><i class="fa fa-vimeo-square"></i></div>
-
-					<div class="virt-place"><input type="text" name="youtube" id="youtube" placeholder="www.youtube.com" class="form-control" ng-model="User.networks.youtube"/><i class="fa fa-youtube-square"></i></div>
+					<div ng-repeat="network in networks" ng-class="{'virt-place': network.name!='website'}">
+						<input type="text" name="{{network.name}}" id="{{network.name}}" placeholder="www.{{network.name}}.com" class="form-control" ng-model="User.social[$index].url"/>
+						<i class="fa fa-{{network.name}}-square" ng-if="network.name!='website'"></i>
+					</div>
 				</div>
 				
 			</div>
