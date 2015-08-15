@@ -3,4 +3,31 @@
 .DS_Store
 .sass-cache
 node_modules
-API
+
+# yii console command
+API/yii
+
+# phpstorm project files
+API/.idea
+
+# windows thumbnail cache
+API/Thumbs.db
+
+# composer vendor dir
+API/vendor/
+
+# composer itself is not needed
+#composer.phar
+
+# Mac DS_Store Files
+API/.DS_Store
+
+# phpunit itself is not needed
+API/phpunit.phar
+# local phpunit config
+API/phpunit.xml
+
+# bootstrap files
+#/index.php
+#/index-test.php
+
