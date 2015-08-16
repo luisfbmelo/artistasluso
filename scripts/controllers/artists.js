@@ -1,11 +1,14 @@
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesService', 'usersService', 'authService', function ($scope, $routeParams, categoriesService, usersService, authService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
-	$scope.isLoggedIn = true;
-	$scope.isAdmin = true;
+	_authentication = authService.authentication;
+	$scope.isLoggedIn = _authentication.isAuth;
+	$scope.isAdmin = (_authentication.info!=undefined) &&
+            (_authentication.info.user!=undefined) &&
+            (_authentication.info.user.role == 1);
 	
 	//
 	// INIT FUNCTION
@@ -13,7 +16,6 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 	var _init = function(){
 		if ($routeParams.id){
 			_getArtistsFromCat($routeParams.id);
-			_getCat($routeParams.id);
 		}else{
 			_getNetworks();
 			_getArtistsIds(); 
@@ -24,177 +26,21 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 	// ARTISTS SERVICES
 	//
 	var _getArtistsFromCat = function(catId){
-		$scope.artists = [
-			{
-				id:1,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:2,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:3,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:4,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:5,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:6,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			}
-		];
-	}
+		categoriesService.get(catId).then(function(data){
+			$scope.cat = data
+			$scope.artists = $scope.cat.users;
+		},function(error){
 
-	var _getCat = function(catId){
-		$scope.cat = 
-			{
-				id:1,
-				name: 'Artes Digitais',
-				color: '#378d3b',
-				areas:[
-					{
-						id:1,
-						name: 'Design & Multimédia'
-					},
-					{
-						id:2,
-						name: 'Ilustração'
-					},
-					{
-						id:3,
-						name: 'Fotografia'
-					}
-				]
-			};
+		});
 	}
 
 	var _getArtistsIds = function(){
-		$scope.artists = [
-			{
-				id:1,
-				art: {
-					id:1,
-					name: 'Artes Digitais',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:2,
-				art: {
-					id:1,
-					name: 'Artes Digitais',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:3,
-				art: {
-					id:3,
-					name: 'Literatura',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:4,
-				art: {
-					id:4,
-					name: 'Música',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:5,
-				art: {
-					id:5,
-					name: 'Performance',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:6,
-				art: {
-					id:6,
-					name: 'Entidades',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:7,
-				art: {
-					id:7,
-					name: 'Cinema & Vídeo',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:8,
-				art: {
-					id:9,
-					name: 'Outro'
-				}
-			},
-		];
+		usersService.list().then(function(data){
+			$scope.artists = data;
+		},function(error){
+
+		});
+		
 	}
 
 	var _getNetworks = function(){
@@ -217,7 +63,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 	_init();
 }]);
 
-appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$location', 'usersService', 'authService', function ($scope, $routeParams, $location, usersService, authService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
@@ -241,154 +87,33 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 	// ARTISTS SERVICES
 	//
 	var _getArtist = function(id){
-		$scope.artist = 
-			{
-				id:1,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				areas:[
-					{
-						id:1,
-						name: 'Design & Multimédia'
-					}
-				],
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				},
-				networks:[
-					{
-						name: 'facebook',
-						url: 'www.facebook.com'
-					},
-					{
-						name: 'twitter',
-						url: 'www.twitter.com'
-					},
-					{
-						name: 'google-plus',
-						url: 'www.googleplus.com'
-					}
-				]
-			};
-		
+		usersService.get(id).then(function(data){
+			$scope.artist = data;
+		},function(error){
+
+		});
 	}
 
 	var _getLoggedArtist = function(){
-		$scope.artist = 
-			{
-				id:1,
-				name: 'Ruis Gomes da Silva',
-				image: 'profile.jpg',
-				areas:[
-					{
-						id:1,
-						name: 'Design & Multimédia'
-					}
-				],
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				},
-				networks:[
-					{
-						name: 'facebook',
-						url: 'www.facebook.com'
-					},
-					{
-						name: 'twitter',
-						url: 'www.twitter.com'
-					},
-					{
-						name: 'google-plus',
-						url: 'www.googleplus.com'
-					}
-				]
-			};
-		
+
+		if (authService.authentication.info!=undefined){
+			var id = authService.authentication.info.user.id;
+			usersService.get(id).then(function(data){
+				$scope.artist = data;
+			},function(error){
+
+			});
+		}else{
+			$location.path("/");
+		}		
 	}
 
 	var _getMoreArtists = function(){
-		$scope.otherArtists = [
-			{
-				id:1,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:2,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:3,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:4,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:5,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:6,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			}
-		];
+		usersService.list().then(function(data){
+			$scope.otherArtists = data;
+		},function(error){
+
+		});
 	}
 
 	_init();

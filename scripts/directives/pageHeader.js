@@ -1,6 +1,6 @@
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('pageHeader', ['$location', function ($location) {
+appDirectives.directive('pageHeader', ['$location', 'authService', function ($location, authService) {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/pageHeader.html",
@@ -68,6 +68,14 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
                     
 	            }
 		        
+		    }
+
+		    //
+		    // Logout function
+		    //
+		    scope.logoutUser = function(){
+		    	authService.logOut();
+		    	$location.path("/");
 		    }
 	    }
 	 };

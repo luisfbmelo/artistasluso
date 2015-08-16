@@ -7,7 +7,7 @@
 					{{artist.name}}
 				</h1>
 				<p>
-					<strong>Designer</strong> • Residente em <strong>França</strong> • Descendente de <strong>Portugal</strong>
+					<strong>{{artist.ocupation}}</strong> • Residente em <strong>{{artist.curCountry.name}}</strong> • Descendente de <strong>{{artist.descCountry.name}}</strong>
 				</p>
 			</div>
 		</div>
@@ -17,7 +17,7 @@
 	<div class="artist-bio-container container-fluid">
 		<!--IMAGE-->
 		<div class="image-social-row">
-			<div class="artist-image" style="background-image:url(assets/img/profile/profile.jpg);"></div>
+			<div class="artist-image" style="background-image:url({{'http://localhost/artistasluso/API/api/modules/v1/images/'+artist.image.url}});"></div>
 			<div class="artist-social">
 				<social networks="artist.networks"></social>
 			</div>
@@ -27,12 +27,10 @@
 
 		<!--BIOS-->
 		<div class="row artist-bio">
-			<div class="col-xs-12 col-sm-6">
-				Nuno Sá especializou-se em fotografia de vida selvagem de temas marinhos. Conta com 6 livros editados, e é colaborador de várias revistas Nacionais e Internacionais, entre elas a National Geographic Portugal. Conta com imagens expostas em alguns dos maiores museus de história natural do mundo tais como London Natural History Museum e Smithsonian National Museum of Natural History, em Washington. Wildlife Photographer of the Year 2008 entre outros concursos internacionais.
+			<div class="col-xs-12 col-sm-6" ng-repeat-start="bio in artist.bios">
+				{{bio.bio}}
 			</div>
-			<div class="col-xs-12 col-sm-6">
-				Nuno Sá is specialized in photography of marine life. He is the author of many books and several dozens of articles published on National and International magazines. He is Co-author of the "Azores Diving Guide" - Portugal´s first published diving guide, and a regular collaborator of several magazines, such as National Geographic Portugal. He is the first Portuguese wildlife photographer nominated in some of Europe´s major nature photography competitions, Professional photographer.
-			</div>
+			<div class="clearfix visible-sm-block" ng-if="($index+1)%2==0" ng-repeat-end></div>
 		</div>
 	</div>
 

@@ -1,6 +1,6 @@
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'countriesService', function ($scope, $routeParams, countriesService) {
+appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersService', function ($scope, $routeParams, usersService) {
 	
 	//
 	// INIT FUNCTION
@@ -16,7 +16,7 @@ appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'countries
 	//
 
 	var _getCountriesIds = function(){
-		countriesService.list().then(function (data) {
+		usersService.list().then(function (data) {
 			$scope.countries = data;
 
         }, function (error) {

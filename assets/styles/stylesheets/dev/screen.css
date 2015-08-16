@@ -1065,6 +1065,7 @@ h4 {
 .artist-details .artist-bio-container .artist-image {
   background-position: center 0;
   background-size: cover;
+  background-color: white;
   width: 280px;
   height: 190px;
   margin-top: -125px;
@@ -1074,24 +1075,24 @@ h4 {
   margin-right: 16px;
   float: left;
 }
-/* line 197, ../../sass/modules/_artists.scss */
+/* line 198, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-social {
   padding: 16px;
 }
-/* line 199, ../../sass/modules/_artists.scss */
+/* line 200, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-social .social-wrapper ul {
   text-align: left;
   margin-top: 0;
 }
-/* line 203, ../../sass/modules/_artists.scss */
+/* line 204, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-social .social-wrapper ul li + li {
   margin-left: 16px;
 }
-/* line 209, ../../sass/modules/_artists.scss */
+/* line 210, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-bio {
   margin: 36px 0 16px;
 }
-/* line 212, ../../sass/modules/_artists.scss */
+/* line 213, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-bio > div {
   font-size: 16px;
   font-size: 1rem;
@@ -1099,41 +1100,41 @@ h4 {
   padding: 0 32px 0 0;
   margin-bottom: 16px;
 }
-/* line 219, ../../sass/modules/_artists.scss */
+/* line 220, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-bio > div:not(:first-of-type) {
   color: #b5b5b5;
 }
 @media (max-width: 768px) {
-  /* line 227, ../../sass/modules/_artists.scss */
+  /* line 228, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container {
     height: auto;
   }
-  /* line 230, ../../sass/modules/_artists.scss */
+  /* line 231, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container .art-desc-wrapper {
     margin-left: 0;
     position: relative;
     height: auto;
     padding: 64px 0 32px;
   }
-  /* line 237, ../../sass/modules/_artists.scss */
+  /* line 238, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container .artist-desc {
     position: static;
   }
-  /* line 240, ../../sass/modules/_artists.scss */
+  /* line 241, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container .artist-desc h1 {
     font-weight: 700;
   }
-  /* line 244, ../../sass/modules/_artists.scss */
+  /* line 245, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container .artist-desc p {
     font-size: 16px;
     font-size: 1rem;
     margin-top: 16px;
   }
-  /* line 249, ../../sass/modules/_artists.scss */
+  /* line 250, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container .artist-desc p strong {
     font-weight: 700;
   }
-  /* line 256, ../../sass/modules/_artists.scss */
+  /* line 257, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container {
     background-color: white;
     -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -1141,10 +1142,11 @@ h4 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     padding-bottom: 36px;
   }
-  /* line 262, ../../sass/modules/_artists.scss */
+  /* line 263, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container .artist-image {
     background-position: center 0;
     background-size: cover;
+    background-color: white;
     width: 100%;
     height: 290px;
     margin-top: 32px;
@@ -1154,23 +1156,23 @@ h4 {
     margin-right: 16px;
     float: none;
   }
-  /* line 273, ../../sass/modules/_artists.scss */
+  /* line 275, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container .artist-social {
     padding: 16px;
     text-align: center;
   }
-  /* line 278, ../../sass/modules/_artists.scss */
+  /* line 280, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container .artist-bio {
     margin: 16px 0;
   }
-  /* line 281, ../../sass/modules/_artists.scss */
+  /* line 283, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container .artist-bio > div {
     font-size: 16px;
     font-size: 1rem;
     padding: 0 32px 0 0;
     margin-bottom: 16px;
   }
-  /* line 288, ../../sass/modules/_artists.scss */
+  /* line 290, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container .artist-bio > div:not(:first-of-type) {
     color: #b5b5b5;
   }

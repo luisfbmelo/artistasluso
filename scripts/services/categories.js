@@ -35,8 +35,8 @@ appServices.factory('categoriesService', ['$http', '$q', '$rootScope', function 
     //
 
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
-    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
-    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API); }
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=users,areas"); }
+    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API + "?expand=users,areas"); }
     var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
 

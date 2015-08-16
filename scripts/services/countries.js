@@ -35,8 +35,9 @@ appServices.factory('countriesService', ['$http', '$q', '$rootScope', function (
     //
 
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
-    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
-    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API); }
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=users"); }
+    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API + "?expand=users"); }
+    var _listTotalCur = function () {return GET_SERVICE_PROMISE($q, $http, "get", API + "/totalcur")}
     var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
 
@@ -44,6 +45,7 @@ appServices.factory('countriesService', ['$http', '$q', '$rootScope', function (
         'create': _create,
         'get': _get,
         'list': _list,
+        'listTotalCur': _listTotalCur,
         'update': _update,
         'delete': _delete,
     }

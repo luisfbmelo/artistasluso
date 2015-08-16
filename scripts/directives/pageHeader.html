@@ -39,7 +39,7 @@
                         <li ng-class="{'active': defineCurrentView(item, null, '#/user')}"><a href="#/user">MEU PERFIL</a></li>
                         <li ng-class="{'active': defineCurrentView(item, null, '#/user/edit')}"><a href="#/user/edit">EDITAR PERFIL</a></li>
                         <li ng-class="{'active': defineCurrentView(item, null, '#/user/my-events/list')}"><a href="#/user/my-events/list">MEUS EVENTOS</a></li>                        
-                        <li><a href="#/logout">SAIR</a></li>
+                        <li><a href="#/logout" ng-click="logoutUser()">SAIR</a></li>
                     </ul>
 
                     <!-- NO LOGIN -->

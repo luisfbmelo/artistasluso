@@ -1,28 +1,32 @@
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('menuCtrl', ['$scope', function ($scope) {
+appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope, authService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
 
+	var _authentication = null;
 	var _curUser = null;
 	var _isLoggedIn = false;
 	var _isAdmin = false;
 	
 	var _getUserType = function(){
 		//Set scope vars from SERVICE
-		$scope.isLoggedIn = true;
-		$scope.isAdmin = true;
+		_authentication = authService.authentication;
+
+		$scope.isLoggedIn = _authentication.isAuth;
+		$scope.isAdmin = (_authentication.info!=undefined) &&
+            (_authentication.info.user!=undefined) &&
+            (_authentication.info.user.role == 1);
 
 		//Set local vars
 		_isLoggedIn = $scope.isLoggedIn;
 		_isAdmin = $scope.isAdmin;
 
 		//Get current user data
-		_curUser = {
-			id: 1,
-			name: 'Terry Costa'
-		};
+		if (_isLoggedIn){
+			_curUser = _authentication.info.user;
+		}
 	}
 
 	var _defineMenu = function(){
@@ -84,12 +88,13 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 		}
 
 	}
-
+	authService.fillAuthData();
 	_getUserType();
 	_defineMenu();
 
 	$scope.$on("$locationChangeStart", function (event, next, current) {
+		authService.fillAuthData();
         _getUserType();
-		_defineMenu();
+		_defineMenu();		
     });
 }]);

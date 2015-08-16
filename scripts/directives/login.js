@@ -7,7 +7,7 @@ appDirectives.directive('login', [function () {
 	    scope:true,
 	    replace: true,
 	    link: function(scope, el, attr){  
-	    	$('.selectpicker').selectpicker('render');
+	    	
 	    } 
 	 };
 }]); 

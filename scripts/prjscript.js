@@ -1,11 +1,14 @@
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesService', 'usersService', 'authService', function ($scope, $routeParams, categoriesService, usersService, authService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
-	$scope.isLoggedIn = true;
-	$scope.isAdmin = true;
+	_authentication = authService.authentication;
+	$scope.isLoggedIn = _authentication.isAuth;
+	$scope.isAdmin = (_authentication.info!=undefined) &&
+            (_authentication.info.user!=undefined) &&
+            (_authentication.info.user.role == 1);
 	
 	//
 	// INIT FUNCTION
@@ -13,7 +16,6 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 	var _init = function(){
 		if ($routeParams.id){
 			_getArtistsFromCat($routeParams.id);
-			_getCat($routeParams.id);
 		}else{
 			_getNetworks();
 			_getArtistsIds(); 
@@ -24,177 +26,21 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 	// ARTISTS SERVICES
 	//
 	var _getArtistsFromCat = function(catId){
-		$scope.artists = [
-			{
-				id:1,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:2,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:3,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:4,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:5,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:6,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			}
-		];
-	}
+		categoriesService.get(catId).then(function(data){
+			$scope.cat = data
+			$scope.artists = $scope.cat.users;
+		},function(error){
 
-	var _getCat = function(catId){
-		$scope.cat = 
-			{
-				id:1,
-				name: 'Artes Digitais',
-				color: '#378d3b',
-				areas:[
-					{
-						id:1,
-						name: 'Design & Multimédia'
-					},
-					{
-						id:2,
-						name: 'Ilustração'
-					},
-					{
-						id:3,
-						name: 'Fotografia'
-					}
-				]
-			};
+		});
 	}
 
 	var _getArtistsIds = function(){
-		$scope.artists = [
-			{
-				id:1,
-				art: {
-					id:1,
-					name: 'Artes Digitais',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:2,
-				art: {
-					id:1,
-					name: 'Artes Digitais',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:3,
-				art: {
-					id:3,
-					name: 'Literatura',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:4,
-				art: {
-					id:4,
-					name: 'Música',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:5,
-				art: {
-					id:5,
-					name: 'Performance',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:6,
-				art: {
-					id:6,
-					name: 'Entidades',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:7,
-				art: {
-					id:7,
-					name: 'Cinema & Vídeo',
-					color: '#378d3b'
-				}
-			},
-			{
-				id:8,
-				art: {
-					id:9,
-					name: 'Outro'
-				}
-			},
-		];
+		usersService.list().then(function(data){
+			$scope.artists = data;
+		},function(error){
+
+		});
+		
 	}
 
 	var _getNetworks = function(){
@@ -217,7 +63,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', function ($s
 	_init();
 }]);
 
-appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$location', 'usersService', 'authService', function ($scope, $routeParams, $location, usersService, authService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
@@ -241,154 +87,33 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 	// ARTISTS SERVICES
 	//
 	var _getArtist = function(id){
-		$scope.artist = 
-			{
-				id:1,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				areas:[
-					{
-						id:1,
-						name: 'Design & Multimédia'
-					}
-				],
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				},
-				networks:[
-					{
-						name: 'facebook',
-						url: 'www.facebook.com'
-					},
-					{
-						name: 'twitter',
-						url: 'www.twitter.com'
-					},
-					{
-						name: 'google-plus',
-						url: 'www.googleplus.com'
-					}
-				]
-			};
-		
+		usersService.get(id).then(function(data){
+			$scope.artist = data;
+		},function(error){
+
+		});
 	}
 
 	var _getLoggedArtist = function(){
-		$scope.artist = 
-			{
-				id:1,
-				name: 'Ruis Gomes da Silva',
-				image: 'profile.jpg',
-				areas:[
-					{
-						id:1,
-						name: 'Design & Multimédia'
-					}
-				],
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				},
-				networks:[
-					{
-						name: 'facebook',
-						url: 'www.facebook.com'
-					},
-					{
-						name: 'twitter',
-						url: 'www.twitter.com'
-					},
-					{
-						name: 'google-plus',
-						url: 'www.googleplus.com'
-					}
-				]
-			};
-		
+
+		if (authService.authentication.info!=undefined){
+			var id = authService.authentication.info.user.id;
+			usersService.get(id).then(function(data){
+				$scope.artist = data;
+			},function(error){
+
+			});
+		}else{
+			$location.path("/");
+		}		
 	}
 
 	var _getMoreArtists = function(){
-		$scope.otherArtists = [
-			{
-				id:1,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:2,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:3,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:4,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:5,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			},
-			{
-				id:6,
-				name: 'Rui Gomes da Silva',
-				image: 'profile.jpg',
-				area:{
-					id:1,
-					name: 'Design & Multimédia'
-				},
-				countryLive: {
-					id:1,
-					name: 'Portugal'
-				}
-			}
-		];
+		usersService.list().then(function(data){
+			$scope.otherArtists = data;
+		},function(error){
+
+		});
 	}
 
 	_init();
@@ -396,7 +121,7 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', functi
 }]);
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'countriesService', function ($scope, $routeParams, countriesService) {
+appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersService', function ($scope, $routeParams, usersService) {
 	
 	//
 	// INIT FUNCTION
@@ -412,7 +137,7 @@ appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'countries
 	//
 
 	var _getCountriesIds = function(){
-		countriesService.list().then(function (data) {
+		usersService.list().then(function (data) {
 			$scope.countries = data;
 
         }, function (error) {
@@ -869,29 +594,33 @@ appControllers.controller('footerCtrl', ['$scope', function ($scope) {
 }]);
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('menuCtrl', ['$scope', function ($scope) {
+appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope, authService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
 
+	var _authentication = null;
 	var _curUser = null;
 	var _isLoggedIn = false;
 	var _isAdmin = false;
 	
 	var _getUserType = function(){
 		//Set scope vars from SERVICE
-		$scope.isLoggedIn = true;
-		$scope.isAdmin = true;
+		_authentication = authService.authentication;
+
+		$scope.isLoggedIn = _authentication.isAuth;
+		$scope.isAdmin = (_authentication.info!=undefined) &&
+            (_authentication.info.user!=undefined) &&
+            (_authentication.info.user.role == 1);
 
 		//Set local vars
 		_isLoggedIn = $scope.isLoggedIn;
 		_isAdmin = $scope.isAdmin;
 
 		//Get current user data
-		_curUser = {
-			id: 1,
-			name: 'Terry Costa'
-		};
+		if (_isLoggedIn){
+			_curUser = _authentication.info.user;
+		}
 	}
 
 	var _defineMenu = function(){
@@ -953,13 +682,14 @@ appControllers.controller('menuCtrl', ['$scope', function ($scope) {
 		}
 
 	}
-
+	authService.fillAuthData();
 	_getUserType();
 	_defineMenu();
 
 	$scope.$on("$locationChangeStart", function (event, next, current) {
+		authService.fillAuthData();
         _getUserType();
-		_defineMenu();
+		_defineMenu();		
     });
 }]);
 var appControllers = angular.module('appControllers');
@@ -1045,7 +775,7 @@ appControllers.controller('recoverPasswordModalInstanceCtrl',['$scope','$modalIn
 }]);
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('reportsCtrl', ['$scope','$routeParams', function ($scope,$routeParams) {
+appControllers.controller('reportsCtrl', ['$scope','$routeParams', 'usersService', 'categoriesService', 'countriesService', function ($scope,$routeParams, usersService, categoriesService, countriesService) {
     //
     // INIT CONFIG
     //
@@ -1062,222 +792,47 @@ appControllers.controller('reportsCtrl', ['$scope','$routeParams', function ($sc
 	}
 
     var _getArtsArt = function(){
-        $scope.artsArt = [
-            {
-                id:1,
-                name: 'Artes Digitais',
-                totalArts: 37
-            },
-            {
-                id:2,
-                name: 'Artes Plásticas',
-                totalArts: 37
-            },
-            {
-                id:3,
-                name: 'Cinema & Vídeo',
-                totalArts: 37
-            },
-            {
-                id:4,
-                name: 'Literatura',
-                totalArts: 37
-            },
-            {
-                id:5,
-                name: 'Música',
-                totalArts: 37
-            },
-            {
-                id:6,
-                name: 'Performance',
-                totalArts: 37
-            },
-            {
-                id:7,
-                name: 'Tradicional',
-                totalArts: 37
-            },
-            {
-                id:8,
-                name: 'Organizações',
-                totalArts: 37
-            }
-        ];
+        categoriesService.list().then(function(data){
+            $scope.artsArt = data
 
-        //
-        // Create number of columns for iterator
-        //
-        var artCols = Math.ceil($scope.artsArt.length/$scope.entryLimit);
-        $scope.artCols = [];
-        for(var i = 0; i < artCols; i++) {
-            $scope.artCols.push(i);
-        }
+            //
+            // Create number of columns for iterator
+            //
+            var artCols = Math.ceil($scope.artsArt.length/$scope.entryLimit);
+            $scope.artCols = [];
+            for(var i = 0; i < artCols; i++) {
+                $scope.artCols.push(i);
+            }
+        },function(error){
+
+        });        
     }
 
     var _getArtsCountry = function(){
-        $scope.artsCountry = [
-            {
-                id:1,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:2,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:3,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:4,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:5,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:6,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:7,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:8,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:9,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:10,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:12,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:13,
-                name: 'País',
-                totalArts: 37
-            },
-            {
-                id:14,
-                name: 'País',
-                totalArts: 37
-            }
-        ];
+        countriesService.listTotalCur().then(function(data){
+            $scope.artsCountry = data;
 
-        //
-        // Create number of columns for iterator
-        //
-        var countryCols = Math.ceil($scope.artsCountry.length/$scope.entryLimit);
-        $scope.countryCols = [];
-        for(var i = 0; i < countryCols; i++) {
-            $scope.countryCols.push(i);
-        }
+            //
+            // Create number of columns for iterator
+            //
+            var countryCols = Math.ceil($scope.artsCountry.length/$scope.entryLimit);
+            $scope.countryCols = [];
+            for(var i = 0; i < countryCols; i++) {
+                $scope.countryCols.push(i);
+            }
+        },function(error){
+
+        });
+
+        
     }
 
     var _getAllArts = function(){
-        $scope.allArts = [
-            {
-                id:1,
-                name: 'User1',
-                email: 'mail@mail.com',
-                countryLive:{
-                    id:1,
-                    name: 'Portugal'
-                }
-            },
-            {
-                id:2,
-                name: 'User1',
-                email: 'mail@mail.com',
-                countryLive:{
-                    id:1,
-                    name: 'Portugal'
-                }
-            },
-            {
-                id:3,
-                name: 'User1',
-                email: 'mail@mail.com',
-                countryLive:{
-                    id:1,
-                    name: 'Portugal'
-                }
-            },
-            {
-                id:4,
-                name: 'User1',
-                email: 'mail@mail.com',
-                countryLive:{
-                    id:1,
-                    name: 'Portugal'
-                }
-            },
-            {
-                id:5,
-                name: 'User1',
-                email: 'mail@mail.com',
-                countryLive:{
-                    id:1,
-                    name: 'Portugal'
-                }
-            },
-            {
-                id:6,
-                name: 'User1',
-                email: 'mail@mail.com',
-                countryLive:{
-                    id:1,
-                    name: 'Portugal'
-                }
-            },
-            {
-                id:7,
-                name: 'User1',
-                email: 'mail@mail.com',
-                countryLive:{
-                    id:1,
-                    name: 'Portugal'
-                }
-            },
-            {
-                id:8,
-                name: 'User1',
-                email: 'mail@mail.com',
-                countryLive:{
-                    id:1,
-                    name: 'Portugal'
-                }
-            },
-            {
-                id:9,
-                name: 'User1',
-                email: 'mail@mail.com',
-                countryLive:{
-                    id:1,
-                    name: 'Portugal'
-                }
-            }
-        ];
+        usersService.list().then(function(data){
+            $scope.allArts = data;
+        },function(error){
+
+        });
     }
 
     //
@@ -1313,7 +868,7 @@ appControllers.controller('userCtrl', ['$scope', function ($scope) {
     //
 }]);
 
-appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams', 'countriesService', 'districtsService', 'categoriesService', 'networksService', 'biosService', 'usersService', function ($scope, $filter, $routeParams, countriesService, districtsService, categoriesService, networksService, biosService, usersService) {
+appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams', '$location','countriesService', 'districtsService', 'categoriesService', 'networksService', 'biosService', 'usersService', function ($scope, $filter, $routeParams, $location, countriesService, districtsService, categoriesService, networksService, biosService, usersService) {
 
 	//
 	//	INIT OBJECTS
@@ -1321,7 +876,6 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
 	$scope.User = {};
 	$scope.image = {};
 	$scope.submitted = false;
-	$scope.isCorrect = false;
 
     //
     // INIT LISTS DATA
@@ -1395,7 +949,7 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
 		   	 	$scope.User.networks[key] = $filter('urlResolverVal')(val);
 			}
         }
-
+ 
         $scope.User.cur_country_id = $scope.User.cur_country_id!=undefined ? $scope.User.cur_country_id.id : null;
         $scope.User.desc_country_id = $scope.User.desc_country_id!=undefined ? $scope.User.desc_country_id.id : null;
         $scope.User.dist_id = $scope.User.dist_id!=undefined ? $scope.User.dist_id.id : null;
@@ -1409,6 +963,8 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
     var _createUser = function(item){
         usersService.create(item).then(function (data) {
             toastr.success('Utilizador criado!', '' ,{ timeOut: 5000 });
+
+            $location.path("/");
         }, function (error) {
             toastr.error(error, '' ,{ timeOut: 5000 });
         });
@@ -1472,7 +1028,7 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
     _init();
 }]);
 
-appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope, $filter) {
+appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'authService', function ($scope, $filter, $location, authService) {
 
 	//
 	//	INIT OBJECTS
@@ -1480,6 +1036,7 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope
 	$scope.User = {};
 	$scope.image = {};
 	$scope.submitted = false;
+    $scope.isCorrect = true;
 
 	//SUBMIT NEW FORM
     $scope.loginUser = function () {
@@ -1489,6 +1046,8 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope
             _constructObj(); 
 
              console.log($scope.User);
+
+             _loginUser();
         }
     }
 
@@ -1503,6 +1062,18 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope
     //Construct final obj
     var _constructObj = function () {
 
+    }
+
+    //
+    // Services
+    //
+    var _loginUser = function(){
+        authService.login($scope.User).then(function(data){
+            $scope.isCorrect = true;
+            $location.path("/");
+        },function(error){
+            $scope.isCorrect = false;
+        });
     }
 }]);
 var appFilters = angular.module('appFilters');
@@ -1569,7 +1140,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
     var _authentication = {
 
         isAuth: false,
-        userName: "",
+        email: "",
         info: null
     };
 
@@ -1580,7 +1151,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
     var _config = {
 
         settings: {
-            loginUrl: ''
+            loginUrl: 'http://localhost/artistasluso/API/api/web/v1/users/login'
         },
 
         errMsg: {
@@ -1649,22 +1220,25 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
             //
             // Everything check outs, perform the login.
             //
-            var headers = {
-                'username': loginData.userName,
-                'password': loginData.password
-            }
+            var data = {
+                'email': loginData.email,
+                'password': loginData.password,
+            };
 
-            $http.post(loginUrl, headers)
+            console.log(data);
+
+            $http.post(loginUrl, null, {headers:data})
                 .success(function (response) {
+
 
                     //
                     // Login succeded, fill the authorization data with the name and token.
                     //
 
-                    sessionStorage.set('authorizationData', { token: response.access_token, userName: loginData.userName, info: response });
+                    sessionStorage.set('authorizationData', { token: response.access_token, email: loginData.email, info: response });
 
                     _authentication.isAuth = true;
-                    _authentication.userName = loginData.userName;
+                    _authentication.email = loginData.email;
                     _authentication.info = response;
 
                     deferred.resolve(response);
@@ -1689,7 +1263,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
 
         sessionStorage.remove('authorizationData');
         _authentication.isAuth = false;
-        _authentication.userName = '';
+        _authentication.email = '';
         _authentication.info = null;
     };
 
@@ -1704,7 +1278,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
 
         if (authData) {
             _authentication.isAuth = true;
-            _authentication.userName = authData.userName;
+            _authentication.email = authData.email;
             _authentication.info = authData.info;
         }
     }
@@ -1808,8 +1382,8 @@ appServices.factory('categoriesService', ['$http', '$q', '$rootScope', function 
     //
 
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
-    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
-    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API); }
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=users,areas"); }
+    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API + "?expand=users,areas"); }
     var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
 
@@ -1858,8 +1432,9 @@ appServices.factory('countriesService', ['$http', '$q', '$rootScope', function (
     //
 
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
-    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
-    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API); }
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=users"); }
+    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API + "?expand=users"); }
+    var _listTotalCur = function () {return GET_SERVICE_PROMISE($q, $http, "get", API + "/totalcur")}
     var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
 
@@ -1867,6 +1442,7 @@ appServices.factory('countriesService', ['$http', '$q', '$rootScope', function (
         'create': _create,
         'get': _get,
         'list': _list,
+        'listTotalCur': _listTotalCur,
         'update': _update,
         'delete': _delete,
     }
@@ -2121,11 +1697,11 @@ var appServices = angular.module('appServices');
 
 appServices.factory('sessionStorage', ['$rootScope','$window', function ($rootScope, $window) {
     var _getValue = function(id){      
-      return $window.sessionStorage.getItem(id);
+      return JSON.parse($window.sessionStorage.getItem(id));
     }
         
     var _addItem = function(id, value){
-        $window.sessionStorage.setItem(id, value);
+        $window.sessionStorage.setItem(id, JSON.stringify(value));
     }
     
     var _removeItem = function(id){
@@ -2175,7 +1751,7 @@ appServices.factory('usersService', ['$http', '$q', '$rootScope', function ($htt
     //
 
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API, item);}
-    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
     var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API+"?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
     var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
@@ -2361,7 +1937,7 @@ appDirectives.directive('login', [function () {
 	    scope:true,
 	    replace: true,
 	    link: function(scope, el, attr){  
-	    	$('.selectpicker').selectpicker('render');
+	    	
 	    } 
 	 };
 }]); 
@@ -2376,7 +1952,7 @@ appDirectives.directive('pageFooter', [function () {
 }]);
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('pageHeader', ['$location', function ($location) {
+appDirectives.directive('pageHeader', ['$location', 'authService', function ($location, authService) {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/pageHeader.html",
@@ -2444,6 +2020,14 @@ appDirectives.directive('pageHeader', ['$location', function ($location) {
                     
 	            }
 		        
+		    }
+
+		    //
+		    // Logout function
+		    //
+		    scope.logoutUser = function(){
+		    	authService.logOut();
+		    	$location.path("/");
 		    }
 	    }
 	 };

@@ -1,6 +1,6 @@
 <div class="row artists-container">
 	<div class="col-xs-12 col-sm-6 col-md-3" ng-repeat-start="artist in list | limitTo: max">
-		<div class="card-container artist-area" style="background-image:url({{'assets/img/profile/'+artist.image}});">
+		<div class="card-container artist-area" style="background-image:url({{'http://localhost/artistasluso/API/api/modules/v1/images/'+artist.image.url}});">
 			<div class="area-wrapper">
 				<div class="bottom-content">
 					<section class="card-desc">
@@ -9,8 +9,8 @@
 						</h2>
 
 						<div class="card-details">
-							<span class="area">{{artist.area.name}}</span>
-							<span class="country">{{artist.countryLive.name}}</span>
+							<span class="area">{{artist.ocupation}}</span>
+							<span class="country">{{artist.curCountry.name}}</span>
 						</div>
 						
 					</section>

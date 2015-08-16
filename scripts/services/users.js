@@ -35,7 +35,7 @@ appServices.factory('usersService', ['$http', '$q', '$rootScope', function ($htt
     //
 
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API, item);}
-    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
     var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API+"?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
     var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }

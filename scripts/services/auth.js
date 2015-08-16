@@ -9,7 +9,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
     var _authentication = {
 
         isAuth: false,
-        userName: "",
+        email: "",
         info: null
     };
 
@@ -20,7 +20,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
     var _config = {
 
         settings: {
-            loginUrl: ''
+            loginUrl: 'http://localhost/artistasluso/API/api/web/v1/users/login'
         },
 
         errMsg: {
@@ -89,22 +89,25 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
             //
             // Everything check outs, perform the login.
             //
-            var headers = {
-                'username': loginData.userName,
-                'password': loginData.password
-            }
+            var data = {
+                'email': loginData.email,
+                'password': loginData.password,
+            };
 
-            $http.post(loginUrl, headers)
+            console.log(data);
+
+            $http.post(loginUrl, null, {headers:data})
                 .success(function (response) {
+
 
                     //
                     // Login succeded, fill the authorization data with the name and token.
                     //
 
-                    sessionStorage.set('authorizationData', { token: response.access_token, userName: loginData.userName, info: response });
+                    sessionStorage.set('authorizationData', { token: response.access_token, email: loginData.email, info: response });
 
                     _authentication.isAuth = true;
-                    _authentication.userName = loginData.userName;
+                    _authentication.email = loginData.email;
                     _authentication.info = response;
 
                     deferred.resolve(response);
@@ -129,7 +132,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
 
         sessionStorage.remove('authorizationData');
         _authentication.isAuth = false;
-        _authentication.userName = '';
+        _authentication.email = '';
         _authentication.info = null;
     };
 
@@ -144,7 +147,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
 
         if (authData) {
             _authentication.isAuth = true;
-            _authentication.userName = authData.userName;
+            _authentication.email = authData.email;
             _authentication.info = authData.info;
         }
     }

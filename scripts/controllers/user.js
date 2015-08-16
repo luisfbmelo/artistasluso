@@ -6,7 +6,7 @@ appControllers.controller('userCtrl', ['$scope', function ($scope) {
     //
 }]);
 
-appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams', 'countriesService', 'districtsService', 'categoriesService', 'networksService', 'biosService', 'usersService', function ($scope, $filter, $routeParams, countriesService, districtsService, categoriesService, networksService, biosService, usersService) {
+appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams', '$location','countriesService', 'districtsService', 'categoriesService', 'networksService', 'biosService', 'usersService', function ($scope, $filter, $routeParams, $location, countriesService, districtsService, categoriesService, networksService, biosService, usersService) {
 
 	//
 	//	INIT OBJECTS
@@ -14,7 +14,6 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
 	$scope.User = {};
 	$scope.image = {};
 	$scope.submitted = false;
-	$scope.isCorrect = false;
 
     //
     // INIT LISTS DATA
@@ -88,7 +87,7 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
 		   	 	$scope.User.networks[key] = $filter('urlResolverVal')(val);
 			}
         }
-
+ 
         $scope.User.cur_country_id = $scope.User.cur_country_id!=undefined ? $scope.User.cur_country_id.id : null;
         $scope.User.desc_country_id = $scope.User.desc_country_id!=undefined ? $scope.User.desc_country_id.id : null;
         $scope.User.dist_id = $scope.User.dist_id!=undefined ? $scope.User.dist_id.id : null;
@@ -102,6 +101,8 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
     var _createUser = function(item){
         usersService.create(item).then(function (data) {
             toastr.success('Utilizador criado!', '' ,{ timeOut: 5000 });
+
+            $location.path("/");
         }, function (error) {
             toastr.error(error, '' ,{ timeOut: 5000 });
         });
@@ -165,7 +166,7 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
     _init();
 }]);
 
-appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope, $filter) {
+appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'authService', function ($scope, $filter, $location, authService) {
 
 	//
 	//	INIT OBJECTS
@@ -173,6 +174,7 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope
 	$scope.User = {};
 	$scope.image = {};
 	$scope.submitted = false;
+    $scope.isCorrect = true;
 
 	//SUBMIT NEW FORM
     $scope.loginUser = function () {
@@ -182,6 +184,8 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope
             _constructObj(); 
 
              console.log($scope.User);
+
+             _loginUser();
         }
     }
 
@@ -196,5 +200,17 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', function ($scope
     //Construct final obj
     var _constructObj = function () {
 
+    }
+
+    //
+    // Services
+    //
+    var _loginUser = function(){
+        authService.login($scope.User).then(function(data){
+            $scope.isCorrect = true;
+            $location.path("/");
+        },function(error){
+            $scope.isCorrect = false;
+        });
     }
 }]);
