@@ -26,6 +26,7 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 		//Get current user data
 		if (_isLoggedIn){
 			_curUser = _authentication.info.user;
+			$scope.curUser = _curUser;
 		}
 	}
 

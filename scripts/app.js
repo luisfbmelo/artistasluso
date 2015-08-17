@@ -70,7 +70,12 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
 		}).
 		when('/user/edit', {
 			templateUrl: 'scripts/views/artist-edit.html',
-			controller: 'userSignupCtrl'
+			controller: 'userSignupCtrl',
+			resolve: {
+				pageType: function(){
+					return 'editUser';
+				}
+			}
 		}).
 		when('/user/my-events/list', {
 			templateUrl: 'scripts/views/events.html',

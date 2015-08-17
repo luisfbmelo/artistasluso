@@ -7,26 +7,36 @@ appDirectives.directive('selectPicker', ['$timeout', function ($timeout) {
 	    	el.selectpicker('render');
 
 	    	scope.$watch(attr.obj, function() {
-			   $timeout(function() {
-			      el.selectpicker('refresh');
+			   $timeout(function() {				
+					if(attr.id == 'countryDesc' && scope.$eval(attr.ngModel)!=undefined){
+						_setInitDist(scope.$eval(attr.ngModel));
+					}
+
+					el.selectpicker('refresh');
+					
 			   });
 			});
 
-			if (attr.id == 'district'){
-				el.prop('disabled',true);
-				el.selectpicker('refresh');
-			}
-
-			scope.setDistrict = function(obj){
+			scope.setDistrict = function(obj){				
 				var distEl = $('.selectpicker#district');
-				if (obj.id == 189 && distEl.is(':disabled')){
+				if (obj!=undefined && obj.id == 189 ){
 					distEl.prop('disabled',false);
 					distEl.selectpicker('refresh');
-
-				}else if(distEl.is(':enabled')){
-					distEl.prop('disabled',true);
-					distEl.selectpicker('refresh');
+				}else{
 					distEl.selectpicker('deselectAll');
+					distEl.prop('disabled',true);			
+					distEl.selectpicker('refresh');
+				}
+			}
+
+			var _setInitDist = function(obj){
+				var distEl = $('.selectpicker#district');
+				if (obj!=undefined && obj.id == 189){
+					distEl.prop('disabled',false);
+					distEl.selectpicker('refresh');
+				}else{
+					distEl.prop('disabled',true);			
+					distEl.selectpicker('refresh');
 				}
 			}
 	    }

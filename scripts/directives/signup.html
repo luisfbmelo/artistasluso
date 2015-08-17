@@ -3,7 +3,7 @@
 		Registar
 	</h1>
 	
-	<form name="newUserForm" enctype="multipart/form-data" novalidate>
+	<form name="userForm" enctype="multipart/form-data" novalidate>
 		<section>
 			<h4>
 				Informações básicas
@@ -14,8 +14,8 @@
 				<input type="text" name="name" id="name" placeholder="João Pedro" required class="form-control" ng-model="User.name"/>
 				<label for="name">Nome artístico, do grupo ou organização</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.name)" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.name,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                <div ng-show="hasError(userForm.name)" class="errorBox">
+                    <span class="error" ng-show="hasError(userForm.name,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 
 			</div>
@@ -25,9 +25,9 @@
 				<input type="email" name="email" id="email" required placeholder="mail@mail.com" class="form-control" ng-model="User.email"/>
 				<label for="email">E-mail</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.email)" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.email,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
-                    <span class="alerts" ng-show="hasError(newUserForm.email,'email')"><i class="fa fa-exclamation-circle"></i> Formato de e-mail é inválido</span>
+                <div ng-show="hasError(userForm.email)" class="errorBox">
+                    <span class="error" ng-show="hasError(userForm.email,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                    <span class="alerts" ng-show="hasError(userForm.email,'email')"><i class="fa fa-exclamation-circle"></i> Formato de e-mail é inválido</span>
                 </div>
 			</div>
 
@@ -36,8 +36,8 @@
 				<input type="password" name="password" id="password" required class="form-control" ng-model="User.password" />
 				<label for="password">Palavra-passe</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.password)" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.password,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                <div ng-show="hasError(userForm.password)" class="errorBox">
+                    <span class="error" ng-show="hasError(userForm.password,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 
@@ -46,57 +46,57 @@
 				<input type="password" name="confPassword" id="confPassword" required class="form-control" ng-model="User.confPassword" />
 				<label for="confPassword">Repetir palavra-passe</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.confPassword) || (User.confPassword!=User.password && submitted)" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.confPassword,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                <div ng-show="hasError(userForm.confPassword) || (User.confPassword!=User.password && submitted)" class="errorBox">
+                    <span class="error" ng-show="hasError(userForm.confPassword,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                     <span class="error" ng-show="User.confPassword!=User.password"><i class="fa fa-times-circle"></i> Palavras-passe não são iguais</span>
                 </div>
 			</div>
 
 			<!--COUNTRY-->
 			<div class="form-group">
-				<select class="selectpicker" name="country" id="country" ng-model="User.cur_country_id" data-live-search="true" data-size="auto" class="form-control" required select-picker ng-options="country.name for country in countries track by country.id" obj="countries">
+				<select class="selectpicker" name="country" id="country" ng-model="User.curCountry" data-live-search="true" data-size="auto" class="form-control" required select-picker ng-options="country.name for country in countries track by country.id" obj="countries">
 				    <option value="">Países</option>
 			  	</select>
 				<label for="country">Selecione o país de residência</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.country) || User.cur_country_id<1 || User.cur_country_id==''" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.country)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                <div ng-show="hasError(userForm.country) || User.curCountry<1 || User.curCountry==''" class="errorBox">
+                    <span class="error" ng-show="hasError(userForm.country)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 
 			<!--COUNTRY PARENT-->
 			<div class="form-group">
-				<select class="selectpicker" name="countryDesc" id="countryDesc" ng-model="User.desc_country_id" data-live-search="true" data-size="auto" class="form-control" required select-picker ng-options="country.name for country in countries track by country.id" obj="countries" ng-change="setDistrict(User.desc_country_id)">
+				<select class="selectpicker" name="countryDesc" id="countryDesc" ng-model="User.descCountry" data-live-search="true" data-size="auto" class="form-control" required select-picker ng-options="country.name for country in countries track by country.id" obj="countries" ng-change="setDistrict(User.descCountry)">
 				    <option value="">Países</option>
 			  	</select>
 				<label for="countryDesc">Selecione o local de nascimento ou descendência portuguesa</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.countryDesc) || User.desc_country_id<1 || User.desc_country_id==''" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.countryDesc)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                <div ng-show="hasError(userForm.countryDesc) || User.descCountry<1 || User.descCountry==''" class="errorBox">
+                    <span class="error" ng-show="hasError(userForm.countryDesc)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 
 			<!--DISTRICT-->
 			<div class="form-group">
-				<select class="selectpicker" name="district" id="district" ng-model="User.dist_id" data-live-search="true" data-size="auto" class="form-control"  ng-required="User.desc_country_id.id == 189" select-picker ng-options="district.name for district in districts track by district.id" obj="districts">
+				<select class="selectpicker" name="district" id="district" ng-model="User.dist" data-live-search="true" data-size="auto" class="form-control"  ng-required="User.descCountry.id == 189" disabled select-picker ng-options="district.name for district in districts track by district.id" obj="districts">
 				    <option value="">Distritos</option>
 			  	</select>
 				<label for="district">Selecione o distrito</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.district) || User.dist_id<1 || User.dist_id==''" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.district)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                <div ng-show="hasError(userForm.district) || User.dist<1 || User.dist==''" class="errorBox">
+                    <span class="error" ng-show="hasError(userForm.district)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 
 			<!--ARTS-->
 			<div class="form-group">
-				<select class="selectpicker" name="art" id="art" ng-model="User.cat_id" data-live-search="true" data-size="auto" class="form-control" required select-picker ng-options="art.name for art in categories track by art.id" obj="categories">
+				<select class="selectpicker" name="art" id="art" ng-model="User.cat" data-live-search="true" data-size="auto" class="form-control" required select-picker ng-options="art.name for art in categories track by art.id" obj="categories">
 				    <option value="">Áreas artísticas</option>
 			  	</select>
 				<label for="art">Selecione a sua área artística</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.art) || User.cat_id<1 || User.cat_id==''" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.art)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                <div ng-show="hasError(userForm.art) || User.cat<1 || User.cat==''" class="errorBox">
+                    <span class="error" ng-show="hasError(userForm.art)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 
@@ -105,8 +105,8 @@
 				<input type="text" name="ocupation" id="ocupation" placeholder="Designer" required class="form-control" ng-model="User.ocupation" />
 				<label for="ocupation">Especifique a sua ocupação artística</label>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.ocupation)" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.ocupation,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                <div ng-show="hasError(userForm.ocupation)" class="errorBox">
+                    <span class="error" ng-show="hasError(userForm.ocupation,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 
@@ -150,7 +150,7 @@
 				Bibliografias
 			</h4>
 
-			<!--BIO PT-->
+			<!--BIO-->
 			<div class="form-group" ng-repeat="bio in bios">
 				<textarea name="{{bio.name}}" id="{{bio.name}}" rows="10" placeholder="Escreva aqui a sua biografia..." maxlength="500" required class="form-control" ng-model="User.bios[$index].bio" ng-trim="false"></textarea>
 				<label for="{{bio.name}}">
@@ -161,8 +161,8 @@
 				</label>
 				<div class="requiredNote">{{User.bios[$index].bio.length || 0}}/500</div>
 				<!--ERROR MESSAGE-->
-                <div ng-show="hasError(newUserForm.{{bio.name}})" class="errorBox">
-                    <span class="error" ng-show="hasError(newUserForm.{{bio.name}},'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+                <div ng-show="hasError(userForm.{{bio.name}})" class="errorBox">
+                    <span class="error" ng-show="hasError(userForm.{{bio.name}},'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
                 </div>
 			</div>
 		</section>

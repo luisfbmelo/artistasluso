@@ -8,8 +8,8 @@ appServices.service('authInterceptorService', ['$q', '$injector', '$location', '
 
     var _config = {
         STATUS_401: {
-            LOGGED_IN_URL: '#/',
-            NOT_LOGGED_IN_URL: '#/enter'
+            LOGGED_IN_URL: '/',
+            NOT_LOGGED_IN_URL: '/enter'
         }
     };
 
@@ -40,12 +40,12 @@ appServices.service('authInterceptorService', ['$q', '$injector', '$location', '
     //
 
     var _responseError = function (rejection) {
-
+        console.log(rejection.status);
         //
         // In case the service fails what to do????
         //
 
-        if (rejection.status === 401) {
+        if (rejection.status == 401) {
 
             var path = '/';
 
@@ -57,9 +57,9 @@ appServices.service('authInterceptorService', ['$q', '$injector', '$location', '
                 // If case we wish to clear the token info, 
                 // run the following code.
                 //
-                // var tkAuthService = $injector.get('tkAuthService');
-                // authService.logOut();
-                //
+                var authService = $injector.get('authService');
+                authService.logOut();
+                
 
                 path = _config.STATUS_401.LOGGED_IN_URL;
             }

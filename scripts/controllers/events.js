@@ -1,19 +1,23 @@
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('eventsCtrl', ['$scope', function ($scope) {
+appControllers.controller('eventsCtrl', ['$scope', 'authService', function ($scope, authService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
+	_authentication = authService.authentication;
+	$scope.isAdmin = (_authentication.info!=undefined) &&
+            (_authentication.info.user!=undefined) &&
+            (_authentication.info.user.role == 1);            
 	
 	//
 	// Set if list is editable
 	//
-	$scope.editable = false;
+	$scope.editable = $scope.isAdmin;
 
 	//
 	// Set loggedin status
 	//
-	$scope.loggedIn = false;
+	$scope.loggedIn = _authentication.isAuth;
 
 	//
 	// Get list of events
@@ -200,11 +204,12 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', functi
 	
 }]);
 
-appControllers.controller('eventsUserCtrl', ['$scope', function ($scope) {
+appControllers.controller('eventsUserCtrl', ['$scope', 'authService', function ($scope, authService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
-	
+	_authentication = authService.authentication;
+
 	//
 	// Set if list is editable
 	//
@@ -213,7 +218,7 @@ appControllers.controller('eventsUserCtrl', ['$scope', function ($scope) {
 	//
 	// Set loggedin status
 	//
-	$scope.loggedIn = true;
+	$scope.loggedIn = _authentication.isAuth;
 
 	//
 	// Get list of events

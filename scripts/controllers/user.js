@@ -6,7 +6,7 @@ appControllers.controller('userCtrl', ['$scope', function ($scope) {
     //
 }]);
 
-appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams', '$location','countriesService', 'districtsService', 'categoriesService', 'networksService', 'biosService', 'usersService', function ($scope, $filter, $routeParams, $location, countriesService, districtsService, categoriesService, networksService, biosService, usersService) {
+appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filter', '$routeParams', '$location','countriesService', 'districtsService', 'categoriesService', 'networksService', 'biosService', 'usersService', 'authService', 'imagesService', function ($scope, $log, $route, $filter, $routeParams, $location, countriesService, districtsService, categoriesService, networksService, biosService, usersService, authService, imagesService) {
 
 	//
 	//	INIT OBJECTS
@@ -24,6 +24,10 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
     $scope.bios = [];
     $scope.networks = [];
 
+    //
+    // INIT EXTRA VARS
+    //
+    var pageTypeInject = null;
 
     //
     // INIT FUNCTION
@@ -32,16 +36,34 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
         _getCountries();
         _getDistricts();
         _getCategories();
-        _getBios();
-        _getNetworks();
 
+        // Inject page type if exists
+        pageTypeInject = ($route.current.locals.pageType) ? $route.current.locals.pageType : null;
+        
         //
         // WHAT TO DO
         //
-        if ($routeParams.id){
+        if (pageTypeInject!=null && pageTypeInject == 'editUser'){
             $scope.intent = "edit";
+
+            if (authService.authentication.info!=undefined && authService.authentication.info.user!=undefined && authService.authentication.info.user.id !=undefined){
+
+                _getUserData(authService.authentication.info.user.id)
+                .then(_getBios)
+                .then(_getNetworks)
+                .then(_getCategories)
+                .then(_getCountries)
+                .then(_getDistricts)
+                .catch(_reportProblems);
+            }else{
+                $location.path("/");
+            }
         }else{
             $scope.intent = "new";
+
+            // Get bios and networks first only if new
+            _getBios();
+            _getNetworks(); 
         }
     }
 
@@ -49,12 +71,12 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
     $scope.createUser = function () {
         $scope.submitted = true;
 
-        if (Object.keys($scope.newUserForm.$error).length == 0 && $scope.image.src) {
+        if (Object.keys($scope.userForm.$error).length == 0 && $scope.image.src && (($scope.User.password == $scope.User.confPassword) || ($scope.User.password.length == 0 && ($scope.User.confPassword==undefined || $scope.User.confPassword.length == 0)))) {
+
             _constructObj(); 
-
-             console.log($scope.User);
-
-             if ($routeParams.id){
+            console.log($scope.User);
+            
+            if (pageTypeInject!=null && pageTypeInject == 'editUser'){
                 _updateUser($scope.User);
             }else{
                 _createUser($scope.User);
@@ -75,7 +97,7 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
         //Set image if exists
         if ($scope.image.src != undefined && $scope.image.id == null) {
             $scope.User.image = {};
-            $scope.User.image.url = $scope.image.src.replace(/^data:image\/(png|jpg|jpeg|gif);base64,/, "");
+            $scope.User.image.url = imagesService.stripUrl($scope.image.src);
             $scope.User.image.name = $scope.image.name;
             $scope.User.image.extension = $scope.image.extension;
         }
@@ -88,11 +110,14 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
 			}
         }
  
-        $scope.User.cur_country_id = $scope.User.cur_country_id!=undefined ? $scope.User.cur_country_id.id : null;
-        $scope.User.desc_country_id = $scope.User.desc_country_id!=undefined ? $scope.User.desc_country_id.id : null;
-        $scope.User.dist_id = $scope.User.dist_id!=undefined ? $scope.User.dist_id.id : null;
-        $scope.User.cat_id = $scope.User.cat_id!=undefined ? $scope.User.cat_id.id : null; 
-
+        //
+        // Set items ids
+        //
+        $scope.User.curCountry = $scope.User.curCountry!=undefined ? $scope.User.curCountry.id : null;
+        $scope.User.descCountry = $scope.User.descCountry!=undefined ? $scope.User.descCountry.id : null;
+        $scope.User.dist = ($scope.User.dist!=undefined && $scope.User.descCountry==189) ? $scope.User.dist.id : null;
+        console.log($scope.User.dist);
+        $scope.User.cat = $scope.User.cat!=undefined ? $scope.User.cat.id : null; 
     }
 
     //
@@ -107,61 +132,110 @@ appControllers.controller('userSignupCtrl', ['$scope','$filter', '$routeParams',
             toastr.error(error, '' ,{ timeOut: 5000 });
         });
     }
+
+    var _updateUser = function(item){
+        usersService.update(item.id, item).then(function (data) {
+            toastr.success('Utilizador actualizado!', '' ,{ timeOut: 5000 });
+
+            $location.path("/");
+        }, function (error) {
+            toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+    }
     
+    var _getUserData = function(id){
+        return usersService.get(id).then(function (data) {
+            $scope.User=data;
+
+            // Set password to nothing
+            $scope.User.password = null;
+
+            //Set image
+            if ($scope.User.image.id != undefined && $scope.User.image.id != null) {
+                $scope.image.id = $scope.User.id;
+                $scope.image.src = 'http://localhost/artistasluso/API/api/modules/v1/images/'+$scope.User.image.url;
+                $scope.image.name = $scope.User.image.name;
+                $scope.image.extension = $scope.User.image.extension;
+            }
+                      
+
+        }, function (error) {
+            throw (new Error(error));
+        });
+    }
+
     var _getCountries = function(){
-        countriesService.list().then(function (data) {
+        return countriesService.list().then(function (data) {
             $scope.countries=data;
 
         }, function (error) {
-            toastr.error(error, '' ,{ timeOut: 5000 });
+            throw (new Error(error));
         });
     }
 
     var _getDistricts = function(){
-        districtsService.list().then(function (data) {
+        return districtsService.list().then(function (data) {
             $scope.districts = data;
         }, function (error) {
-            toastr.error(error, '' ,{ timeOut: 5000 });
+            throw (new Error(error));
         });
     }
 
     var _getCategories = function(){
-        categoriesService.list().then(function (data) {
+        return categoriesService.list().then(function (data) {
             $scope.categories = data;
         }, function (error) {
-            toastr.error(error, '' ,{ timeOut: 5000 });
+            throw (new Error(error));
         });
     }
 
     var _getBios = function(){
-        biosService.list().then(function (data) {
+        return biosService.list().then(function (data) {
             $scope.bios = data;
 
-            //SET USER BIOS
-            $scope.User.bios = [];
-            for (var a=0;a<data.length;a++){
-                $scope.User.bios[a] = {};
-                $scope.User.bios[a].bio_id = data[a].id;
+            //SET USER BIOS IF NEW
+            if (pageTypeInject==null){
+                $scope.User.bios = [];
+                for (var a=0;a<data.length;a++){
+                    $scope.User.bios[a] = {};
+                    $scope.User.bios[a].bio_id = data[a].id;
+                }
             }
+
         }, function (error) {
-            toastr.error(String(error), '' ,{ timeOut: 5000 });
+            throw (new Error(error));
         });
     }
 
     var _getNetworks = function(){
-        networksService.list().then(function (data) {
+        return networksService.list().then(function (data) {
             $scope.networks = data;
 
-            //SET USER SOCIAL NETWORKS
-            $scope.User.social = [];
-            for (var a=0;a<data.length;a++){
-                $scope.User.social[a] = {};
-                $scope.User.social[a].network_id = data[a].id;
+            //SET USER SOCIAL NETWORKS IF NEW
+            if (pageTypeInject==null){
+                $scope.User.social = [];
             }
+
+            for (var a=0;a<data.length;a++){
+                //IF NEW
+                if ($scope.User.social[a]==undefined){
+                    $scope.User.social[a] = {};
+                    $scope.User.social[a].network_id = data[a].id;                    
+                }
+                
+            }
+            
         }, function (error) {
-            toastr.error(String(error), '' ,{ timeOut: 5000 });
+            throw (new Error(error));
         });
     }
+
+    //
+    // Catch errors during requests
+    //
+    var _reportProblems = function (fault) {
+        $log.error(String(fault));
+    };
 
     _init();
 }]);
@@ -208,6 +282,7 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
     var _loginUser = function(){
         authService.login($scope.User).then(function(data){
             $scope.isCorrect = true;
+            toastr.success('Entrou com sucesso!', '' ,{ timeOut: 5000 });
             $location.path("/");
         },function(error){
             $scope.isCorrect = false;

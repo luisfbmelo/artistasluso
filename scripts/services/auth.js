@@ -94,7 +94,6 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
                 'password': loginData.password,
             };
 
-            console.log(data);
 
             $http.post(loginUrl, null, {headers:data})
                 .success(function (response) {
@@ -125,7 +124,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
     //
     // Function to logout the current user.
     // Removes authentication data from local
-    // storage and sets appropriate flags.
+    // storage and sets appropriate flags.  
     //
 
     var _logout = function () {

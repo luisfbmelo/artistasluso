@@ -75,6 +75,7 @@ appDirectives.directive('pageHeader', ['$location', 'authService', function ($lo
 		    //
 		    scope.logoutUser = function(){
 		    	authService.logOut();
+		    	toastr.success('Logout com sucesso!', '' ,{ timeOut: 5000 });
 		    	$location.path("/");
 		    }
 	    }
