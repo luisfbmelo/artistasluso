@@ -26,10 +26,10 @@
 			                </div>
 						</div>
 
-						<!--ISLAND-->
+						<!--COUNTRY-->
 						<div class="form-group">
 
-							<select class="selectpicker" name="country" id="country" ng-model="Event.country_id" data-live-search="true" data-size="auto" class="form-control" required ng-options="country.name for country in countries track by country.id" select-picker ng-change="updatePicker()" obj="countries">
+							<select class="selectpicker" name="country" id="country" ng-model="Event.country" data-live-search="true" data-size="auto" class="form-control" required ng-options="country.name for country in countries track by country.id" select-picker ng-change="updatePicker()" obj="countries">
 							    <option value="">Países</option>
 						  	</select>
 							<label for="country">Escolha o país onde decorrerá o evento</label>
@@ -53,26 +53,37 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 form-group">
-									<input type="text" ui-date="dateOptions" id="dateStart" ng-required="true" name="dateStart" class="datePicker" ui-date-format="d MM yy" ng-model="Event.dateStart" ng-controller="datePickerCtrl">
+									<input type="text" ui-date="dateOptions" id="dateStart" ng-required="true" name="dateStart" class="datePicker" ui-date-format="yy-mm-dd" ng-model="Event.dateStart" ng-controller="datePickerCtrl">
 									<label for="dateStart">Data de início</label> 
+									<!--ERROR MESSAGE-->
+					                <div ng-show="(Event.dateStart==undefined || Event.dateStart==null) && submitted" class="errorBox">
+					                    <span class="error"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+					                </div>
 								</div>
 								<div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
 									<time-picker ng-model="Event.timeStart" id="timeStart"></time-picker>
 									<label class="required" for="timeStart">Hora de ínício</label> 
+
+									<!--ERROR MESSAGE-->
+					                <div ng-show="(Event.timeStart==undefined || Event.timeStart==null) && submitted" class="errorBox">
+					                    <span class="error"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
+					                </div>
 								</div>
-							</div>							 
+							</div>	
+													 
 						</div>
 
 						<!--END DATE TIME-->
 						<div class="form-group">
 							<div class="row">
 								<div class="col-xs-12 col-sm-5 col-md-4 col-lg-3 form-group">
-									<input type="text" ui-date="dateOptions" id="dateEnd" ng-required="false" name="dateEnd" class="datePicker" ui-date-format="d MM yy" ng-model="Event.dateEnd" ng-controller="datePickerCtrl">
+									<input type="text" ui-date="dateOptions" id="dateEnd" ng-required="false" name="dateEnd" class="datePicker" ui-date-format="yy-mm-dd" ng-model="Event.dateEnd" ng-controller="datePickerCtrl">
 									<label for="dateEnd">Data de fim</label> 
 								</div>
 								<div class="col-xs-12 col-sm-7 col-md-8 col-lg-9">
 									<time-picker ng-model="Event.timeEnd" id="timeEnd"></time-picker>
 									<label for="timeEnd">Hora de fim</label> 
+		
 								</div>
 							</div>							 
 						</div> 
@@ -93,7 +104,7 @@
 
 						<!--OTHER DETAILS-->
 						<div class="form-group">
-							<textarea name="details" id="details" rows="2" placeholder="Escreva aqui a sua biografia em português..." maxlength="500" required class="form-control" ng-model="Event.details" ng-trim="false"></textarea>
+							<textarea name="details" id="details" rows="2" placeholder="Escreva aqui a sua biografia em português..." maxlength="500" required class="form-control" ng-model="Event.ticketInfo" ng-trim="false"></textarea>
 							<label for="details">Informação sobre os preços e locais de aquisição:</label>
 							<div class="requiredNote">{{Event.details.length || 0}}/500</div>
 							<!--ERROR MESSAGE-->

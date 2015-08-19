@@ -9,15 +9,15 @@ appControllers.controller('footerCtrl', ['$scope', function ($scope) {
 	$scope.icons = [
 		{
 			elClass: 'govpt',
-			url: '#/'
+			url: '/'
 		},
 		{
 			elClass: 'comunidade',
-			url: '#/'
+			url: '/'
 		},
 		{
 			elClass: 'mirateca',
-			url: '#/'
+			url: '/'
 		}
 	];
 

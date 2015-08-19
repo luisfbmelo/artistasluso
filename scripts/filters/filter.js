@@ -51,3 +51,12 @@ appFilters.filter('startFrom', function () {
         return [];
     }
 });
+
+appFilters.filter('timeFilter', function () {
+    return function (input, format) {
+        if (input) {
+            var result = moment(input, 'hh:mm').format(format);
+            return result;
+        }
+    }
+});

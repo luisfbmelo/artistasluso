@@ -6,7 +6,7 @@
 			<div class="col-xs-12 col-sm-6">
 				<div class="event-img">
 					
-				<img src="assets/img/thumbs/{{event.image.url}}" alt="{{event.title}}" class="img-responsive"/>
+				<img ng-src="{{'http://localhost/artistasluso/API/api/modules/v1/images/'+event.image.url}}" alt="{{event.title}}" class="img-responsive"/>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6">
@@ -15,19 +15,19 @@
 						<h1>
 							{{event.title}}
 						</h1>
-						<div class="date">De <strong>{{event.dateStart | date:"d 'de' MMMM 'de' yyyy" }}</strong> a <strong>{{event.dateEnd | date:"d 'de' MMMM 'de' yyyy" }}</strong></div>
+						<div class="date">{{event.dateEnd!=undefined ? 'De ' : ''}}<strong>{{event.dateStart | date:"d 'de' MMMM 'de' yyyy" }}</strong>{{event.dateEnd!=undefined ? ' a ' : ''}}<strong>{{event.dateEnd | date:"d 'de' MMMM 'de' yyyy" }}</strong></div>
 						<div class="city">{{event.city.title}}</div>
 						<div class="country">{{event.country.title}}</div>
 					</div>
 					<p>
-						Nuno Sá is specialized in photography of marine life. He is the author of many books and several dozens of articles published on National and International magazines. He is Co-author of the "Azores Diving Guide" - Portugal´s first published diving guide, and a regular collaborator of several magazines, such as National Geographic Portugal. He is the first Portuguese wildlife photographer nominated in some of Europe´s major nature photography competitions, Professional photographer.
+						{{event.title}}
 					</p>
 				</section>				
 
 				<section>
 					<h4>Informações sobre como participar neste evento</h4>
 					<p>
-						O preço de participação é de 5,00€ por pessoa. Adquira os bilhetes na entrada. O evento é só para pessoas com mais de 12 anos.
+						{{event.ticketInfo}}
 					</p>
 				</section>	
 

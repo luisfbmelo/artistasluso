@@ -28,11 +28,12 @@ appDirectives.directive('pageHeader', ['$location', 'authService', function ($lo
 		        // Get the section from the view after, but
 		        // including the # character.
 		        //
-	            var parcels = $location.path().split('#');
+	            var parcels = $location.path().substring($location.path().indexOf('/')+1);
+	            
 
 	            if (parcels.length > 0) {
 
-	                var viewUrl = "#" + parcels[0];               
+	                var viewUrl = parcels;  
 
 	                //
 	                // Search the menu and try to find a corresponding url.
@@ -41,9 +42,7 @@ appDirectives.directive('pageHeader', ['$location', 'authService', function ($lo
 	                // Is a 1 level
 	                if (angular.isDefined(el.url) && leading==null && customUrl==null) {
 
-                        if (viewUrl.indexOf(el.url)>=0 && viewUrl.length>=el.url.length) {                           
-                            return true;
-                        }
+                        return viewUrl.indexOf(el.url)==0 && viewUrl.length>=el.url.length;
 
                     // Is a 2 level
                     }else if (angular.isDefined(el.id) && leading!=null && customUrl==null) {

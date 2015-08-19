@@ -7,7 +7,7 @@
 		setOffset(filteredResults, 12) && $index==0 ? 'col-md-offset-'+setOffset(filteredResults, 12) : ''
 	]" >
 		
-		<a href="{{ '#/'+route+'/'+setProp(items[0], detailProp) }}" class="stats-container" ng-if="detailProp && route">
+		<a href="{{ route+'/'+setProp(items[0], detailProp) }}" class="stats-container" ng-if="detailProp && route">
 			<span class="item-number">{{items.length}}</span>
 			<span class="item-name">{{ setProp(items[0], displayProp) }}</span>
 		</a>	

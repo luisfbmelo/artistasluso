@@ -35,20 +35,20 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 			{
 				style: 'link',
 				title: 'Projeto',
-				url: '#/project'
+				url: 'project'
 			},
 			{
 				style: 'link',
 				title: 'Eventos',
-				url: '#/events'
+				url: 'events'
 			},
 			{
 				style: 'link',
 				title: 'Artistas',
-				url: '#/artists',
+				url: 'artists',
 				style: 'static',
 				subs: [
-					{style: 'link', title: 'Todos', url: '#/artists' },
+					{style: 'link', title: 'Todos', url: 'artists' },
 					{style: 'link', id:1, title: 'Artes Digitais'},
 					{style: 'link', id:2, title: 'Artes Plásticas'},
 					{style: 'link', id:3, title: 'Cinema e Vídeo'},
@@ -62,7 +62,7 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 			{
 				style: 'link',
 				title: 'Países',
-				url: '#/countries'
+				url: 'countries'
 			}
 		];
 
@@ -74,7 +74,7 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 					title: _curUser.name,
 					type: (_isAdmin) ? 'admin' : 'regular',
 					related: 'user',
-					url: '#/user',
+					url: 'user',
 				}
 			);
 		}else{
@@ -82,7 +82,7 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 				{
 					style: 'link',
 					title: 'Entrar',
-					url: '#/enter',
+					url: 'enter',
 					related: 'user'
 				}
 			);

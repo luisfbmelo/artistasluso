@@ -3,19 +3,19 @@
 
 		<div class="card-container">
 			<section class="card-thumb-img">
-				<a href="#/events/{{event.id}}">
-					<img ng-src="{{'assets/img/thumbs/'+event.image.url}}" alt="{{event.title}}" class="img-responsive">
+				<a href="events/{{event.id}}">
+					<img ng-src="{{'http://localhost/artistasluso/API/api/modules/v1/images/'+event.image.url}}" alt="" class="img-responsive">
 				</a>
 			</section>
 			<section class="card-desc">
 				<h1>
-					<a href="#/events/{{event.id}}">
+					<a href="events/{{event.id}}">
 						{{event.title}}			
 					</a>
 				</h1>
 
 				<div class="card-date">
-					{{ event.dateStart | date:"d 'de' MMMM 'de' yyyy, HH'h':mm" }}
+					{{ event.dateStart | date:"d 'de' MMMM 'de' yyyy" }}, {{ event.timeStart | timeFilter:"HH:mm"}}
 				</div>
 
 				<div class="card-details">
@@ -28,11 +28,11 @@
 				</p>
 			</section>
 			<section class="card-options">
-				<a href="#/events/{{event.id}}" class="btn cta text-red">Saber mais</a>
+				<a href="events/{{event.id}}" class="btn cta text-red">Saber mais</a>
 			</section>
 			<section class="item-options" ng-if="editable">
-				<a href="#/edit-event/{{event.id}}">Editar</a>
-				<a href="" ng-click="deleteEvent(event)">Apagar</a>				
+				<a href="edit-event/{{event.id}}">Editar</a>
+				<a href="" ng-click="deleteEvent(event)" ng-confirm-click="Tem a certeza que deseja eliminar este evento?">Apagar</a>				
 			</section>
 		</div>
 

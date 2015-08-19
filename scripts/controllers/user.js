@@ -116,8 +116,10 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         $scope.User.curCountry = $scope.User.curCountry!=undefined ? $scope.User.curCountry.id : null;
         $scope.User.descCountry = $scope.User.descCountry!=undefined ? $scope.User.descCountry.id : null;
         $scope.User.dist = ($scope.User.dist!=undefined && $scope.User.descCountry==189) ? $scope.User.dist.id : null;
-        console.log($scope.User.dist);
         $scope.User.cat = $scope.User.cat!=undefined ? $scope.User.cat.id : null; 
+
+        $scope.User.created_at = ($scope.User.created_at!=undefined) ? $scope.User.created_at : moment().format("YYYY-MM-DD hh:mm:ss");
+        $scope.User.updated_at = moment().format("YYYY-MM-DD hh:mm:ss");
     }
 
     //
@@ -127,7 +129,8 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         usersService.create(item).then(function (data) {
             toastr.success('Utilizador criado!', '' ,{ timeOut: 5000 });
 
-            $location.path("/");
+            //$location.path("/");
+            $route.reload();
         }, function (error) {
             toastr.error(error, '' ,{ timeOut: 5000 });
         });
@@ -137,7 +140,7 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         usersService.update(item.id, item).then(function (data) {
             toastr.success('Utilizador actualizado!', '' ,{ timeOut: 5000 });
 
-            $location.path("/");
+            $location.path("/user");
         }, function (error) {
             toastr.error(error, '' ,{ timeOut: 5000 });
         });

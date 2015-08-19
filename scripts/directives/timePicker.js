@@ -1,6 +1,6 @@
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('timePicker', [ function () {
+appDirectives.directive('timePicker', ['moment', function (moment) {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/timePicker.html",
@@ -27,6 +27,7 @@ appDirectives.directive('timePicker', [ function () {
 	    	//
 	    	scope.changed = function () {
 	    		var dateString = scope.useObj.getHours()+":"+scope.useObj.getMinutes()+":00";
+						
 	    		ngModel.$setViewValue(dateString);
     			ngModel.$render();
 			};
@@ -38,8 +39,13 @@ appDirectives.directive('timePicker', [ function () {
               return ngModel.$modelValue;
            	}, function(newValue) {
                if (newValue!=undefined){
+
 					if (first){
-						scope.useObj = scope.$eval(attr.timeObj);						
+						var d = moment(newValue, 'hh:mm');
+						var newDate = new Date();
+						newDate.setHours(d.hours());
+						newDate.setMinutes(d.minutes());
+				    	scope.useObj = newDate;					
 					}		
 					first = false;			
 				}

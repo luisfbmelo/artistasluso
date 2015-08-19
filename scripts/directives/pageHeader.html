@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#/">
+            <a class="navbar-brand" href="home">
                 <img class="img-responsive" src="assets/img/logos/homepage_logo.png">
             </a>
         </div>
@@ -36,10 +36,10 @@
                         {{item.title}} <span class="caret" ng-if="item.subs!=undefined && item.subs.length>0"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu" ng-if="item.type">
-                        <li ng-class="{'active': defineCurrentView(item, null, '#/user')}"><a href="#/user">MEU PERFIL</a></li>
-                        <li ng-class="{'active': defineCurrentView(item, null, '#/user/edit')}"><a href="#/user/edit/">EDITAR PERFIL</a></li>
-                        <li ng-class="{'active': defineCurrentView(item, null, '#/user/my-events/list')}"><a href="#/user/my-events/list">MEUS EVENTOS</a></li>                        
-                        <li><a href="#/logout" ng-click="logoutUser()">SAIR</a></li>
+                        <li ng-class="{'active': defineCurrentView(item, null, 'user')}"><a href="user">MEU PERFIL</a></li>
+                        <li ng-class="{'active': defineCurrentView(item, null, 'user/edit')}"><a href="user/edit/">EDITAR PERFIL</a></li>
+                        <li ng-class="{'active': defineCurrentView(item, null, 'user/my-events/list')}"><a href="user/my-events/list">MEUS EVENTOS</a></li>                        
+                        <li><a href="logout" ng-click="logoutUser()">SAIR</a></li>
                     </ul>
 
                     <!-- NO LOGIN -->

@@ -14,10 +14,11 @@ var app = angular.module('artistasluso', [
   'ngAnimate',
   'ui.bootstrap',
   'wysiwyg.module',
-  'ui.date'
+  'ui.date',
+  'angularMoment'
 ]);
 
-app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
+app.config(['$routeProvider', '$httpProvider', '$locationProvider', function($routeProvider, $httpProvider, $locationProvider) {
 
 	$routeProvider.
 		when('/', {
@@ -93,4 +94,13 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
 	// Add interceptor
 	//
 	$httpProvider.interceptors.push('authInterceptorService');
+
+	//
+	// Remove hash and use pushState
+	//
+	$locationProvider.html5Mode(true);
 }]);	
+
+app.run(function(amMoment) {
+    amMoment.changeLocale('pt');
+});

@@ -184,7 +184,7 @@ appControllers.controller('datePickerCtrl', ['$scope','$routeParams', function (
 }]);
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('eventsCtrl', ['$scope', 'authService', function ($scope, authService) {
+appControllers.controller('eventsCtrl', ['$scope', 'authService', 'eventsService', function ($scope, authService, eventsService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
@@ -204,191 +204,161 @@ appControllers.controller('eventsCtrl', ['$scope', 'authService', function ($sco
 	$scope.loggedIn = _authentication.isAuth;
 
 	//
+	// INIT FUNCTION
+	//
+	var _init = function(){
+		_getEvents();	
+	}
+
+	//
 	// Get list of events
 	//
-	$scope.events = [
-		{
-			id: 1,
-			title: 'Abertura oficial do festival de janeiro',
-			dateStart: '20140313T00:00:00',
-			city: {
-				id:1,
-				title: 'Casa da Montanha'
-			},
-			country: {
-				id:1,
-				title:'Portugal'
-			},
-			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-			image: {
-				id:1,
-				url:'thumb.jpg'
-			}
-		},
-		{
-			id: 2,
-			title: 'Abertura oficial do festival de janeiro',
-			dateStart: '20140313T00:00:00',
-			city: {
-				id:1,
-				title: 'Casa da Montanha'
-			},
-			country: {
-				id:1,
-				title:'Portugal'
-			},
-			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-			image: {
-				id:1,
-				url:'thumb.jpg'
-			}
-		}
-	];
+	var _getEvents = function(){
+		eventsService.list().then(function(data){
+			$scope.events = data;
+		},function(error){});
+	}
 
 	//
     // Delete event
     //   
     $scope.deleteEl = function (el) {
-        console.log("Deleted with service: " + el);
+        eventsService.delete(el.id).then(function(){
+			_getEvents();
+		},function(error){});
     };
+
+    _init();
 }]);
 
-appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', 'eventsService', function ($scope, $routeParams, eventsService) {
 
-	if ($routeParams.id){
-		$scope.event = 
-			{
-				id: $routeParams.id,
-				title: 'Abertura oficial do festival de janeiro',
-				dateStart: '20140313T00:00:00',
-				dateEnd: '20140313T00:00:00',
-				city: {
-					id:1,
-					title: 'Casa da Montanha'
-				},
-				country: {
-					id:1,
-					title:'Portugal'
-				},
-				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-				image: {
-					id:1,
-					url:'thumb.jpg'
-				}
-			};
+	var _init = function(){
+		if ($routeParams.id){
+			_getEvent($routeParams.id);
 
-		$scope.otherEvents = [
-			{
-				id: 1,
-				title: 'Abertura oficial do festival de janeiro',
-				dateStart: '20140313T00:00:00',
-				city: {
-					id:1,
-					title: 'Casa da Montanha'
+			$scope.otherEvents = [
+				{
+					id: 1,
+					title: 'Abertura oficial do festival de janeiro',
+					dateStart: '20140313T00:00:00',
+					city: {
+						id:1,
+						title: 'Casa da Montanha'
+					},
+					country: {
+						id:1,
+						title:'Portugal'
+					},
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+					image: {
+						id:1,
+						url:'thumb.jpg'
+					}
 				},
-				country: {
-					id:1,
-					title:'Portugal'
+				{
+					id: 2,
+					title: 'Abertura oficial do festival de janeiro',
+					dateStart: '20140313T00:00:00',
+					city: {
+						id:1,
+						title: 'Casa da Montanha'
+					},
+					country: {
+						id:1,
+						title:'Portugal'
+					},
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+					image: {
+						id:1,
+						url:'thumb.jpg'
+					}
 				},
-				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-				image: {
-					id:1,
-					url:'thumb.jpg'
+				{
+					id: 3,
+					title: 'Abertura oficial do festival de janeiro',
+					dateStart: '20140313T00:00:00',
+					city: {
+						id:1,
+						title: 'Casa da Montanha'
+					},
+					country: {
+						id:1,
+						title:'Portugal'
+					},
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+					image: {
+						id:1,
+						url:'thumb.jpg'
+					}
+				},
+				{
+					id: 4,
+					title: 'Abertura oficial do festival de janeiro',
+					dateStart: '20140313T00:00:00',
+					city: {
+						id:1,
+						title: 'Casa da Montanha'
+					},
+					country: {
+						id:1,
+						title:'Portugal'
+					},
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+					image: {
+						id:1,
+						url:'thumb.jpg'
+					}
+				},
+				{
+					id: 5,
+					title: 'Abertura oficial do festival de janeiro',
+					dateStart: '20140313T00:00:00',
+					city: {
+						id:1,
+						title: 'Casa da Montanha'
+					},
+					country: {
+						id:1,
+						title:'Portugal'
+					},
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
+					image: {
+						id:1,
+						url:'thumb.jpg'
+					}
 				}
-			},
-			{
-				id: 2,
-				title: 'Abertura oficial do festival de janeiro',
-				dateStart: '20140313T00:00:00',
-				city: {
-					id:1,
-					title: 'Casa da Montanha'
-				},
-				country: {
-					id:1,
-					title:'Portugal'
-				},
-				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-				image: {
-					id:1,
-					url:'thumb.jpg'
-				}
-			},
-			{
-				id: 3,
-				title: 'Abertura oficial do festival de janeiro',
-				dateStart: '20140313T00:00:00',
-				city: {
-					id:1,
-					title: 'Casa da Montanha'
-				},
-				country: {
-					id:1,
-					title:'Portugal'
-				},
-				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-				image: {
-					id:1,
-					url:'thumb.jpg'
-				}
-			},
-			{
-				id: 4,
-				title: 'Abertura oficial do festival de janeiro',
-				dateStart: '20140313T00:00:00',
-				city: {
-					id:1,
-					title: 'Casa da Montanha'
-				},
-				country: {
-					id:1,
-					title:'Portugal'
-				},
-				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-				image: {
-					id:1,
-					url:'thumb.jpg'
-				}
-			},
-			{
-				id: 5,
-				title: 'Abertura oficial do festival de janeiro',
-				dateStart: '20140313T00:00:00',
-				city: {
-					id:1,
-					title: 'Casa da Montanha'
-				},
-				country: {
-					id:1,
-					title:'Portugal'
-				},
-				description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-				image: {
-					id:1,
-					url:'thumb.jpg'
-				}
-			}
-		];
+			];
 
-		$scope.networks = [
-			{
-				name: 'facebook',
-				url: 'www.facebook.com'
-			},
-			{
-				name: 'twitter',
-				url: 'www.twitter.com'
-			},
-			{
-				name: 'google-plus',
-				url: 'www.googleplus.com'
-			}
-		];
+			$scope.networks = [
+				{
+					name: 'facebook',
+				},
+				{
+					name: 'twitter',
+				},
+				{
+					name: 'google-plus',
+				}
+			];
+		}
 	}
+	
+
+	//
+	// Get list of events
+	//
+	var _getEvent = function(id){
+		eventsService.get(id).then(function(data){
+			$scope.event = data;
+		},function(error){});
+	}
+
+	_init();
 	
 }]);
 
-appControllers.controller('eventsUserCtrl', ['$scope', 'authService', function ($scope, authService) {
+appControllers.controller('eventsUserCtrl', ['$scope', 'authService', 'eventsService', function ($scope, authService, eventsService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
@@ -405,56 +375,34 @@ appControllers.controller('eventsUserCtrl', ['$scope', 'authService', function (
 	$scope.loggedIn = _authentication.isAuth;
 
 	//
-	// Get list of events
+	// INIT FUNCTION
 	//
-	$scope.events = [
-		{
-			id: 1,
-			title: 'Abertura oficial do festival de janeiro',
-			dateStart: '20140313T00:00:00',
-			city: {
-				id:1,
-				title: 'Casa da Montanha'
-			},
-			country: {
-				id:1,
-				title:'Portugal'
-			},
-			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-			image: {
-				id:1,
-				url:'thumb.jpg'
-			}
-		},
-		{
-			id: 2,
-			title: 'Abertura oficial do festival de janeiro',
-			dateStart: '20140313T00:00:00',
-			city: {
-				id:1,
-				title: 'Casa da Montanha'
-			},
-			country: {
-				id:1,
-				title:'Portugal'
-			},
-			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-			image: {
-				id:1,
-				url:'thumb.jpg'
-			}
-		}
-	];
+	var _init = function(){
+		_getEvent();
+	}
+
+	//
+	// Get list of user events
+	//
+	var _getEvent = function(id){
+		eventsService.getFromUser().then(function(data){
+			$scope.events = data;
+		},function(error){});
+	}
 
 	//
     // Delete event
     //   
     $scope.deleteEl = function (el) {
-        console.log("Deleted with service: " + el);
+        eventsService.delete(el.id).then(function(){
+			_getEvent();
+		},function(error){});
     };
+
+    _init();
 }]);
 
-appControllers.controller('eventFormCtrl', ['$scope','$routeParams', 'countriesService', function ($scope,$routeParams, countriesService) {
+appControllers.controller('eventFormCtrl', ['$scope','$routeParams', '$location', 'countriesService', 'authService', 'eventsService', 'moment', function ($scope,$routeParams, $location, countriesService, authService, eventsService, moment) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
@@ -502,8 +450,13 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', 'countriesS
 		//
 		if ($routeParams.id){
 			$scope.intent = "edit";
+			_getEvent($routeParams.id);
 		}else{
 			$scope.intent = "new";
+			$scope.Event = {
+				timeStart: '00:00:00',
+				timeEnd: '00:00:00'
+			};
 		}
 	}
 
@@ -513,21 +466,19 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', 'countriesS
 	$scope.submitEvent = function(){
 		$scope.submitted = true;
 
-        if (Object.keys($scope.eventForm.$error).length == 0 && $scope.image.src) {
+        if (Object.keys($scope.eventForm.$error).length == 0 && $scope.image.src && $scope.Event.timeStart!=undefined && $scope.Event.dateStart!=undefined) {
             _constructObj(); 
-            console.log($scope.Event);
+			console.log($scope.Event);
 
             if ($routeParams.id){
             	// UPDATE
-            	toastr.success('Evento alterado com sucesso!', '' ,{ timeOut: 5000 })
-            	
-             	console.log("update");
+            	_updateEvent($scope.Event);
             }else{
             	// CREATE
-            	toastr.success('Evento criado com sucesso!', '' ,{ timeOut: 5000 })
-            	
-            	console.log("create");
+            	_createEvent($scope.Event);         
             }
+        }else{
+        	toastr.error('Preencha corretamente os campos', '' ,{ timeOut: 5000 });
         }
 	}
 
@@ -548,11 +499,52 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', 'countriesS
             $scope.Event.image.name = $scope.image.name;
             $scope.Event.image.extension = $scope.image.extension;
         }
+
+        //If no user, set currently logged as the owner
+        if ($scope.Event.user == undefined){
+        	$scope.Event.user = {
+        		id: authService.authentication.info.user.id
+        	}
+        }        
     }
 
     //
     // SERVICES
     //
+    var _createEvent = function(item){
+        eventsService.create(item).then(function (data) {
+            toastr.success('Evento criado!', '' ,{ timeOut: 5000 });
+
+            $location.path("/events");
+        }, function (error) {
+            toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+    }
+
+    var _updateEvent = function(item){
+        eventsService.update(item.id, item).then(function (data) {
+            toastr.success('Evento actualizado!', '' ,{ timeOut: 5000 });
+
+            $location.path("/events");
+        }, function (error) {
+            toastr.error(error, '' ,{ timeOut: 5000 });
+        });
+    }
+
+	var _getEvent = function(id){
+		eventsService.get(id).then(function(data){
+			$scope.Event = data;
+
+			//Set image
+            if ($scope.Event.image.id != undefined && $scope.Event.image.id != null) {
+                $scope.image.id = $scope.Event.id;
+                $scope.image.src = 'http://localhost/artistasluso/API/api/modules/v1/images/'+$scope.Event.image.url;
+                $scope.image.name = $scope.Event.image.name;
+                $scope.image.extension = $scope.Event.image.extension;
+            }
+		},function(error){});
+	}
+
     var _getCountries = function(){
 		countriesService.list().then(function (data) {
 			$scope.countries = data;
@@ -560,6 +552,7 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', 'countriesS
         	toastr.error(error, '' ,{ timeOut: 5000 });
         });
 	}
+
 
     _init();
 }]);
@@ -584,15 +577,15 @@ appControllers.controller('footerCtrl', ['$scope', function ($scope) {
 	$scope.icons = [
 		{
 			elClass: 'govpt',
-			url: '#/'
+			url: '/'
 		},
 		{
 			elClass: 'comunidade',
-			url: '#/'
+			url: '/'
 		},
 		{
 			elClass: 'mirateca',
-			url: '#/'
+			url: '/'
 		}
 	];
 
@@ -634,20 +627,20 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 			{
 				style: 'link',
 				title: 'Projeto',
-				url: '#/project'
+				url: 'project'
 			},
 			{
 				style: 'link',
 				title: 'Eventos',
-				url: '#/events'
+				url: 'events'
 			},
 			{
 				style: 'link',
 				title: 'Artistas',
-				url: '#/artists',
+				url: 'artists',
 				style: 'static',
 				subs: [
-					{style: 'link', title: 'Todos', url: '#/artists' },
+					{style: 'link', title: 'Todos', url: 'artists' },
 					{style: 'link', id:1, title: 'Artes Digitais'},
 					{style: 'link', id:2, title: 'Artes Plásticas'},
 					{style: 'link', id:3, title: 'Cinema e Vídeo'},
@@ -661,7 +654,7 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 			{
 				style: 'link',
 				title: 'Países',
-				url: '#/countries'
+				url: 'countries'
 			}
 		];
 
@@ -673,7 +666,7 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 					title: _curUser.name,
 					type: (_isAdmin) ? 'admin' : 'regular',
 					related: 'user',
-					url: '#/user',
+					url: 'user',
 				}
 			);
 		}else{
@@ -681,7 +674,7 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 				{
 					style: 'link',
 					title: 'Entrar',
-					url: '#/enter',
+					url: 'enter',
 					related: 'user'
 				}
 			);
@@ -984,8 +977,10 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         $scope.User.curCountry = $scope.User.curCountry!=undefined ? $scope.User.curCountry.id : null;
         $scope.User.descCountry = $scope.User.descCountry!=undefined ? $scope.User.descCountry.id : null;
         $scope.User.dist = ($scope.User.dist!=undefined && $scope.User.descCountry==189) ? $scope.User.dist.id : null;
-        console.log($scope.User.dist);
         $scope.User.cat = $scope.User.cat!=undefined ? $scope.User.cat.id : null; 
+
+        $scope.User.created_at = ($scope.User.created_at!=undefined) ? $scope.User.created_at : moment().format("YYYY-MM-DD hh:mm:ss");
+        $scope.User.updated_at = moment().format("YYYY-MM-DD hh:mm:ss");
     }
 
     //
@@ -995,7 +990,8 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         usersService.create(item).then(function (data) {
             toastr.success('Utilizador criado!', '' ,{ timeOut: 5000 });
 
-            $location.path("/");
+            //$location.path("/");
+            $route.reload();
         }, function (error) {
             toastr.error(error, '' ,{ timeOut: 5000 });
         });
@@ -1005,7 +1001,7 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         usersService.update(item.id, item).then(function (data) {
             toastr.success('Utilizador actualizado!', '' ,{ timeOut: 5000 });
 
-            $location.path("/");
+            $location.path("/user");
         }, function (error) {
             toastr.error(error, '' ,{ timeOut: 5000 });
         });
@@ -1208,6 +1204,15 @@ appFilters.filter('startFrom', function () {
             return input.slice(start);
         }
         return [];
+    }
+});
+
+appFilters.filter('timeFilter', function () {
+    return function (input, format) {
+        if (input) {
+            var result = moment(input, 'hh:mm').format(format);
+            return result;
+        }
     }
 });
 var appServices = angular.module('appServices');
@@ -1615,13 +1620,15 @@ appServices.factory('eventsService', ['$http', '$q', '$rootScope', function ($ht
 
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
     var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
-    var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API); }
-    var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
+    var _getFromUser = function () { return GET_SERVICE_PROMISE($q, $http, "get", API + "/fromuser"); }
+    var _list = function () { return GET_SERVICE_PROMISE($q, $http, "get", API); }
+    var _update = function (id, item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
 
     return {
         'create': _create,
         'get': _get,
+        'getFromUser': _getFromUser,
         'list': _list,
         'update': _update,
         'delete': _delete,
@@ -2042,6 +2049,26 @@ appDirectives.directive('login', [function () {
 	    } 
 	 };
 }]); 
+'use strict';
+
+app.directive('ngConfirmClick', [
+  function () {
+      return {
+          priority: -1,
+          restrict: 'A',
+          link: function (scope, element, attrs) {
+              element.bind('click', function (e) {
+                  var message = attrs.ngConfirmClick;
+                  if (message && !confirm(message)) {
+                      e.stopImmediatePropagation();
+                      e.preventDefault();
+                      
+                  }
+              });
+          }
+      }
+  }
+]);
 var appDirectives = angular.module('appDirectives');
 
 appDirectives.directive('pageFooter', [function () {
@@ -2081,11 +2108,12 @@ appDirectives.directive('pageHeader', ['$location', 'authService', function ($lo
 		        // Get the section from the view after, but
 		        // including the # character.
 		        //
-	            var parcels = $location.path().split('#');
+	            var parcels = $location.path().substring($location.path().indexOf('/')+1);
+	            
 
 	            if (parcels.length > 0) {
 
-	                var viewUrl = "#" + parcels[0];               
+	                var viewUrl = parcels;  
 
 	                //
 	                // Search the menu and try to find a corresponding url.
@@ -2094,9 +2122,7 @@ appDirectives.directive('pageHeader', ['$location', 'authService', function ($lo
 	                // Is a 1 level
 	                if (angular.isDefined(el.url) && leading==null && customUrl==null) {
 
-                        if (viewUrl.indexOf(el.url)>=0 && viewUrl.length>=el.url.length) {                           
-                            return true;
-                        }
+                        return viewUrl.indexOf(el.url)==0 && viewUrl.length>=el.url.length;
 
                     // Is a 2 level
                     }else if (angular.isDefined(el.id) && leading!=null && customUrl==null) {
@@ -2229,7 +2255,7 @@ appDirectives.directive('social', ['$location', function ($location) {
 }]); 
 var appDirectives = angular.module('appDirectives');
 
-appDirectives.directive('timePicker', [ function () {
+appDirectives.directive('timePicker', ['moment', function (moment) {
 	return {
 	    restrict: 'E',
 	    templateUrl: "scripts/directives/timePicker.html",
@@ -2256,6 +2282,7 @@ appDirectives.directive('timePicker', [ function () {
 	    	//
 	    	scope.changed = function () {
 	    		var dateString = scope.useObj.getHours()+":"+scope.useObj.getMinutes()+":00";
+						
 	    		ngModel.$setViewValue(dateString);
     			ngModel.$render();
 			};
@@ -2267,8 +2294,13 @@ appDirectives.directive('timePicker', [ function () {
               return ngModel.$modelValue;
            	}, function(newValue) {
                if (newValue!=undefined){
+
 					if (first){
-						scope.useObj = scope.$eval(attr.timeObj);						
+						var d = moment(newValue, 'hh:mm');
+						var newDate = new Date();
+						newDate.setHours(d.hours());
+						newDate.setMinutes(d.minutes());
+				    	scope.useObj = newDate;					
 					}		
 					first = false;			
 				}
