@@ -20,7 +20,7 @@ appFilters.filter('urlResolver', function(){
 	return function(input){
 		var result;
 	    var startingUrl = "http://";
-	    if (input.startsWith("www")) {
+	    if (input!=undefined && input.indexOf('www') == 0) {
 	        result = startingUrl + input;
 	    } else {
 	        result = input;
@@ -33,7 +33,7 @@ appFilters.filter('urlResolverVal', function(){
 	return function(input){
 		var result;
 	    var startingUrl = "http://";
-	    if (input.startsWith("www")) {
+	    if (input!=undefined && input.indexOf('www') == 0) {
 	        result = startingUrl + input;
 	    } else {
 	        result = null;

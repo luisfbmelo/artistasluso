@@ -82,6 +82,10 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider', function($ro
 			templateUrl: 'scripts/views/events.html',
 			controller: 'eventsUserCtrl'
 		}).
+		when('/approve/:approve/:type/:id', {
+			templateUrl: 'scripts/views/approves.html',
+			controller: 'userCtrl'
+		}).
 		when('/admin-report', {
 			templateUrl: 'scripts/views/admin-report.html',
 			controller: 'reportsCtrl'

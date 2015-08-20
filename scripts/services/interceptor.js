@@ -59,7 +59,7 @@ appServices.service('authInterceptorService', ['$q', '$injector', '$location', '
                 //
                 var authService = $injector.get('authService');
                 authService.logOut();
-                
+                toastr.error('Sem autorização. A efetuar logout...', '' ,{ timeOut: 5000 });
 
                 path = _config.STATUS_401.LOGGED_IN_URL;
             }

@@ -103,20 +103,24 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         }
 
         //Set the correct url
-        if ($scope.User.networks!=undefined){
-        	for (var key in $scope.User.networks) {
-			    var val = $scope.User.networks[key];
-		   	 	$scope.User.networks[key] = $filter('urlResolverVal')(val);
+        if ($scope.User.social!=undefined){
+        	for (var key in $scope.User.social) {
+                console.log(key)
+			    var val = $scope.User.social[key]['url'];
+                if (val!=undefined){
+                    $scope.User.social[key]['url'] = $filter('urlResolverVal')(val);
+                }
 			}
         }
  
         //
         // Set items ids
         //
-        $scope.User.curCountry = $scope.User.curCountry!=undefined ? $scope.User.curCountry.id : null;
+        /*$scope.User.curCountry = $scope.User.curCountry!=undefined ? $scope.User.curCountry.id : null;
         $scope.User.descCountry = $scope.User.descCountry!=undefined ? $scope.User.descCountry.id : null;
         $scope.User.dist = ($scope.User.dist!=undefined && $scope.User.descCountry==189) ? $scope.User.dist.id : null;
-        $scope.User.cat = $scope.User.cat!=undefined ? $scope.User.cat.id : null; 
+        $scope.User.cat = $scope.User.cat!=undefined ? $scope.User.cat.id : null; */
+        $scope.User.status = $scope.User.status!=undefined ? $scope.User.status : 1;
 
         $scope.User.created_at = ($scope.User.created_at!=undefined) ? $scope.User.created_at : moment().format("YYYY-MM-DD hh:mm:ss");
         $scope.User.updated_at = moment().format("YYYY-MM-DD hh:mm:ss");
@@ -243,7 +247,7 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
     _init();
 }]);
 
-appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'authService', function ($scope, $filter, $location, authService) {
+appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'authService', '$routeParams', 'usersService', 'eventsService', function ($scope, $filter, $location, authService, $routeParams, usersService,eventsService) {
 
 	//
 	//	INIT OBJECTS
@@ -253,16 +257,18 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
 	$scope.submitted = false;
     $scope.isCorrect = true;
 
+
 	//SUBMIT NEW FORM
     $scope.loginUser = function () {
         $scope.submitted = true;
 
         if (Object.keys($scope.userLoginForm.$error).length == 0) {
-            _constructObj(); 
 
-             console.log($scope.User);
-
-             _loginUser();
+            if ($routeParams.id && $routeParams.approve && $routeParams.type){
+                _loginUserApprove();
+            }else{
+                _loginUser();  
+            }             
         }
     }
 
@@ -273,11 +279,6 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
         }
         return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
     };
-
-    //Construct final obj
-    var _constructObj = function () {
-
-    }
 
     //
     // Services
@@ -290,5 +291,48 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
         },function(error){
             $scope.isCorrect = false;
         });
+    }
+
+    //
+    // LOGIN TO CHANGE ELEMENT STATUS
+    //
+    var _loginUserApprove = function(){
+        authService.login($scope.User).then(function(data){
+            $scope.isCorrect = true;
+
+            // Set status
+            _setStatus($routeParams.id, $routeParams.approve, $routeParams.type);
+        },function(error){
+            $scope.isCorrect = false;
+        });
+    }
+
+    //
+    // LOGIN TO CHANGE ELEMENT STATUS
+    //
+    var _setStatus = function(id, intent, type){
+        if (type == 'user'){
+            usersService.get(id)
+            .then(function(data){
+                data.status = parseInt(intent);
+                data.password=null;
+
+                usersService.update(data.id, data).then(function(){
+                    toastr.success('Aprovação submetida!', '' ,{ timeOut: 5000 });
+                    $location.path("/");
+                });
+            });
+
+        }else if(type=='event'){
+            eventsService.get(id)
+            .then(function(data){
+                data.status = parseInt(intent);
+
+                eventsService.update(data.id, data).then(function(){
+                    toastr.success('Aprovação submetida!', '' ,{ timeOut: 5000 });
+                    $location.path("/");
+                });
+            });
+        }
     }
 }]);
