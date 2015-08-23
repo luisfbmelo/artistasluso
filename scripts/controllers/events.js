@@ -215,7 +215,6 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', '$location'
 
         if (Object.keys($scope.eventForm.$error).length == 0 && $scope.image.src && $scope.Event.timeStart!=undefined && $scope.Event.dateStart!=undefined) {
             _constructObj(); 
-			console.log($scope.Event);
 
             if ($routeParams.id){
             	// UPDATE

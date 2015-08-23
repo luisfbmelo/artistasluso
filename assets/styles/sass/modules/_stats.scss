@@ -1,11 +1,12 @@
 .stats{
 	text-align:center;
 	width:100%;
+	margin-top:100px;
 
-	position:absolute;
+	/*position:absolute;
 	top:50%;
 	left:50%;
-	@include translate(-50%,-50%);
+	@include translate(-50%,-50%);*/
 
 	.stats-container{
 		display:inline-block;

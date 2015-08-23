@@ -60,3 +60,19 @@ appFilters.filter('timeFilter', function () {
         }
     }
 });
+
+app.filter('trusted', ['$sce', function($sce) {
+    var div = document.createElement('div');
+    return function(text) {
+        div.innerHTML = text;
+        return $sce.trustAsHtml(div.textContent);
+    };
+}]);
+
+
+app.filter('htmlToPlaintext', function() {
+    return function(text) {
+      return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
+    };
+  }
+);

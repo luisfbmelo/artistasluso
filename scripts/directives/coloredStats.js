@@ -14,6 +14,7 @@ appDirectives.directive('coloredStats', [function () {
 	    replace: true,
 	    link: function(scope, el, attr){
 
+	    	// Convert string prop to usable prop on object
 	    	scope.setProp = function(obj, prop) {
 			    prop = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
 			    prop = prop.replace(/^\./, '');           // strip a leading dot

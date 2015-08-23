@@ -1,24 +1,22 @@
-<div class="row stats">
-	<div 
-	class="col-xs-6 col-sm-2 col-md-1 stats-wrapper" 
-	ng-repeat-start="(key, items) in filteredResults = (list | orderBy: groupByProp | groupBy: groupByProp) " 
-	ng-class="[
-		setOffset(filteredResults, 6) && $index==0 ? 'col-sm-offset-'+setOffset(filteredResults, 6) : '', 
-		setOffset(filteredResults, 12) && $index==0 ? 'col-md-offset-'+setOffset(filteredResults, 12) : ''
-	]" >
-		
-		<a href="{{ route+'/'+setProp(items[0], detailProp) }}" class="stats-container" ng-if="detailProp && route">
-			<span class="item-number">{{items.length}}</span>
-			<span class="item-name">{{ setProp(items[0], displayProp) }}</span>
-		</a>	
+<div class="container">
+	<div class="row stats">
+		<div 
+		class="col-xs-6 col-sm-2 col-md-2 stats-wrapper" 
+		ng-repeat-start="(key, items) in filteredResults = (list | orderBy: groupByProp | groupBy: groupByProp) " >
+			
+			<a href="{{ route+'/'+setProp(items[0], detailProp) }}" class="stats-container" ng-if="detailProp && route">
+				<span class="item-number">{{items.length}}</span>
+				<span class="item-name">{{ setProp(items[0], displayProp) }}</span>
+			</a>	
 
-		<div class="stats-container" ng-if="detailProp==undefined || route==undefined">
-			<span class="item-number">{{items.length}}</span>
-			<span class="item-name">{{ setProp(items[0], displayProp) }}</span>
-		</div>	
-	</div>
-	<span class="clearfix visible-md-block" ng-if="($index+1)%12==0"></span>
-	<span class="clearfix visible-sm-block" ng-if="($index+1)%6==0"></span>
-	<span class="clearfix visible-xs-block" ng-repeat-end ng-if="($index+1)%2==0"></span>
+			<div class="stats-container" ng-if="detailProp==undefined || route==undefined">
+				<span class="item-number">{{items.length}}</span>
+				<span class="item-name">{{ setProp(items[0], displayProp) }}</span>
+			</div>	
+		</div>
+		<span class="clearfix visible-md-block" ng-if="($index+1)%6==0"></span>
+		<span class="clearfix visible-sm-block" ng-if="($index+1)%6==0"></span>
+		<span class="clearfix visible-xs-block" ng-repeat-end ng-if="($index+1)%2==0"></span>
 
+	</div>	
 </div>

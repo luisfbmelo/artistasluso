@@ -40,7 +40,6 @@ appServices.service('authInterceptorService', ['$q', '$injector', '$location', '
     //
 
     var _responseError = function (rejection) {
-        console.log(rejection.status);
         //
         // In case the service fails what to do????
         //

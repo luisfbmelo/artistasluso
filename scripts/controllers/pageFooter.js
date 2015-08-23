@@ -9,15 +9,15 @@ appControllers.controller('footerCtrl', ['$scope', function ($scope) {
 	$scope.icons = [
 		{
 			elClass: 'govpt',
-			url: '/'
+			url: 'http://www.portugal.gov.pt/pt.aspx'
 		},
 		{
 			elClass: 'comunidade',
-			url: '/'
+			url: 'https://www.portaldascomunidades.mne.pt/pt/'
 		},
 		{
 			elClass: 'mirateca',
-			url: '/'
+			url: 'http://mirateca.com/default.aspx'
 		}
 	];
 

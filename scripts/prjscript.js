@@ -400,7 +400,6 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', '$location'
 
         if (Object.keys($scope.eventForm.$error).length == 0 && $scope.image.src && $scope.Event.timeStart!=undefined && $scope.Event.dateStart!=undefined) {
             _constructObj(); 
-			console.log($scope.Event);
 
             if ($routeParams.id){
             	// UPDATE
@@ -511,15 +510,15 @@ appControllers.controller('footerCtrl', ['$scope', function ($scope) {
 	$scope.icons = [
 		{
 			elClass: 'govpt',
-			url: '/'
+			url: 'http://www.portugal.gov.pt/pt.aspx'
 		},
 		{
 			elClass: 'comunidade',
-			url: '/'
+			url: 'https://www.portaldascomunidades.mne.pt/pt/'
 		},
 		{
 			elClass: 'mirateca',
-			url: '/'
+			url: 'http://mirateca.com/default.aspx'
 		}
 	];
 
@@ -912,7 +911,6 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         //Set the correct url
         if ($scope.User.social!=undefined){
         	for (var key in $scope.User.social) {
-                console.log(key)
 			    var val = $scope.User.social[key]['url'];
                 if (val!=undefined){
                     $scope.User.social[key]['url'] = $filter('urlResolverVal')(val);
@@ -963,7 +961,7 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
                 $scope.image.src = 'http://www.artistaslusos.net/API/api/modules/v1/images/'+$scope.User.image.url;
                 $scope.image.name = $scope.User.image.name;
                 $scope.image.extension = $scope.User.image.extension;
-            }
+            }          
                       
 
         }, function (error, status) {
@@ -1004,12 +1002,29 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
             //SET USER BIOS IF NEW
             if (pageTypeInject==null){
                 $scope.User.bios = [];
-            }
-            for (var a=0;a<data.length;a++){
-                if ($scope.User.bios[a]==undefined){
-                    $scope.User.bios[a] = {};
-                    $scope.User.bios[a].bio_id = data[a].id;
+                for (var a=0;a<data.length;a++){
+                    if ($scope.User.bios[a]==undefined){
+                        $scope.User.bios[a] = {};
+                        $scope.User.bios[a].bio_id = data[a].id;
+                    }
                 }
+            }else{
+                // SET BIO IN CORRECT ORDER FOR SERVICE
+                var finalBio = [];
+                finalBio.length = data.length;
+
+                for (var a=0;a<data.length;a++){
+                    finalBio[a] = {};
+                    finalBio[a].bio_id = data[a].id;
+
+                    for(var i = 0; i<$scope.User.bios.length;i++){
+                        if ($scope.User.bios[i].bio0.id==data[a].id){
+                            finalBio[a] = $scope.User.bios[i];
+                        }
+                    }     
+                         
+                }
+                $scope.User.bios = finalBio;
             }
 
         }, function (error, status) {
@@ -1024,15 +1039,33 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
             //SET USER SOCIAL NETWORKS IF NEW
             if (pageTypeInject==null){
                 $scope.User.social = [];
+                for (var a=0;a<data.length;a++){
+                    //IF NEW
+                    if ($scope.User.social[a]==undefined){
+                        $scope.User.social[a] = {};
+                        $scope.User.social[a].network_id = data[a].id;                    
+                    }                
+                }
+            }else{
+                // SET SOCIAL IN CORRECT ORDER FOR SERVICE
+                var finalSocial = [];
+                finalSocial.length = data.length;
+
+                for (var a=0;a<data.length;a++){
+                    finalSocial[a] = {};
+                    finalSocial[a].network_id = data[a].id;
+
+                    for(var i = 0; i<$scope.User.social.length;i++){
+                        if ($scope.User.social[i].network.id==data[a].id){
+                            finalSocial[a] = $scope.User.social[i];
+                        }
+                    }     
+                         
+                }
+                $scope.User.social = finalSocial;
             }
 
-            for (var a=0;a<data.length;a++){
-                //IF NEW
-                if ($scope.User.social[a]==undefined){
-                    $scope.User.social[a] = {};
-                    $scope.User.social[a].network_id = data[a].id;                    
-                }                
-            }
+
             
         }, function (error, status) {
             throw (new Error(error.err.message));
@@ -1248,6 +1281,22 @@ appFilters.filter('timeFilter', function () {
         }
     }
 });
+
+app.filter('trusted', ['$sce', function($sce) {
+    var div = document.createElement('div');
+    return function(text) {
+        div.innerHTML = text;
+        return $sce.trustAsHtml(div.textContent);
+    };
+}]);
+
+
+app.filter('htmlToPlaintext', function() {
+    return function(text) {
+      return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
+    };
+  }
+);
 var appServices = angular.module('appServices');
 
 appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($http, $q, sessionStorage) {
@@ -1784,7 +1833,6 @@ appServices.service('authInterceptorService', ['$q', '$injector', '$location', '
     //
 
     var _responseError = function (rejection) {
-        console.log(rejection.status);
         //
         // In case the service fails what to do????
         //
@@ -2002,6 +2050,7 @@ appDirectives.directive('coloredStats', [function () {
 	    replace: true,
 	    link: function(scope, el, attr){
 
+	    	// Convert string prop to usable prop on object
 	    	scope.setProp = function(obj, prop) {
 			    prop = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
 			    prop = prop.replace(/^\./, '');           // strip a leading dot

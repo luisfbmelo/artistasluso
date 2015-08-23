@@ -22,7 +22,7 @@ function makePage($data, $siteRoot, $imagesUrl) {
     $imageUrl = $imagesUrl . $data->image->url;
     $pageUrl = $siteRoot . "artists/details/" . $data->id;
     $title = 'Artista - '.$data->name;
-    $description = $data->bios[0]->bio;
+    $description = strip_tags($data->bios[0]->bio);
 ?>
 
 	<!DOCTYPE html>
@@ -62,7 +62,7 @@ function makePage($data, $siteRoot, $imagesUrl) {
 		<meta property="og:type" content="website">
 		<meta property="og:title" content="<?php echo $title; ?>" />
 		<meta property="og:url" content="<?php echo $pageUrl; ?>">
-		<meta property="og:description" content="P<?php echo $description; ?>">
+		<meta property="og:description" content="<?php echo $description; ?>">
 		<meta property="og:image" content="<?php echo $imageUrl; ?>">
 		<!--/ Open Graph -->
 		

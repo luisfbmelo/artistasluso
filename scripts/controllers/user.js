@@ -106,7 +106,6 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         //Set the correct url
         if ($scope.User.social!=undefined){
         	for (var key in $scope.User.social) {
-                console.log(key)
 			    var val = $scope.User.social[key]['url'];
                 if (val!=undefined){
                     $scope.User.social[key]['url'] = $filter('urlResolverVal')(val);
@@ -157,7 +156,7 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
                 $scope.image.src = 'http://www.artistaslusos.net/API/api/modules/v1/images/'+$scope.User.image.url;
                 $scope.image.name = $scope.User.image.name;
                 $scope.image.extension = $scope.User.image.extension;
-            }
+            }          
                       
 
         }, function (error, status) {
@@ -198,12 +197,29 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
             //SET USER BIOS IF NEW
             if (pageTypeInject==null){
                 $scope.User.bios = [];
-            }
-            for (var a=0;a<data.length;a++){
-                if ($scope.User.bios[a]==undefined){
-                    $scope.User.bios[a] = {};
-                    $scope.User.bios[a].bio_id = data[a].id;
+                for (var a=0;a<data.length;a++){
+                    if ($scope.User.bios[a]==undefined){
+                        $scope.User.bios[a] = {};
+                        $scope.User.bios[a].bio_id = data[a].id;
+                    }
                 }
+            }else{
+                // SET BIO IN CORRECT ORDER FOR SERVICE
+                var finalBio = [];
+                finalBio.length = data.length;
+
+                for (var a=0;a<data.length;a++){
+                    finalBio[a] = {};
+                    finalBio[a].bio_id = data[a].id;
+
+                    for(var i = 0; i<$scope.User.bios.length;i++){
+                        if ($scope.User.bios[i].bio0.id==data[a].id){
+                            finalBio[a] = $scope.User.bios[i];
+                        }
+                    }     
+                         
+                }
+                $scope.User.bios = finalBio;
             }
 
         }, function (error, status) {
@@ -218,15 +234,33 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
             //SET USER SOCIAL NETWORKS IF NEW
             if (pageTypeInject==null){
                 $scope.User.social = [];
+                for (var a=0;a<data.length;a++){
+                    //IF NEW
+                    if ($scope.User.social[a]==undefined){
+                        $scope.User.social[a] = {};
+                        $scope.User.social[a].network_id = data[a].id;                    
+                    }                
+                }
+            }else{
+                // SET SOCIAL IN CORRECT ORDER FOR SERVICE
+                var finalSocial = [];
+                finalSocial.length = data.length;
+
+                for (var a=0;a<data.length;a++){
+                    finalSocial[a] = {};
+                    finalSocial[a].network_id = data[a].id;
+
+                    for(var i = 0; i<$scope.User.social.length;i++){
+                        if ($scope.User.social[i].network.id==data[a].id){
+                            finalSocial[a] = $scope.User.social[i];
+                        }
+                    }     
+                         
+                }
+                $scope.User.social = finalSocial;
             }
 
-            for (var a=0;a<data.length;a++){
-                //IF NEW
-                if ($scope.User.social[a]==undefined){
-                    $scope.User.social[a] = {};
-                    $scope.User.social[a].network_id = data[a].id;                    
-                }                
-            }
+
             
         }, function (error, status) {
             throw (new Error(error.err.message));

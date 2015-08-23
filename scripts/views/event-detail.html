@@ -19,9 +19,9 @@
 						<div class="city">{{event.city.title}}</div>
 						<div class="country">{{event.country.title}}</div>
 					</div>
-					<p>
-						{{event.title}}
+					<p ng-bind-html="event.description | trusted">
 					</p>
+
 				</section>				
 
 				<section>

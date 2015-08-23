@@ -10,7 +10,31 @@
 		}
 	}
 
+	.card-container{
+		min-height:517px;
+
+		position:relative;
+
+		.card-options{
+			position:absolute;
+			bottom:0;
+			width:100%;
+		}
+	}
+
+
+	.card-container.editable{
+
+		position:static!important;
+
+		.card-options{
+			position:static!important;
+		}
+	}
+	
 }
+
+
 
 /*DETAILS*/
 .event-details{
