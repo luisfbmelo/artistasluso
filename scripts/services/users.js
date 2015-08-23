@@ -36,15 +36,24 @@ appServices.factory('usersService', ['$http', '$q', '$rootScope', function ($htt
 
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API, item);}
     var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
+    var _getOwner = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/viewOwner/" + id + "?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
+    var _getAfter = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/getAfter/" + id + "?expand=cat,curCountry,descCountry,dist,image"); }
     var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API+"?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
     var _update = function (id, item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
+    var _recoverPassword = function (item) { return GET_SERVICE_PROMISE($q, $http, "post", API + "/requestPasswordReset", item); }
+    var _sendNewPassword = function (item) { return GET_SERVICE_PROMISE($q, $http, "post", API + "/resetPassword", item); }
+
 
     return {
         'create': _create,
         'get': _get,
+        'getOwner': _getOwner,
+        'getAfter': _getAfter,
         'list': _list,
         'update': _update,
         'delete': _delete,
+        'recoverPassword': _recoverPassword,
+        'sendNewPassword': _sendNewPassword
     }
 }]);

@@ -31,7 +31,7 @@ appControllers.controller('recoverPasswordModalCtrl',['$scope', '$modal','$log',
 //
 // Controller responsible handling modal content and functions
 //
-appControllers.controller('recoverPasswordModalInstanceCtrl',['$scope','$modalInstance', function ($scope, $modalInstance) {
+appControllers.controller('recoverPasswordModalInstanceCtrl',['$scope','$modalInstance', 'usersService',  function ($scope, $modalInstance, usersService) {
 
     //
     // Init modal object
@@ -56,7 +56,7 @@ appControllers.controller('recoverPasswordModalInstanceCtrl',['$scope','$modalIn
         $scope.submitted = true;
 
         if (Object.keys($scope.recoverForm.$error).length == 0) {
-            toastr.success('E-mail de recuperação enviado!', '' ,{ timeOut: 5000 });
+            _recoverPassword();
             $modalInstance.close();
         }        
     };
@@ -73,4 +73,15 @@ appControllers.controller('recoverPasswordModalInstanceCtrl',['$scope','$modalIn
         }
         return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
     };
+
+    //
+    // Send recover password request
+    //
+    var _recoverPassword = function(){
+        usersService.recoverPassword($scope.Recover).then(function(data){
+            toastr.success('Foi-lhe enviado um e-mail para a recuperar a sua password', '' ,{ timeOut: 5000 });
+        },function(error, status){
+            toastr.error(error.err[0].message, '' ,{ timeOut: 5000 });
+        });
+    }
 }]);

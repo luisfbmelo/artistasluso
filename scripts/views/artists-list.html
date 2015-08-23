@@ -12,5 +12,9 @@
 		</div>
 	</div>
 
-	<artists-list list="artists"></artists-list>
+	<div class="col-xs-12 text-center" ng-if="artists.length==0">
+		Ainda não existem artistas registados nesta área...
+	</div>
+
+	<artists-list list="artists" ng-if="artists.length>0"></artists-list>
 </div>

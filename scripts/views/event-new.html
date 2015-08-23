@@ -9,7 +9,7 @@
 	
 	<div class="forms-container container-fluid">
 		<div class="row">
-			<form name="eventForm" enctype="multipart/form-data">
+			<form name="eventForm" enctype="multipart/form-data" autocomplete="false">
 				<div class="col-xs-12 col-md-8">
 					<h1>
 						{{intent == 'new' ? 'Novo' : 'Editar'}} evento
@@ -94,7 +94,7 @@
 							<!-- <textarea name="description" id="description" rows="10" placeholder="Descreva os detalhes do evento aqui." maxlength="5000" required class="form-control" ng-model="Event.description" ng-class="{'error-box': hasError(eventForm.description)}" ng-trim="false"></textarea> -->
 							<wysiwyg textarea-id="description" textarea-class="form-control" maxlength="5000" textarea-height="80px" textarea-name="textareaQuestion" textarea-required ng-model="Event.description" enable-bootstrap-title="true" textarea-menu="Event.customMenu"></wysiwyg>
 
-							<label for="description">Descrição do evento</label>
+							<label for="description" class="required">Descrição do evento</label>
 
 							<!--ERROR MESSAGE-->
 			                <div ng-show="(Event.description==undefined || Event.description==null || Event.description=='' || Event.description.length==0) && submitted" class="errorBox">
@@ -131,7 +131,7 @@
 								<input type="file" upload-preview max-width="900" max-height="900" image="image" id="file-upload" name="fileInput" class="fileInput"/>
 							</div>
 							<div class="requiredNote">
-			                    A imagem não deve ter mais de 900px de largura e/ou 900px de altura e só pode ser carregada em formato .jpg, .jpeg, .png ou .gif.
+			                    A imagem não deve ter mais de 900px de largura e/ou 900px de altura, 2MB de tamanho, e só pode ser carregada em formato .jpg, .jpeg, .png ou .gif.
 			                </div>
 			                <!--ERROR MESSAGE-->
 			                <div ng-show="((!image.src && submitted) || image.fileError)" class="errorBox">

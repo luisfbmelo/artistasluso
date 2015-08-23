@@ -1,6 +1,6 @@
 <div class="row artists-container">
-	<div class="col-xs-12 col-sm-6 col-md-3" ng-repeat-start="artist in list | limitTo: max">
-		<div class="card-container artist-area" style="background-image:url({{'http://localhost/artistasluso/API/api/modules/v1/images/'+artist.image.url}});">
+	<div class="col-xs-12 col-sm-6 col-md-3" ng-repeat-start="artist in list | limitTo: max" ng-show="artist.status==1">
+		<div class="card-container artist-area" style="background-image:url({{'http://www.artistaslusos.net/API/api/modules/v1/images/'+artist.image.url}});">
 			<div class="area-wrapper">
 				<div class="bottom-content">
 					<section class="card-desc">

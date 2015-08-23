@@ -4,15 +4,60 @@
 	<base href="/artistasluso/">
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Artistas Luso</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <title>Artistas Lusos</title>
 
     <!--META-->
     <!--facebook-->
-    <meta property="fb:app_id" content="{441293852709692}">
-    <meta property="fb:admins" content="{1176945264}"/>
+    <meta property="fb:app_id" content="441293852709692">
+    <meta property="fb:admins" content="1176945264"/>
 
-    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+	<!--SEO-->
+	<meta name="description" content="Artistas Lusos é uma plataforma online que procura reunir e demonstrar o trabalho dos artistas descendentes de portugueses.">
+	<meta name="keywords" content="">
+	<meta name="author" content="Artistas Luso">
+
+	<!-- Schema.org markup for Google+ -->
+	<meta itemprop="name" content="Artistas Lusos">
+	<meta itemprop="description" content="Artistas Lusos é uma plataforma online que procura reunir e demonstrar o trabalho dos artistas descendentes de portugueses.">
+	<meta itemprop="image" content="http://www.artistaslusos.net/assets/img/logos/homepage_logo.png">
+
+	<!-- Twiter Cards -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@luisfbmelo"> 
+	<meta name="twitter:title" content="Artistas Lusos">
+	<meta name="twitter:description" content="Artistas Lusos é uma plataforma online que procura reunir e demonstrar o trabalho dos artistas descendentes de portugueses.">
+	<meta name="twitter:image:src" content="http://www.artistaslusos.net/assets/img/logos/homepage_logo.png">
+	<!--/ Twiter Cards -->
+
+	<!-- Open Graph -->
+	<meta property="og:site_name" content="Artistas Luso">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="Artistas Lusos" />
+	<meta property="og:url" content="http://www.artistaslusos.net">
+	<meta property="og:description" content="Artistas Lusos é uma plataforma online que procura reunir e demonstrar o trabalho dos artistas descendentes de portugueses.">
+	<meta property="og:image" content="http://www.artistaslusos.net/assets/img/logos/homepage_logo.png">
+	<!--/ Open Graph -->
+	
+	<!-- FAVICON -->
+	<link rel="apple-touch-icon" sizes="57x57" href="assets/img/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="assets/img/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/img/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="assets/img/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="assets/img/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="assets/img/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="assets/img/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	<!--/ FAVICON -->
 
     <!-- Bootstrap -->
     <link href="assets/styles/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -24,6 +69,7 @@
 	<!-- Styles-->
     <link href="bower_components/toastr/toastr.min.css" rel="stylesheet">
     <link href="bower_components/angular-bootstrap/ui-bootstrap-csp.css" rel="stylesheet">
+    <link rel='stylesheet' href='bower_components/angular-loading-bar/src/loading-bar.css'/>
 
     <link href="assets/styles/stylesheets/animate.css" rel="stylesheet">
     <link href="assets/styles/stylesheets/screen.css" rel="stylesheet">    
@@ -38,7 +84,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body ng-controller="mainCtrl">
+<body>
 	<!--FACEBOOK SDK-->
 	<script>
 	  window.fbAsyncInit = function() {
@@ -89,6 +135,7 @@
 	<script src="bower_components/moment/moment.js"></script>
 	<script src="bower_components/angular-moment/angular-moment.js"></script>
 	<script src="bower_components/moment/locale/pt.js"></script>
+	<script src='bower_components/angular-loading-bar/src/loading-bar.js'></script>
 	
 	<script src="scripts/app.js"></script>	
 	<script src="scripts/prjscript.js"></script>

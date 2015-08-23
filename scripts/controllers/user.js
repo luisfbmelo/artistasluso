@@ -74,13 +74,14 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         if (Object.keys($scope.userForm.$error).length == 0 && $scope.image.src && (($scope.User.password == $scope.User.confPassword) || ($scope.User.password.length == 0 && ($scope.User.confPassword==undefined || $scope.User.confPassword.length == 0)))) {
 
             _constructObj(); 
-            console.log($scope.User);
             
             if (pageTypeInject!=null && pageTypeInject == 'editUser'){
                 _updateUser($scope.User);
             }else{
                 _createUser($scope.User);
             }
+        }else{
+            toastr.error('Preencha os campos correctamente', '' ,{ timeOut: 5000 });
         }
     }
 
@@ -113,13 +114,6 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
 			}
         }
  
-        //
-        // Set items ids
-        //
-        /*$scope.User.curCountry = $scope.User.curCountry!=undefined ? $scope.User.curCountry.id : null;
-        $scope.User.descCountry = $scope.User.descCountry!=undefined ? $scope.User.descCountry.id : null;
-        $scope.User.dist = ($scope.User.dist!=undefined && $scope.User.descCountry==189) ? $scope.User.dist.id : null;
-        $scope.User.cat = $scope.User.cat!=undefined ? $scope.User.cat.id : null; */
         $scope.User.status = $scope.User.status!=undefined ? $scope.User.status : 1;
 
         $scope.User.created_at = ($scope.User.created_at!=undefined) ? $scope.User.created_at : moment().format("YYYY-MM-DD hh:mm:ss");
@@ -131,12 +125,12 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
     //
     var _createUser = function(item){
         usersService.create(item).then(function (data) {
-            toastr.success('Utilizador criado!', '' ,{ timeOut: 5000 });
+            toastr.success('Utilizador criado! Está neste momento pendente de aprovação pelo administrador', '' ,{ timeOut: 10000 });
 
             //$location.path("/");
             $route.reload();
-        }, function (error) {
-            toastr.error(error, '' ,{ timeOut: 5000 });
+        }, function (error, status) {
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
     }
 
@@ -144,30 +138,31 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         usersService.update(item.id, item).then(function (data) {
             toastr.success('Utilizador actualizado!', '' ,{ timeOut: 5000 });
 
-            $location.path("/user");
-        }, function (error) {
-            toastr.error(error, '' ,{ timeOut: 5000 });
+            $location.path("/");
+        }, function (error, status) {
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
     }
     
     var _getUserData = function(id){
-        return usersService.get(id).then(function (data) {
+        return usersService.getOwner(id).then(function (data) {
             $scope.User=data;
 
             // Set password to nothing
             $scope.User.password = null;
 
             //Set image
-            if ($scope.User.image.id != undefined && $scope.User.image.id != null) {
+            if ($scope.User.image != undefined && $scope.User.image.id != undefined && $scope.User.image.id != null) {
                 $scope.image.id = $scope.User.id;
-                $scope.image.src = 'http://localhost/artistasluso/API/api/modules/v1/images/'+$scope.User.image.url;
+                $scope.image.src = 'http://www.artistaslusos.net/API/api/modules/v1/images/'+$scope.User.image.url;
                 $scope.image.name = $scope.User.image.name;
                 $scope.image.extension = $scope.User.image.extension;
             }
                       
 
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            $location.path("/");
+            throw (new Error(error.err.message));
         });
     }
 
@@ -175,24 +170,24 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         return countriesService.list().then(function (data) {
             $scope.countries=data;
 
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            throw (new Error(error.err.message));
         });
     }
 
     var _getDistricts = function(){
         return districtsService.list().then(function (data) {
             $scope.districts = data;
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            throw (new Error(error.err.message));
         });
     }
 
     var _getCategories = function(){
         return categoriesService.list().then(function (data) {
             $scope.categories = data;
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            throw (new Error(error.err.message));
         });
     }
 
@@ -203,14 +198,16 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
             //SET USER BIOS IF NEW
             if (pageTypeInject==null){
                 $scope.User.bios = [];
-                for (var a=0;a<data.length;a++){
+            }
+            for (var a=0;a<data.length;a++){
+                if ($scope.User.bios[a]==undefined){
                     $scope.User.bios[a] = {};
                     $scope.User.bios[a].bio_id = data[a].id;
                 }
             }
 
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            throw (new Error(error.err.message));
         });
     }
 
@@ -228,12 +225,11 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
                 if ($scope.User.social[a]==undefined){
                     $scope.User.social[a] = {};
                     $scope.User.social[a].network_id = data[a].id;                    
-                }
-                
+                }                
             }
             
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            throw (new Error(error.err.message));
         });
     }
 
@@ -241,7 +237,7 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
     // Catch errors during requests
     //
     var _reportProblems = function (fault) {
-        $log.error(String(fault));
+        toastr.error(String(fault), '' ,{ timeOut: 5000 });
     };
 
     _init();
@@ -288,7 +284,7 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
             $scope.isCorrect = true;
             toastr.success('Entrou com sucesso!', '' ,{ timeOut: 5000 });
             $location.path("/");
-        },function(error){
+        },function(error, status){
             $scope.isCorrect = false;
         });
     }
@@ -302,7 +298,8 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
 
             // Set status
             _setStatus($routeParams.id, $routeParams.approve, $routeParams.type);
-        },function(error){
+
+        },function(error, status){
             $scope.isCorrect = false;
         });
     }
@@ -334,5 +331,52 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
                 });
             });
         }
+    }
+}]);
+
+appControllers.controller('userResetPassword', ['$scope','$filter', '$location', 'authService', '$routeParams', 'usersService', function ($scope, $filter, $location, authService, $routeParams, usersService) {
+
+    //
+    //  INIT OBJECTS
+    //
+    $scope.User = {};
+    $scope.submitted = false;
+
+
+    //SUBMIT NEW FORM
+    $scope.resetPassword = function () {
+        $scope.submitted = true;
+
+        if (Object.keys($scope.userResetForm.$error).length == 0) {
+
+            if ($routeParams.resetToken){
+                _setNewPassword($routeParams.resetToken);
+            }        
+        }
+    }
+
+    //CHECK FOR ERRORS
+    $scope.hasError = function (field, validation) {
+        if (validation) {
+            return (field.$dirty && field.$error[validation]) || ($scope.submitted && field.$error[validation]);
+        }
+        return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
+    };
+
+    //
+    // Services
+    //
+
+    var _setNewPassword = function(token){
+        var finalObj = {
+            reset_token: token,
+            password: $scope.User.password
+        }
+        usersService.sendNewPassword(finalObj).then(function(data){
+            toastr.success('Password alterada com sucesso!', '' ,{ timeOut: 5000 });
+            $location.path("/");
+        },function(error, status){
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+        });
     }
 }]);

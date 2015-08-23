@@ -19,8 +19,8 @@ appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersServ
 		usersService.list().then(function (data) {
 			$scope.countries = data;
 
-        }, function (error) {
-        	toastr.error(error, '' ,{ timeOut: 5000 });
+        }, function (error, status) {
+        	toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
 	}
 

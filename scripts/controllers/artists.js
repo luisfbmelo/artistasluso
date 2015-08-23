@@ -29,7 +29,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 		categoriesService.get(catId).then(function(data){
 			$scope.cat = data
 			$scope.artists = $scope.cat.users;
-		},function(error){
+		},function(error, status){
 
 		});
 	}
@@ -37,7 +37,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 	var _getArtistsIds = function(){
 		usersService.list().then(function(data){
 			$scope.artists = data;
-		},function(error){
+		},function(error, status){
 
 		});
 		
@@ -47,15 +47,12 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 		$scope.networks = [
 			{
 				name: 'facebook',
-				url: 'www.facebook.com'
 			},
 			{
 				name: 'twitter',
-				url: 'www.twitter.com'
 			},
 			{
 				name: 'google-plus',
-				url: 'www.googleplus.com'
 			}
 		];
 	}
@@ -74,12 +71,12 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$loca
 	var _init = function(){
 		if ($routeParams.id){
 			_getArtist($routeParams.id);
-			_getMoreArtists();
+			_getMoreArtists($routeParams.id);
 
 		// Get data from logged user
 		}else{
 			_getLoggedArtist();
-			_getMoreArtists();
+			//_getMoreArtists();
 		}
 	}
 
@@ -89,8 +86,10 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$loca
 	var _getArtist = function(id){
 		usersService.get(id).then(function(data){
 			$scope.artist = data;
-		},function(error){
-
+		},function(error, status){
+			$location.path("/");
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+			
 		});
 	}
 
@@ -100,19 +99,21 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$loca
 			var id = authService.authentication.info.user.id;
 			usersService.get(id).then(function(data){
 				$scope.artist = data;
-			},function(error){
-
+			},function(error, status){
+				$location.path("/");
+				toastr.error(error.err.message, '' ,{ timeOut: 5000 });
 			});
 		}else{
 			$location.path("/");
+			
 		}		
 	}
 
-	var _getMoreArtists = function(){
-		usersService.list().then(function(data){
+	var _getMoreArtists = function(id){
+		usersService.getAfter(id).then(function(data){
 			$scope.otherArtists = data;
-		},function(error){
-
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
 		});
 	}
 

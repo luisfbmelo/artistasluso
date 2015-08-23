@@ -7,6 +7,9 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<events-list list="events" editable="{{editable}}" delete-el="deleteEl"></events-list>
+			<div class="no-data" ng-if="events.length==0">
+				De momento não existem eventos...
+			</div>
 		</div>
 	</div>
 </div>

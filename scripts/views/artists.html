@@ -1,14 +1,17 @@
 <div class="artists-page no-img-bg">
-	<div class="total-artists">
+	<div class="total-artists" ng-if="artists.length>0">
 		<header>Já reunímos</header>
 		<p id="total-num">{{artists.length}}</p>
 		<label for="total-num">Artistas lusos</label>
 		<a href="admin-report" class="admin-report" ng-if="isLoggedIn && isAdmin">Ver relatório</a>
 	</div>	
+	<div class="total-artists no-data" ng-if="artists.length==0">
+		Ainda não foram adicionados artistas...
+	</div>
 
-	<colored-stats list="artists" group-by-prop="cat.name" display-prop="cat.name" route="artists" detail-prop="cat.id"></colored-stats>
+	<colored-stats list="artists" group-by-prop="cat.name" display-prop="cat.name" route="artists" detail-prop="cat.id" ng-show="artists.length>0"></colored-stats>
 
 	<div class="social-section">
-		<social networks="networks" text="Ajude a aumentar este números, divulgue esta iniciativa"></social>
+		<social networks="networks" text="Ajude a aumentar este números, divulgue esta iniciativa" action="share"></social>
 	</div>	
 </div>

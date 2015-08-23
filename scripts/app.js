@@ -15,10 +15,11 @@ var app = angular.module('artistasluso', [
   'ui.bootstrap',
   'wysiwyg.module',
   'ui.date',
-  'angularMoment'
+  'angularMoment',
+  'angular-loading-bar'
 ]);
 
-app.config(['$routeProvider', '$httpProvider', '$locationProvider', function($routeProvider, $httpProvider, $locationProvider) {
+app.config(['$routeProvider', '$httpProvider', '$locationProvider', 'cfpLoadingBarProvider', function($routeProvider, $httpProvider, $locationProvider, cfpLoadingBarProvider) {
 
 	$routeProvider.
 		when('/', {
@@ -86,6 +87,10 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider', function($ro
 			templateUrl: 'scripts/views/approves.html',
 			controller: 'userCtrl'
 		}).
+		when('/resetpassword/:resetToken', {
+			templateUrl: 'scripts/views/resetpassword.html',
+			controller: 'userCtrl'
+		}).
 		when('/admin-report', {
 			templateUrl: 'scripts/views/admin-report.html',
 			controller: 'reportsCtrl'
@@ -103,6 +108,12 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider', function($ro
 	// Remove hash and use pushState
 	//
 	$locationProvider.html5Mode(true);
+
+	//
+	// Set loading bar settings
+	//
+	cfpLoadingBarProvider.includeSpinner = false;
+	
 }]);	
 
 app.run(function(amMoment) {

@@ -29,7 +29,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 		categoriesService.get(catId).then(function(data){
 			$scope.cat = data
 			$scope.artists = $scope.cat.users;
-		},function(error){
+		},function(error, status){
 
 		});
 	}
@@ -37,7 +37,7 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 	var _getArtistsIds = function(){
 		usersService.list().then(function(data){
 			$scope.artists = data;
-		},function(error){
+		},function(error, status){
 
 		});
 		
@@ -47,15 +47,12 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 		$scope.networks = [
 			{
 				name: 'facebook',
-				url: 'www.facebook.com'
 			},
 			{
 				name: 'twitter',
-				url: 'www.twitter.com'
 			},
 			{
 				name: 'google-plus',
-				url: 'www.googleplus.com'
 			}
 		];
 	}
@@ -74,12 +71,12 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$loca
 	var _init = function(){
 		if ($routeParams.id){
 			_getArtist($routeParams.id);
-			_getMoreArtists();
+			_getMoreArtists($routeParams.id);
 
 		// Get data from logged user
 		}else{
 			_getLoggedArtist();
-			_getMoreArtists();
+			//_getMoreArtists();
 		}
 	}
 
@@ -89,8 +86,10 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$loca
 	var _getArtist = function(id){
 		usersService.get(id).then(function(data){
 			$scope.artist = data;
-		},function(error){
-
+		},function(error, status){
+			$location.path("/");
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+			
 		});
 	}
 
@@ -100,19 +99,21 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$loca
 			var id = authService.authentication.info.user.id;
 			usersService.get(id).then(function(data){
 				$scope.artist = data;
-			},function(error){
-
+			},function(error, status){
+				$location.path("/");
+				toastr.error(error.err.message, '' ,{ timeOut: 5000 });
 			});
 		}else{
 			$location.path("/");
+			
 		}		
 	}
 
-	var _getMoreArtists = function(){
-		usersService.list().then(function(data){
+	var _getMoreArtists = function(id){
+		usersService.getAfter(id).then(function(data){
 			$scope.otherArtists = data;
-		},function(error){
-
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
 		});
 	}
 
@@ -140,8 +141,8 @@ appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersServ
 		usersService.list().then(function (data) {
 			$scope.countries = data;
 
-        }, function (error) {
-        	toastr.error(error, '' ,{ timeOut: 5000 });
+        }, function (error, status) {
+        	toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
 	}
 
@@ -216,7 +217,9 @@ appControllers.controller('eventsCtrl', ['$scope', 'authService', 'eventsService
 	var _getEvents = function(){
 		eventsService.list().then(function(data){
 			$scope.events = data;
-		},function(error){});
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
 	}
 
 	//
@@ -225,7 +228,9 @@ appControllers.controller('eventsCtrl', ['$scope', 'authService', 'eventsService
     $scope.deleteEl = function (el) {
         eventsService.delete(el.id).then(function(){
 			_getEvents();
-		},function(error){});
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
     };
 
     _init();
@@ -236,100 +241,11 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', 'event
 	var _init = function(){
 		if ($routeParams.id){
 			_getEvent($routeParams.id);
+			_getAfter($routeParams.id);
 
-			$scope.otherEvents = [
-				{
-					id: 1,
-					title: 'Abertura oficial do festival de janeiro',
-					dateStart: '20140313T00:00:00',
-					city: {
-						id:1,
-						title: 'Casa da Montanha'
-					},
-					country: {
-						id:1,
-						title:'Portugal'
-					},
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-					image: {
-						id:1,
-						url:'thumb.jpg'
-					}
-				},
-				{
-					id: 2,
-					title: 'Abertura oficial do festival de janeiro',
-					dateStart: '20140313T00:00:00',
-					city: {
-						id:1,
-						title: 'Casa da Montanha'
-					},
-					country: {
-						id:1,
-						title:'Portugal'
-					},
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-					image: {
-						id:1,
-						url:'thumb.jpg'
-					}
-				},
-				{
-					id: 3,
-					title: 'Abertura oficial do festival de janeiro',
-					dateStart: '20140313T00:00:00',
-					city: {
-						id:1,
-						title: 'Casa da Montanha'
-					},
-					country: {
-						id:1,
-						title:'Portugal'
-					},
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-					image: {
-						id:1,
-						url:'thumb.jpg'
-					}
-				},
-				{
-					id: 4,
-					title: 'Abertura oficial do festival de janeiro',
-					dateStart: '20140313T00:00:00',
-					city: {
-						id:1,
-						title: 'Casa da Montanha'
-					},
-					country: {
-						id:1,
-						title:'Portugal'
-					},
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-					image: {
-						id:1,
-						url:'thumb.jpg'
-					}
-				},
-				{
-					id: 5,
-					title: 'Abertura oficial do festival de janeiro',
-					dateStart: '20140313T00:00:00',
-					city: {
-						id:1,
-						title: 'Casa da Montanha'
-					},
-					country: {
-						id:1,
-						title:'Portugal'
-					},
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-					image: {
-						id:1,
-						url:'thumb.jpg'
-					}
-				}
-			];
-
+			//
+			// Set sharing networks
+			//
 			$scope.networks = [
 				{
 					name: 'facebook',
@@ -341,6 +257,8 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', 'event
 					name: 'google-plus',
 				}
 			];
+		}else{
+			$location.path("/");
 		}
 	}
 	
@@ -351,7 +269,17 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', 'event
 	var _getEvent = function(id){
 		eventsService.get(id).then(function(data){
 			$scope.event = data;
-		},function(error){});
+		},function(error, status){
+			$location.path("/");
+		});
+	}
+
+	var _getAfter = function(id){
+		eventsService.getAfter(id).then(function(data){
+			$scope.otherEvents = data;
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
 	}
 
 	_init();
@@ -387,7 +315,9 @@ appControllers.controller('eventsUserCtrl', ['$scope', 'authService', 'eventsSer
 	var _getEvent = function(id){
 		eventsService.getFromUser().then(function(data){
 			$scope.events = data;
-		},function(error){});
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
 	}
 
 	//
@@ -396,7 +326,9 @@ appControllers.controller('eventsUserCtrl', ['$scope', 'authService', 'eventsSer
     $scope.deleteEl = function (el) {
         eventsService.delete(el.id).then(function(){
 			_getEvent();
-		},function(error){});
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
     };
 
     _init();
@@ -478,7 +410,7 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', '$location'
             	_createEvent($scope.Event);         
             }
         }else{
-        	toastr.error('Preencha corretamente os campos', '' ,{ timeOut: 5000 });
+        	toastr.error('Preencha os campos correctamente', '' ,{ timeOut: 5000 });
         }
 	}
 
@@ -516,8 +448,8 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', '$location'
             toastr.success('Evento criado!', '' ,{ timeOut: 5000 });
 
             $location.path("/events");
-        }, function (error) {
-            toastr.error(error, '' ,{ timeOut: 5000 });
+        }, function (error, status) {
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
     }
 
@@ -526,8 +458,8 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', '$location'
             toastr.success('Evento actualizado!', '' ,{ timeOut: 5000 });
 
             $location.path("/events");
-        }, function (error) {
-            toastr.error(error, '' ,{ timeOut: 5000 });
+        }, function (error, status) {
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
     }
 
@@ -538,18 +470,20 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', '$location'
 			//Set image
             if ($scope.Event.image.id != undefined && $scope.Event.image.id != null) {
                 $scope.image.id = $scope.Event.id;
-                $scope.image.src = 'http://localhost/artistasluso/API/api/modules/v1/images/'+$scope.Event.image.url;
+                $scope.image.src = 'http://www.artistaslusos.net/API/api/modules/v1/images/'+$scope.Event.image.url;
                 $scope.image.name = $scope.Event.image.name;
                 $scope.image.extension = $scope.Event.image.extension;
             }
-		},function(error){});
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
 	}
 
     var _getCountries = function(){
 		countriesService.list().then(function (data) {
 			$scope.countries = data;
-        }, function (error) {
-        	toastr.error(error, '' ,{ timeOut: 5000 });
+        }, function (error, status) {
+        	toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
 	}
 
@@ -563,8 +497,8 @@ appControllers.controller('homeCtrl', ['$scope', function ($scope) {
 }]);
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('mainCtrl', ['$scope', function ($scope) {
-	
+appControllers.controller('mainCtrl', ['$scope', 'headService', function ($scope, headService) {
+	$scope.head = headService;
 }]);
 var appControllers = angular.module('appControllers');
 
@@ -729,7 +663,7 @@ appControllers.controller('recoverPasswordModalCtrl',['$scope', '$modal','$log',
 //
 // Controller responsible handling modal content and functions
 //
-appControllers.controller('recoverPasswordModalInstanceCtrl',['$scope','$modalInstance', function ($scope, $modalInstance) {
+appControllers.controller('recoverPasswordModalInstanceCtrl',['$scope','$modalInstance', 'usersService',  function ($scope, $modalInstance, usersService) {
 
     //
     // Init modal object
@@ -754,7 +688,7 @@ appControllers.controller('recoverPasswordModalInstanceCtrl',['$scope','$modalIn
         $scope.submitted = true;
 
         if (Object.keys($scope.recoverForm.$error).length == 0) {
-            toastr.success('E-mail de recuperação enviado!', '' ,{ timeOut: 5000 });
+            _recoverPassword();
             $modalInstance.close();
         }        
     };
@@ -771,6 +705,17 @@ appControllers.controller('recoverPasswordModalInstanceCtrl',['$scope','$modalIn
         }
         return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
     };
+
+    //
+    // Send recover password request
+    //
+    var _recoverPassword = function(){
+        usersService.recoverPassword($scope.Recover).then(function(data){
+            toastr.success('Foi-lhe enviado um e-mail para a recuperar a sua password', '' ,{ timeOut: 5000 });
+        },function(error, status){
+            toastr.error(error.err[0].message, '' ,{ timeOut: 5000 });
+        });
+    }
 }]);
 var appControllers = angular.module('appControllers');
 
@@ -802,8 +747,8 @@ appControllers.controller('reportsCtrl', ['$scope','$routeParams', 'usersService
             for(var i = 0; i < artCols; i++) {
                 $scope.artCols.push(i);
             }
-        },function(error){
-
+        },function(error, status){
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });        
     }
 
@@ -819,8 +764,8 @@ appControllers.controller('reportsCtrl', ['$scope','$routeParams', 'usersService
             for(var i = 0; i < countryCols; i++) {
                 $scope.countryCols.push(i);
             }
-        },function(error){
-
+        },function(error, status){
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
 
         
@@ -829,8 +774,8 @@ appControllers.controller('reportsCtrl', ['$scope','$routeParams', 'usersService
     var _getAllArts = function(){
         usersService.list().then(function(data){
             $scope.allArts = data;
-        },function(error){
-
+        },function(error, status){
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
     }
 
@@ -935,13 +880,14 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         if (Object.keys($scope.userForm.$error).length == 0 && $scope.image.src && (($scope.User.password == $scope.User.confPassword) || ($scope.User.password.length == 0 && ($scope.User.confPassword==undefined || $scope.User.confPassword.length == 0)))) {
 
             _constructObj(); 
-            console.log($scope.User);
             
             if (pageTypeInject!=null && pageTypeInject == 'editUser'){
                 _updateUser($scope.User);
             }else{
                 _createUser($scope.User);
             }
+        }else{
+            toastr.error('Preencha os campos correctamente', '' ,{ timeOut: 5000 });
         }
     }
 
@@ -974,13 +920,6 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
 			}
         }
  
-        //
-        // Set items ids
-        //
-        /*$scope.User.curCountry = $scope.User.curCountry!=undefined ? $scope.User.curCountry.id : null;
-        $scope.User.descCountry = $scope.User.descCountry!=undefined ? $scope.User.descCountry.id : null;
-        $scope.User.dist = ($scope.User.dist!=undefined && $scope.User.descCountry==189) ? $scope.User.dist.id : null;
-        $scope.User.cat = $scope.User.cat!=undefined ? $scope.User.cat.id : null; */
         $scope.User.status = $scope.User.status!=undefined ? $scope.User.status : 1;
 
         $scope.User.created_at = ($scope.User.created_at!=undefined) ? $scope.User.created_at : moment().format("YYYY-MM-DD hh:mm:ss");
@@ -992,12 +931,12 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
     //
     var _createUser = function(item){
         usersService.create(item).then(function (data) {
-            toastr.success('Utilizador criado!', '' ,{ timeOut: 5000 });
+            toastr.success('Utilizador criado! Está neste momento pendente de aprovação pelo administrador', '' ,{ timeOut: 10000 });
 
             //$location.path("/");
             $route.reload();
-        }, function (error) {
-            toastr.error(error, '' ,{ timeOut: 5000 });
+        }, function (error, status) {
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
     }
 
@@ -1005,30 +944,31 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         usersService.update(item.id, item).then(function (data) {
             toastr.success('Utilizador actualizado!', '' ,{ timeOut: 5000 });
 
-            $location.path("/user");
-        }, function (error) {
-            toastr.error(error, '' ,{ timeOut: 5000 });
+            $location.path("/");
+        }, function (error, status) {
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
     }
     
     var _getUserData = function(id){
-        return usersService.get(id).then(function (data) {
+        return usersService.getOwner(id).then(function (data) {
             $scope.User=data;
 
             // Set password to nothing
             $scope.User.password = null;
 
             //Set image
-            if ($scope.User.image.id != undefined && $scope.User.image.id != null) {
+            if ($scope.User.image != undefined && $scope.User.image.id != undefined && $scope.User.image.id != null) {
                 $scope.image.id = $scope.User.id;
-                $scope.image.src = 'http://localhost/artistasluso/API/api/modules/v1/images/'+$scope.User.image.url;
+                $scope.image.src = 'http://www.artistaslusos.net/API/api/modules/v1/images/'+$scope.User.image.url;
                 $scope.image.name = $scope.User.image.name;
                 $scope.image.extension = $scope.User.image.extension;
             }
                       
 
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            $location.path("/");
+            throw (new Error(error.err.message));
         });
     }
 
@@ -1036,24 +976,24 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         return countriesService.list().then(function (data) {
             $scope.countries=data;
 
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            throw (new Error(error.err.message));
         });
     }
 
     var _getDistricts = function(){
         return districtsService.list().then(function (data) {
             $scope.districts = data;
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            throw (new Error(error.err.message));
         });
     }
 
     var _getCategories = function(){
         return categoriesService.list().then(function (data) {
             $scope.categories = data;
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            throw (new Error(error.err.message));
         });
     }
 
@@ -1064,14 +1004,16 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
             //SET USER BIOS IF NEW
             if (pageTypeInject==null){
                 $scope.User.bios = [];
-                for (var a=0;a<data.length;a++){
+            }
+            for (var a=0;a<data.length;a++){
+                if ($scope.User.bios[a]==undefined){
                     $scope.User.bios[a] = {};
                     $scope.User.bios[a].bio_id = data[a].id;
                 }
             }
 
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            throw (new Error(error.err.message));
         });
     }
 
@@ -1089,12 +1031,11 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
                 if ($scope.User.social[a]==undefined){
                     $scope.User.social[a] = {};
                     $scope.User.social[a].network_id = data[a].id;                    
-                }
-                
+                }                
             }
             
-        }, function (error) {
-            throw (new Error(error));
+        }, function (error, status) {
+            throw (new Error(error.err.message));
         });
     }
 
@@ -1102,7 +1043,7 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
     // Catch errors during requests
     //
     var _reportProblems = function (fault) {
-        $log.error(String(fault));
+        toastr.error(String(fault), '' ,{ timeOut: 5000 });
     };
 
     _init();
@@ -1149,7 +1090,7 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
             $scope.isCorrect = true;
             toastr.success('Entrou com sucesso!', '' ,{ timeOut: 5000 });
             $location.path("/");
-        },function(error){
+        },function(error, status){
             $scope.isCorrect = false;
         });
     }
@@ -1163,7 +1104,8 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
 
             // Set status
             _setStatus($routeParams.id, $routeParams.approve, $routeParams.type);
-        },function(error){
+
+        },function(error, status){
             $scope.isCorrect = false;
         });
     }
@@ -1197,6 +1139,53 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
         }
     }
 }]);
+
+appControllers.controller('userResetPassword', ['$scope','$filter', '$location', 'authService', '$routeParams', 'usersService', function ($scope, $filter, $location, authService, $routeParams, usersService) {
+
+    //
+    //  INIT OBJECTS
+    //
+    $scope.User = {};
+    $scope.submitted = false;
+
+
+    //SUBMIT NEW FORM
+    $scope.resetPassword = function () {
+        $scope.submitted = true;
+
+        if (Object.keys($scope.userResetForm.$error).length == 0) {
+
+            if ($routeParams.resetToken){
+                _setNewPassword($routeParams.resetToken);
+            }        
+        }
+    }
+
+    //CHECK FOR ERRORS
+    $scope.hasError = function (field, validation) {
+        if (validation) {
+            return (field.$dirty && field.$error[validation]) || ($scope.submitted && field.$error[validation]);
+        }
+        return (field.$dirty && field.$invalid) || ($scope.submitted && field.$invalid);
+    };
+
+    //
+    // Services
+    //
+
+    var _setNewPassword = function(token){
+        var finalObj = {
+            reset_token: token,
+            password: $scope.User.password
+        }
+        usersService.sendNewPassword(finalObj).then(function(data){
+            toastr.success('Password alterada com sucesso!', '' ,{ timeOut: 5000 });
+            $location.path("/");
+        },function(error, status){
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+        });
+    }
+}]);
 var appFilters = angular.module('appFilters');
 
 //home background
@@ -1219,7 +1208,7 @@ appFilters.filter('urlResolver', function(){
 	return function(input){
 		var result;
 	    var startingUrl = "http://";
-	    if (input!=undefined && input.indexOf('www') == 0) {
+	    if (input!=undefined && (input.indexOf('http://') < 0 && input.indexOf('https://') < 0)) {
 	        result = startingUrl + input;
 	    } else {
 	        result = input;
@@ -1232,10 +1221,10 @@ appFilters.filter('urlResolverVal', function(){
 	return function(input){
 		var result;
 	    var startingUrl = "http://";
-	    if (input!=undefined && input.indexOf('www') == 0) {
+	    if (input!=undefined && (input.indexOf('http://') < 0 && input.indexOf('https://') < 0)) {
 	        result = startingUrl + input;
 	    } else {
-	        result = null;
+	        result = input;
 	    }
 	    return result;
 	}
@@ -1281,7 +1270,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
     var _config = {
 
         settings: {
-            loginUrl: 'http://localhost/artistasluso/API/api/web/v1/users/login'
+            loginUrl: 'http://www.artistaslusos.net/API/api/web/v1/users/login'
         },
 
         errMsg: {
@@ -1350,13 +1339,11 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
             //
             // Everything check outs, perform the login.
             //
-            var data = {
-                'email': loginData.email,
-                'password': loginData.password,
-            };
+
+            var data = "email=" + loginData.email + "&password=" + loginData.password;
 
 
-            $http.post(loginUrl, null, {headers:data})
+            $http.post(loginUrl, data, {headers:{'Content-Type': 'application/x-www-form-urlencoded'}})
                 .success(function (response) {
 
 
@@ -1665,6 +1652,7 @@ appServices.factory('eventsService', ['$http', '$q', '$rootScope', function ($ht
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
     var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id); }
     var _getFromUser = function () { return GET_SERVICE_PROMISE($q, $http, "get", API + "/fromuser"); }
+    var _getAfter = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/getAfter/" + id); }
     var _list = function () { return GET_SERVICE_PROMISE($q, $http, "get", API); }
     var _update = function (id, item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
@@ -1673,9 +1661,64 @@ appServices.factory('eventsService', ['$http', '$q', '$rootScope', function ($ht
         'create': _create,
         'get': _get,
         'getFromUser': _getFromUser,
+        'getAfter': _getAfter,
         'list': _list,
         'update': _update,
         'delete': _delete,
+    }
+}]);
+var appServices = angular.module('appServices');
+
+appServices.factory('headService', [function () {
+	//
+	// INIT CONFIG
+	//
+	var title = 'Artistas Lusos',
+	description = 'Plataforma de artistas lusos',
+	image = 'http://www.artistaslusos.net/assets/img/logos/homepage_logo.png',
+	url='http://www.artistaslusos.net';
+
+
+	//
+	// Utils
+	//
+	var _setTitle = function(title){
+		title = title;
+	}
+	var _getTitle = function(){
+		return title;
+	}
+
+	var _setDescription = function(description){
+		description = description;
+	}
+	var _getDescription = function(){
+		return description;
+	}
+
+	var _setImage = function(image){
+		image = image;
+	}
+	var _getImage = function(){
+		return image;
+	}
+
+	var _setUrl = function(url){
+		url = url;
+	}
+	var _getUrl = function(){
+		return url;
+	}
+
+    return {
+        'setTitle': _setTitle,
+        'getTitle': _getTitle,
+        'setDescription': _setDescription,
+        'getDescription': _getDescription,
+        'setImage': _setImage,
+        'getImage': _getImage,
+        'setUrl': _setUrl,
+        'getUrl': _getUrl,
     }
 }]);
 var appServices = angular.module('appServices');
@@ -1904,16 +1947,25 @@ appServices.factory('usersService', ['$http', '$q', '$rootScope', function ($htt
 
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API, item);}
     var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
+    var _getOwner = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/viewOwner/" + id + "?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
+    var _getAfter = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/getAfter/" + id + "?expand=cat,curCountry,descCountry,dist,image"); }
     var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API+"?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
     var _update = function (id, item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
+    var _recoverPassword = function (item) { return GET_SERVICE_PROMISE($q, $http, "post", API + "/requestPasswordReset", item); }
+    var _sendNewPassword = function (item) { return GET_SERVICE_PROMISE($q, $http, "post", API + "/resetPassword", item); }
+
 
     return {
         'create': _create,
         'get': _get,
+        'getOwner': _getOwner,
+        'getAfter': _getAfter,
         'list': _list,
         'update': _update,
         'delete': _delete,
+        'recoverPassword': _recoverPassword,
+        'sendNewPassword': _sendNewPassword
     }
 }]);
 var appDirectives = angular.module('appDirectives');
@@ -2218,6 +2270,19 @@ appDirectives.directive('recoverPassword', [function () {
 }]); 
 var appDirectives = angular.module('appDirectives');
 
+appDirectives.directive('resetPassword', [function () {
+	return {
+	    restrict: 'E',
+	    templateUrl: "scripts/directives/resetPassword.html",
+	    scope:true,
+	    replace: true,
+	    link: function(scope, el, attr){  
+	    	
+	    } 
+	 };
+}]); 
+var appDirectives = angular.module('appDirectives');
+
 appDirectives.directive('selectPicker', ['$timeout', function ($timeout) {
 	return {
 	    restrict: 'A',
@@ -2404,8 +2469,22 @@ app.directive('uploadPreview', ['$log', function ($log) {
             }
 
             elem.on('change', function () {
+                var hasError = false;
+
+                if (!elem[0].files[0].type.match('image.*')) {
+                    toastr.error('Formato não permitido.');
+
+                    hasError = true;
+                }
+
+                if (elem[0].files[0].size>2000000) {
+                    toastr.error('Ficheiro deve ter no máximo 2MB.');
+                    hasError = true;
+                }
+
+
                 //check if file is image
-                if (elem[0].files[0].type.match('image.*')) {
+                if (!hasError) {
                     //read file
                     reader.readAsDataURL(elem[0].files[0]);
 
@@ -2413,8 +2492,6 @@ app.directive('uploadPreview', ['$log', function ($log) {
                     angular.element(".imageSpinPlaceholder").addClass('spinner');
 
                 } else {
-
-                    toastr.error('Formato não permitido.');
 
                     //clear all fields
                     scope.image.src = null;

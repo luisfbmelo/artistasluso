@@ -32,7 +32,9 @@ appControllers.controller('eventsCtrl', ['$scope', 'authService', 'eventsService
 	var _getEvents = function(){
 		eventsService.list().then(function(data){
 			$scope.events = data;
-		},function(error){});
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
 	}
 
 	//
@@ -41,7 +43,9 @@ appControllers.controller('eventsCtrl', ['$scope', 'authService', 'eventsService
     $scope.deleteEl = function (el) {
         eventsService.delete(el.id).then(function(){
 			_getEvents();
-		},function(error){});
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
     };
 
     _init();
@@ -52,100 +56,11 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', 'event
 	var _init = function(){
 		if ($routeParams.id){
 			_getEvent($routeParams.id);
+			_getAfter($routeParams.id);
 
-			$scope.otherEvents = [
-				{
-					id: 1,
-					title: 'Abertura oficial do festival de janeiro',
-					dateStart: '20140313T00:00:00',
-					city: {
-						id:1,
-						title: 'Casa da Montanha'
-					},
-					country: {
-						id:1,
-						title:'Portugal'
-					},
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-					image: {
-						id:1,
-						url:'thumb.jpg'
-					}
-				},
-				{
-					id: 2,
-					title: 'Abertura oficial do festival de janeiro',
-					dateStart: '20140313T00:00:00',
-					city: {
-						id:1,
-						title: 'Casa da Montanha'
-					},
-					country: {
-						id:1,
-						title:'Portugal'
-					},
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-					image: {
-						id:1,
-						url:'thumb.jpg'
-					}
-				},
-				{
-					id: 3,
-					title: 'Abertura oficial do festival de janeiro',
-					dateStart: '20140313T00:00:00',
-					city: {
-						id:1,
-						title: 'Casa da Montanha'
-					},
-					country: {
-						id:1,
-						title:'Portugal'
-					},
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-					image: {
-						id:1,
-						url:'thumb.jpg'
-					}
-				},
-				{
-					id: 4,
-					title: 'Abertura oficial do festival de janeiro',
-					dateStart: '20140313T00:00:00',
-					city: {
-						id:1,
-						title: 'Casa da Montanha'
-					},
-					country: {
-						id:1,
-						title:'Portugal'
-					},
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-					image: {
-						id:1,
-						url:'thumb.jpg'
-					}
-				},
-				{
-					id: 5,
-					title: 'Abertura oficial do festival de janeiro',
-					dateStart: '20140313T00:00:00',
-					city: {
-						id:1,
-						title: 'Casa da Montanha'
-					},
-					country: {
-						id:1,
-						title:'Portugal'
-					},
-					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sapien nulla, sagittis in commodo et, sodales condimentum purus.',
-					image: {
-						id:1,
-						url:'thumb.jpg'
-					}
-				}
-			];
-
+			//
+			// Set sharing networks
+			//
 			$scope.networks = [
 				{
 					name: 'facebook',
@@ -157,6 +72,8 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', 'event
 					name: 'google-plus',
 				}
 			];
+		}else{
+			$location.path("/");
 		}
 	}
 	
@@ -167,7 +84,17 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', 'event
 	var _getEvent = function(id){
 		eventsService.get(id).then(function(data){
 			$scope.event = data;
-		},function(error){});
+		},function(error, status){
+			$location.path("/");
+		});
+	}
+
+	var _getAfter = function(id){
+		eventsService.getAfter(id).then(function(data){
+			$scope.otherEvents = data;
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
 	}
 
 	_init();
@@ -203,7 +130,9 @@ appControllers.controller('eventsUserCtrl', ['$scope', 'authService', 'eventsSer
 	var _getEvent = function(id){
 		eventsService.getFromUser().then(function(data){
 			$scope.events = data;
-		},function(error){});
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
 	}
 
 	//
@@ -212,7 +141,9 @@ appControllers.controller('eventsUserCtrl', ['$scope', 'authService', 'eventsSer
     $scope.deleteEl = function (el) {
         eventsService.delete(el.id).then(function(){
 			_getEvent();
-		},function(error){});
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
     };
 
     _init();
@@ -294,7 +225,7 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', '$location'
             	_createEvent($scope.Event);         
             }
         }else{
-        	toastr.error('Preencha corretamente os campos', '' ,{ timeOut: 5000 });
+        	toastr.error('Preencha os campos correctamente', '' ,{ timeOut: 5000 });
         }
 	}
 
@@ -332,8 +263,8 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', '$location'
             toastr.success('Evento criado!', '' ,{ timeOut: 5000 });
 
             $location.path("/events");
-        }, function (error) {
-            toastr.error(error, '' ,{ timeOut: 5000 });
+        }, function (error, status) {
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
     }
 
@@ -342,8 +273,8 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', '$location'
             toastr.success('Evento actualizado!', '' ,{ timeOut: 5000 });
 
             $location.path("/events");
-        }, function (error) {
-            toastr.error(error, '' ,{ timeOut: 5000 });
+        }, function (error, status) {
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
     }
 
@@ -354,18 +285,20 @@ appControllers.controller('eventFormCtrl', ['$scope','$routeParams', '$location'
 			//Set image
             if ($scope.Event.image.id != undefined && $scope.Event.image.id != null) {
                 $scope.image.id = $scope.Event.id;
-                $scope.image.src = 'http://localhost/artistasluso/API/api/modules/v1/images/'+$scope.Event.image.url;
+                $scope.image.src = 'http://www.artistaslusos.net/API/api/modules/v1/images/'+$scope.Event.image.url;
                 $scope.image.name = $scope.Event.image.name;
                 $scope.image.extension = $scope.Event.image.extension;
             }
-		},function(error){});
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
 	}
 
     var _getCountries = function(){
 		countriesService.list().then(function (data) {
 			$scope.countries = data;
-        }, function (error) {
-        	toastr.error(error, '' ,{ timeOut: 5000 });
+        }, function (error, status) {
+        	toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
 	}
 

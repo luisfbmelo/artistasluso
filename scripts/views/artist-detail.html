@@ -17,9 +17,9 @@
 	<div class="artist-bio-container container-fluid">
 		<!--IMAGE-->
 		<div class="image-social-row">
-			<div class="artist-image" style="background-image:url({{'http://localhost/artistasluso/API/api/modules/v1/images/'+artist.image.url}});"></div>
+			<div class="artist-image" style="background-image:url({{'http://www.artistaslusos.net/API/api/modules/v1/images/'+artist.image.url}});"></div>
 			<div class="artist-social">
-				<social networks="artist.networks"></social>
+				<social networks="artist.social"></social>
 			</div>
 		</div>
 
@@ -35,7 +35,7 @@
 	</div>
 
 	<!--OTHERS-->
-	<div class="container-fluid other-list">
+	<div class="container-fluid other-list" ng-if="otherArtists.length>0">
 		<div class="row">
 			<div class="col-xs-12">
 				<span class="other-title">Outros artistas</span>

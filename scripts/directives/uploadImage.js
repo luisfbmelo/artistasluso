@@ -50,8 +50,22 @@ app.directive('uploadPreview', ['$log', function ($log) {
             }
 
             elem.on('change', function () {
+                var hasError = false;
+
+                if (!elem[0].files[0].type.match('image.*')) {
+                    toastr.error('Formato não permitido.');
+
+                    hasError = true;
+                }
+
+                if (elem[0].files[0].size>2000000) {
+                    toastr.error('Ficheiro deve ter no máximo 2MB.');
+                    hasError = true;
+                }
+
+
                 //check if file is image
-                if (elem[0].files[0].type.match('image.*')) {
+                if (!hasError) {
                     //read file
                     reader.readAsDataURL(elem[0].files[0]);
 
@@ -59,8 +73,6 @@ app.directive('uploadPreview', ['$log', function ($log) {
                     angular.element(".imageSpinPlaceholder").addClass('spinner');
 
                 } else {
-
-                    toastr.error('Formato não permitido.');
 
                     //clear all fields
                     scope.image.src = null;

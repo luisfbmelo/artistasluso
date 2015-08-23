@@ -2,11 +2,13 @@
 	<p ng-if="text" class="{{textClass}}">{{text}}</p>
 	<ul class="social-icons">
 		<li ng-repeat="social in networks track by $index">
+			{{action}}
 			<a ng-href="{{social.url | urlResolver}}" target="_blank" ng-if="action!='share'">
-				<i class="fa fa-{{social.name}}-square"></i>
+				<i class="fa fa-{{social.network.name}}-square" ng-if="social.network.name!='website'"></i>
+				<i class="fa fa-globe" ng-if="social.network.name=='website'"></i>
 			</a>
 
-			<a href="https://facebook.com/sharer.php?s=100&p[url]={{curLoc}}&p[title]={{ encodeEl(obj.title) }}" rel="nofollow" target="_blank" title="{{ obj.title }}" ng-if="action=='share' && social.name=='facebook'"><i class="fa fa-{{social.name}}-square"></i></a>
+			<a href="https://facebook.com/sharer.php?u={{curLoc}}" rel="nofollow" target="_blank" title="{{ obj.title }}" ng-if="action=='share' && social.name=='facebook'"><i class="fa fa-{{social.name}}-square"></i></a>
 			<a href="https://twitter.com/intent/tweet?text={{ obj.title }}&url={{curLoc}}" rel="nofollow" target="_blank" title="{{ obj.title }}" ng-if="action=='share' && social.name=='twitter'"><i class="fa fa-{{social.name}}-square"></i></a>
 			<a href="https://plus.google.com/share?url={{curLoc}}" rel="nofollow" target="_blank" title="{{ obj.title }}" ng-if="action=='share' && social.name=='google-plus'"><i class="fa fa-{{social.name}}-square"></i></a>
 		</li>

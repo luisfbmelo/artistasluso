@@ -9,7 +9,7 @@
 	
 	<div class="forms-container container-fluid">
 		<div class="row">
-			<form name="userForm" enctype="multipart/form-data">
+			<form name="userForm" enctype="multipart/form-data" autocomplete="false">
 				<div class="col-xs-12 col-sm-6">	
 					<section>
 						<h4>
@@ -148,7 +148,7 @@
 
 						<!--BIO-->
 						<div class="form-group" ng-repeat="bio in bios">
-							<textarea name="{{bio.name}}" id="{{bio.name}}" rows="10" placeholder="Escreva aqui a sua biografia..." maxlength="500" required class="form-control" ng-model="User.bios[$index].bio" ng-trim="false"></textarea>
+							<textarea name="{{bio.name}}" id="{{bio.name}}" rows="10" placeholder="Escreva aqui a sua biografia..." maxlength="500" ng-required="bio.name!='bioother'" class="form-control" ng-model="User.bios[$index].bio" ng-trim="false"></textarea>
 							<label for="{{bio.name}}">
 							{{bio.name=='biopt' ? 'Descreva uma biografia sucinta em português' : ''}}
 							{{bio.name=='bioen' ? 'Descreva uma biografia sucinta em inglês' : ''}}
@@ -174,7 +174,7 @@
 								<input type="file" upload-preview max-width="900" max-height="900" image="image" id="file-upload" name="fileInput" class="fileInput"/>
 							</div>
 							<div class="requiredNote">
-			                    A imagem não deve ter mais de 900px de largura e/ou 900px de altura e só pode ser carregada em formato .jpg, .jpeg, .png ou .gif.
+			                    A imagem não deve ter mais de 900px de largura e/ou 900px de altura, 2MB de tamanho, e só pode ser carregada em formato .jpg, .jpeg, .png ou .gif.
 			                </div>
 			                <!--ERROR MESSAGE-->
 			                <div ng-show="((!image.src && submitted) || image.fileError)" class="errorBox">

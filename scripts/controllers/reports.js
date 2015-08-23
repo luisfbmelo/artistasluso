@@ -28,8 +28,8 @@ appControllers.controller('reportsCtrl', ['$scope','$routeParams', 'usersService
             for(var i = 0; i < artCols; i++) {
                 $scope.artCols.push(i);
             }
-        },function(error){
-
+        },function(error, status){
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });        
     }
 
@@ -45,8 +45,8 @@ appControllers.controller('reportsCtrl', ['$scope','$routeParams', 'usersService
             for(var i = 0; i < countryCols; i++) {
                 $scope.countryCols.push(i);
             }
-        },function(error){
-
+        },function(error, status){
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
 
         
@@ -55,8 +55,8 @@ appControllers.controller('reportsCtrl', ['$scope','$routeParams', 'usersService
     var _getAllArts = function(){
         usersService.list().then(function(data){
             $scope.allArts = data;
-        },function(error){
-
+        },function(error, status){
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
     }
 

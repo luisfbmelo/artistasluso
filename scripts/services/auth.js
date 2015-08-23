@@ -20,7 +20,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
     var _config = {
 
         settings: {
-            loginUrl: 'http://localhost/artistasluso/API/api/web/v1/users/login'
+            loginUrl: 'http://www.artistaslusos.net/API/api/web/v1/users/login'
         },
 
         errMsg: {
@@ -89,13 +89,11 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
             //
             // Everything check outs, perform the login.
             //
-            var data = {
-                'email': loginData.email,
-                'password': loginData.password,
-            };
+
+            var data = "email=" + loginData.email + "&password=" + loginData.password;
 
 
-            $http.post(loginUrl, null, {headers:data})
+            $http.post(loginUrl, data, {headers:{'Content-Type': 'application/x-www-form-urlencoded'}})
                 .success(function (response) {
 
 

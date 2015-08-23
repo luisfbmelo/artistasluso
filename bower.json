@@ -12,7 +12,8 @@
   ],
   "dependencies": {
     "angular-ui-date": "~0.0.8",
-    "angular-moment": "~0.10.2"
+    "angular-moment": "~0.10.2",
+    "angular-loading-bar": "~0.8.0"
   },
   "description": "",
   "main": "index.html",
