@@ -66,6 +66,10 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider', 'cfpLoadingB
 			templateUrl: 'scripts/views/countries.html',
 			controller: 'countriesCtrl'
 		}).
+		when('/countries/:id', {
+			templateUrl: 'scripts/views/countries-list.html',
+			controller: 'countriesCtrl'
+		}).
 		when('/user', {
 			templateUrl: 'scripts/views/artist-detail.html',
 			controller: 'artistDetailsCtrl'

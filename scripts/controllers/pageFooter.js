@@ -21,4 +21,19 @@ appControllers.controller('footerCtrl', ['$scope', function ($scope) {
 		}
 	];
 
+	$scope.networks = [
+		{
+			url: 'https://www.facebook.com/MiratecArts',
+			network:{
+				name: 'facebook',				
+			},
+		},		
+		{
+			url: 'https://twitter.com/MiratecArts',
+			network:{
+				name: 'twitter',				
+			}
+		},			
+	];
+
 }]);

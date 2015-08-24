@@ -150,8 +150,8 @@ class Subscription{
         </table>";
         
 
-        $to = "rtqramos@gmail.com,luisfbmelo91@gmail.com";
-        $from = "geral@luisfbmelo.com";
+        $to = "info@mirateca.com";
+        $from = "info@mirateca.com";
         $subject = "Lista de subscritos";
 
         $name='=?UTF-8?B?'.base64_encode("Mirateca").'?=';

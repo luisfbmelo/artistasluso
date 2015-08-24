@@ -122,20 +122,42 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$loca
 }]);
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersService', function ($scope, $routeParams, usersService) {
+appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersService', 'countriesService', function ($scope, $routeParams, usersService, countriesService) {
 	
 	//
 	// INIT FUNCTION
 	//
 	var _init = function(){
-		_getNetworks();
-		_getCountriesIds(); 
+		
+
+		if ($routeParams.id){
+			_getArtistsFromCountry($routeParams.id);
+			_getCountry($routeParams.id);
+		}else{
+			_getNetworks();
+			_getCountriesIds(); 
+		}
 
 	}
 
 	//
 	// SERVICES
 	//
+	var _getArtistsFromCountry = function(id){
+		usersService.getFromCountry(id).then(function(data){
+			$scope.artists = data
+		},function(error, status){
+
+		});
+	}
+
+	var _getCountry = function(id){
+		countriesService.get(id).then(function(data){
+			$scope.country = data
+		},function(error, status){
+
+		});
+	}
 
 	var _getCountriesIds = function(){
 		usersService.list().then(function (data) {
@@ -522,10 +544,25 @@ appControllers.controller('footerCtrl', ['$scope', function ($scope) {
 		}
 	];
 
+	$scope.networks = [
+		{
+			url: 'https://www.facebook.com/MiratecArts',
+			network:{
+				name: 'facebook',				
+			},
+		},		
+		{
+			url: 'https://twitter.com/MiratecArts',
+			network:{
+				name: 'twitter',				
+			}
+		},			
+	];
+
 }]);
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope, authService) {
+appControllers.controller('menuCtrl', ['$scope', 'authService', 'categoriesService', function ($scope, authService, categoriesService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
@@ -534,6 +571,13 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 	var _curUser = null;
 	var _isLoggedIn = false;
 	var _isAdmin = false;
+	var categories = [];
+
+	var _init = function(){
+		authService.fillAuthData();
+		_getUserType();
+		_getArts().then(_defineMenu);
+	}
 	
 	var _getUserType = function(){
 		//Set scope vars from SERVICE
@@ -555,6 +599,19 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 		}
 	}
 
+	var _getArts = function(){
+		return categoriesService.list().then(function(data){
+			categories.push({style: 'link', title: 'Todos', url: 'artists' });
+
+			for(var a=0;a<data.length;a++){
+				var obj = {
+					style: 'link', id:data[a].id, title: data[a].name
+				}
+				categories.push(obj);
+			}
+		});
+	}
+
 	var _defineMenu = function(){
 		$scope.menu = [
 			{
@@ -572,17 +629,7 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 				title: 'Artistas',
 				url: 'artists',
 				style: 'static',
-				subs: [
-					{style: 'link', title: 'Todos', url: 'artists' },
-					{style: 'link', id:1, title: 'Artes Digitais'},
-					{style: 'link', id:2, title: 'Artes Plásticas'},
-					{style: 'link', id:3, title: 'Cinema e Vídeo'},
-					{style: 'link', id:4, title: 'Literatura'},
-					{style: 'link', id:5, title: 'Música'},
-					{style: 'link', id:6, title: 'Performance'},
-					{style: 'link', id:7, title: 'Tradicional'},
-					{style: 'link', id:8, title: 'Organizações'}
-				]
+				subs: categories
 			},
 			{
 				style: 'link',
@@ -614,15 +661,15 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 		}
 
 	}
-	authService.fillAuthData();
-	_getUserType();
-	_defineMenu();
+	
 
 	$scope.$on("$locationChangeStart", function (event, next, current) {
 		authService.fillAuthData();
         _getUserType();
 		_defineMenu();		
     });
+
+    _init();
 }]);
 var appControllers = angular.module('appControllers');
 
@@ -1547,7 +1594,7 @@ appServices.factory('categoriesService', ['$http', '$q', '$rootScope', function 
     //
 
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
-    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=users,areas"); }
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=users,areas"); }    
     var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API + "?expand=users,areas"); }
     var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
@@ -1597,7 +1644,7 @@ appServices.factory('countriesService', ['$http', '$q', '$rootScope', function (
     //
 
     var _create = function (item) {return GET_SERVICE_PROMISE($q, $http, "post", API + "/create", item);}
-    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=users"); }
+    var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=users"); }    
     var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API + "?expand=users"); }
     var _listTotalCur = function () {return GET_SERVICE_PROMISE($q, $http, "get", API + "/totalcur")}
     var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
@@ -1997,6 +2044,7 @@ appServices.factory('usersService', ['$http', '$q', '$rootScope', function ($htt
     var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
     var _getOwner = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/viewOwner/" + id + "?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
     var _getAfter = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/getAfter/" + id + "?expand=cat,curCountry,descCountry,dist,image"); }
+    var _getFromCountry = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/curCountryUsers/" + id + "?expand=curCountry"); }
     var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API+"?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
     var _update = function (id, item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
@@ -2009,6 +2057,7 @@ appServices.factory('usersService', ['$http', '$q', '$rootScope', function ($htt
         'get': _get,
         'getOwner': _getOwner,
         'getAfter': _getAfter,
+        'getFromCountry': _getFromCountry,
         'list': _list,
         'update': _update,
         'delete': _delete,

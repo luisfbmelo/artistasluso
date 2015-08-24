@@ -1,6 +1,6 @@
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope, authService) {
+appControllers.controller('menuCtrl', ['$scope', 'authService', 'categoriesService', function ($scope, authService, categoriesService) {
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
@@ -9,6 +9,13 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 	var _curUser = null;
 	var _isLoggedIn = false;
 	var _isAdmin = false;
+	var categories = [];
+
+	var _init = function(){
+		authService.fillAuthData();
+		_getUserType();
+		_getArts().then(_defineMenu);
+	}
 	
 	var _getUserType = function(){
 		//Set scope vars from SERVICE
@@ -30,6 +37,19 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 		}
 	}
 
+	var _getArts = function(){
+		return categoriesService.list().then(function(data){
+			categories.push({style: 'link', title: 'Todos', url: 'artists' });
+
+			for(var a=0;a<data.length;a++){
+				var obj = {
+					style: 'link', id:data[a].id, title: data[a].name
+				}
+				categories.push(obj);
+			}
+		});
+	}
+
 	var _defineMenu = function(){
 		$scope.menu = [
 			{
@@ -47,17 +67,7 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 				title: 'Artistas',
 				url: 'artists',
 				style: 'static',
-				subs: [
-					{style: 'link', title: 'Todos', url: 'artists' },
-					{style: 'link', id:1, title: 'Artes Digitais'},
-					{style: 'link', id:2, title: 'Artes Plásticas'},
-					{style: 'link', id:3, title: 'Cinema e Vídeo'},
-					{style: 'link', id:4, title: 'Literatura'},
-					{style: 'link', id:5, title: 'Música'},
-					{style: 'link', id:6, title: 'Performance'},
-					{style: 'link', id:7, title: 'Tradicional'},
-					{style: 'link', id:8, title: 'Organizações'}
-				]
+				subs: categories
 			},
 			{
 				style: 'link',
@@ -89,13 +99,13 @@ appControllers.controller('menuCtrl', ['$scope', 'authService', function ($scope
 		}
 
 	}
-	authService.fillAuthData();
-	_getUserType();
-	_defineMenu();
+	
 
 	$scope.$on("$locationChangeStart", function (event, next, current) {
 		authService.fillAuthData();
         _getUserType();
 		_defineMenu();		
     });
+
+    _init();
 }]);

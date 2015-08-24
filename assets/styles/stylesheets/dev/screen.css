@@ -274,6 +274,11 @@ h4 {
   cursor: pointer;
 }
 
+/* line 105, ../../sass/base/_generic.scss */
+.clearBG {
+  background-image: none !important;
+}
+
 /* line 1, ../../sass/base/_text.scss */
 .text-white {
   color: white !important;
@@ -1335,13 +1340,13 @@ h4 {
   transform: translateX(-50%);
 }
 
-/* line 12, ../../sass/modules/_social.scss */
+/* line 14, ../../sass/modules/_social.scss */
 .social-wrapper p {
   font-size: 16px;
   font-size: 1rem;
   margin-bottom: 16px !important;
 }
-/* line 17, ../../sass/modules/_social.scss */
+/* line 19, ../../sass/modules/_social.scss */
 .social-wrapper ul {
   margin: 16px 0 0;
   padding: 0;
@@ -1349,7 +1354,7 @@ h4 {
   width: 100%;
   text-align: center;
 }
-/* line 24, ../../sass/modules/_social.scss */
+/* line 26, ../../sass/modules/_social.scss */
 .social-wrapper ul li {
   display: inline-block;
   font-size: 32px;
@@ -1360,27 +1365,49 @@ h4 {
   -o-transition: all 0.2s ease;
   transition: all 0.2s ease;
 }
-/* line 30, ../../sass/modules/_social.scss */
+/* line 32, ../../sass/modules/_social.scss */
 .social-wrapper ul li + li {
   margin-left: 32px;
 }
-/* line 34, ../../sass/modules/_social.scss */
+/* line 36, ../../sass/modules/_social.scss */
 .social-wrapper ul li:hover {
   opacity: 0.6;
   filter: alpha(opacity=60);
 }
-/* line 38, ../../sass/modules/_social.scss */
+/* line 40, ../../sass/modules/_social.scss */
 .social-wrapper ul li i {
   color: #202020;
 }
 
 /* line 48, ../../sass/modules/_social.scss */
+.footer-container .social-section {
+  text-align: left;
+  width: auto !important;
+  position: static !important;
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+  transform: translateX(0);
+}
+/* line 56, ../../sass/modules/_social.scss */
+.footer-container .social-wrapper ul {
+  text-align: right !important;
+  margin-top: 10px !important;
+}
+/* line 60, ../../sass/modules/_social.scss */
+.footer-container .social-wrapper ul li {
+  font-size: 26px;
+  font-size: 1.625rem;
+}
+
+/* line 70, ../../sass/modules/_social.scss */
 .red-social ul li i {
   color: #f34235;
 }
 
 @media (max-width: 991px) {
-  /* line 56, ../../sass/modules/_social.scss */
+  /* line 78, ../../sass/modules/_social.scss */
   .social-section {
     position: static;
     -webkit-transform: translateX(0%);
@@ -2004,7 +2031,7 @@ textarea {
 /* line 1, ../../sass/modules/_footer.scss */
 footer {
   width: 100%;
-  height: 50px;
+  min-height: 50px;
   background-color: white;
   position: fixed;
   bottom: 0;
@@ -2062,10 +2089,31 @@ footer .footer-logos {
   padding: 0;
   list-style: none;
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
   height: 50px;
 }
 /* line 67, ../../sass/modules/_footer.scss */
+footer .footer-logos.text-right {
+  text-align: right;
+}
+/* line 71, ../../sass/modules/_footer.scss */
+footer .footer-logos .social {
+  margin-top: 5px !important;
+  width: auto !important;
+}
+/* line 75, ../../sass/modules/_footer.scss */
+footer .footer-logos .social .social-icons {
+  margin: 0 !important;
+  margin-top: 3px !important;
+}
+/* line 79, ../../sass/modules/_footer.scss */
+footer .footer-logos .social .social-icons li {
+  height: 50px !important;
+  margin: 0 !important;
+  width: 50px !important;
+  text-align: center !important;
+}
+/* line 89, ../../sass/modules/_footer.scss */
 footer .footer-logos li {
   display: inline-block;
   width: 70px;
@@ -2074,41 +2122,48 @@ footer .footer-logos li {
   background: url(../../img/logos/logos.png) no-repeat;
   overflow: hidden;
 }
-/* line 79, ../../sass/modules/_footer.scss */
+/* line 101, ../../sass/modules/_footer.scss */
 footer .footer-logos li + li {
   margin-left: 28px;
 }
-/* line 83, ../../sass/modules/_footer.scss */
+/* line 105, ../../sass/modules/_footer.scss */
 footer .footer-logos li a {
   display: block;
   width: 100%;
   height: 100%;
 }
-/* line 89, ../../sass/modules/_footer.scss */
+/* line 111, ../../sass/modules/_footer.scss */
 footer .footer-logos li:hover {
   cursor: pointer;
 }
-/* line 93, ../../sass/modules/_footer.scss */
+/* line 115, ../../sass/modules/_footer.scss */
 footer .footer-logos li.govpt {
   background-position: 0 0;
 }
-/* line 96, ../../sass/modules/_footer.scss */
+/* line 118, ../../sass/modules/_footer.scss */
 footer .footer-logos li.govpt:hover {
   background-position: -70px 0;
 }
-/* line 101, ../../sass/modules/_footer.scss */
+/* line 123, ../../sass/modules/_footer.scss */
 footer .footer-logos li.comunidade {
   background-position: 0 -30px;
 }
-/* line 104, ../../sass/modules/_footer.scss */
+/* line 126, ../../sass/modules/_footer.scss */
 footer .footer-logos li.comunidade:hover {
   background-position: -70px -30px;
 }
-/* line 109, ../../sass/modules/_footer.scss */
+/* line 131, ../../sass/modules/_footer.scss */
 footer .footer-logos li.mirateca {
   background-position: 0 -60px;
 }
-/* line 112, ../../sass/modules/_footer.scss */
+/* line 134, ../../sass/modules/_footer.scss */
 footer .footer-logos li.mirateca:hover {
   background-position: -70px -60px;
+}
+
+@media (max-width: 768px) {
+  /* line 143, ../../sass/modules/_footer.scss */
+  .footer-logos {
+    text-align: center !important;
+  }
 }

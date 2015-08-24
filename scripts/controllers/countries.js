@@ -1,19 +1,41 @@
 var appControllers = angular.module('appControllers');
 
-appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersService', function ($scope, $routeParams, usersService) {
+appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersService', 'countriesService', function ($scope, $routeParams, usersService, countriesService) {
 	
 	//
 	// INIT FUNCTION
 	//
 	var _init = function(){
-		_getNetworks();
-		_getCountriesIds(); 
+		
+
+		if ($routeParams.id){
+			_getArtistsFromCountry($routeParams.id);
+			_getCountry($routeParams.id);
+		}else{
+			_getNetworks();
+			_getCountriesIds(); 
+		}
 
 	}
 
 	//
 	// SERVICES
 	//
+	var _getArtistsFromCountry = function(id){
+		usersService.getFromCountry(id).then(function(data){
+			$scope.artists = data
+		},function(error, status){
+
+		});
+	}
+
+	var _getCountry = function(id){
+		countriesService.get(id).then(function(data){
+			$scope.country = data
+		},function(error, status){
+
+		});
+	}
 
 	var _getCountriesIds = function(){
 		usersService.list().then(function (data) {

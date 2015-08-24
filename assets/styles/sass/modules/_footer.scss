@@ -1,6 +1,6 @@
 footer{
 	width:100%;
-	height:$bar-height;
+	min-height:$bar-height;
 
 	background-color:$footer-bg;
 
@@ -60,9 +60,31 @@ footer{
 		padding:0;
 		list-style:none;
 		margin:0 auto;
-		text-align:center;
+		text-align:left;
 
 		height:$bar-height;
+
+		&.text-right{
+			text-align: right;
+		}
+
+		.social{
+			margin-top:5px!important;
+			width:auto!important;
+
+			.social-icons{
+				margin:0!important;
+				margin-top:3px!important;
+
+				li{
+					height:50px!important;
+					margin:0!important;
+				    width: 50px!important;
+    				text-align: center!important;
+				}
+			}
+			
+		}
 
 		li{
 			display:inline-block;
@@ -114,5 +136,11 @@ footer{
 				}
 			}
 		}
+	}
+}
+
+@media (max-width:768px){
+	.footer-logos{
+		text-align: center!important;
 	}
 }

@@ -1,0 +1,15 @@
+<div class="artists-list-page image-bg">
+	<div class="row">
+		<div class="col-xs-12 col-sm-6 text-left">
+			<h1>
+				{{ country.name }}
+			</h1>
+		</div>
+	</div>
+
+	<div class="col-xs-12 text-center" ng-if="artists.length==0">
+		Ainda não existem artistas registados neste país...
+	</div>
+
+	<artists-list list="artists" ng-if="artists.length>0"></artists-list>
+</div>

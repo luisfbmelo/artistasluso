@@ -6,7 +6,9 @@
 	left:50%;
 
 	@include translateX(-50%);
-}
+}	
+
+
 
 .social-wrapper{
 	p{
@@ -37,6 +39,26 @@
 
 			i{
 				color:$black;
+			}
+		}
+	}
+}
+
+.footer-container{
+	.social-section{
+		text-align:left;
+		width:auto!important;
+		position:static!important;
+		@include translateX(0);
+	}	
+
+	.social-wrapper{
+		ul{
+			text-align:right!important;
+			margin-top:10px!important;
+
+			li{
+				@include font-size(26px);
 			}
 		}
 	}

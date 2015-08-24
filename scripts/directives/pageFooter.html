@@ -9,12 +9,25 @@
         <li></li>
         <li></li>
     </ul>
-    <div class="container">
+    <div class="container-fluid footer-container">
         <div class="row">
-            <div class="col-xs-12">
-                <ul class="footer-logos">
-                    <li ng-repeat="item in icons" class="{{item.elClass}}">
+            <div class="col-xs-12 col-sm-6">
+                <ul class="footer-logos text-left">
+                    <li ng-repeat="item in icons" class="{{item.elClass}}" ng-if="!$last">
                         <a href="{{item.url}}" target="_blank"></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 text-right">
+                <ul class="footer-logos text-right">
+                    <li ng-repeat="item in icons" class="{{item.elClass}}" ng-if="$last">
+                        <a href="{{item.url}}" target="_blank"></a>
+                    </li>
+                    <li class="clearBG social">
+                        <div class="social-section">
+                            <social networks="networks"></social>
+                        </div> 
                     </li>
                 </ul>
             </div>
