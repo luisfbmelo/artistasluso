@@ -17,6 +17,10 @@
 					<section class="card-options">
 						<a href="artists/details/{{artist.id}}" class="btn cta text-white">Saber mais</a>
 					</section>
+					<section class="item-options" ng-if="editable">
+						<a href="/artists/edit/{{artist.id}}">Editar</a>
+						<a href="" ng-click="deleteUser(artist)" ng-confirm-click="Tem a certeza que deseja eliminar este evento?">Apagar</a>				
+					</section>
 				</div>
 			</div>
 		</div>

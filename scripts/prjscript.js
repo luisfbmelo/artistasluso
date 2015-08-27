@@ -9,6 +9,16 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 	$scope.isAdmin = (_authentication.info!=undefined) &&
             (_authentication.info.user!=undefined) &&
             (_authentication.info.user.role == 1);
+
+    //
+    // Set if list is editable
+    //
+    $scope.editable = $scope.isAdmin;
+
+    //
+    // Set loggedin status
+    //
+    $scope.loggedIn = _authentication.isAuth;
 	
 	//
 	// INIT FUNCTION
@@ -859,6 +869,13 @@ appControllers.controller('userCtrl', ['$scope', function ($scope) {
 }]);
 
 appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filter', '$routeParams', '$location','countriesService', 'districtsService', 'categoriesService', 'networksService', 'biosService', 'usersService', 'authService', 'imagesService', function ($scope, $log, $route, $filter, $routeParams, $location, countriesService, districtsService, categoriesService, networksService, biosService, usersService, authService, imagesService) {
+    //
+    // NEED TO CHECK IF USER IS LOGGED
+    //
+    _authentication = authService.authentication;
+    $scope.isAdmin = (_authentication.info!=undefined) &&
+            (_authentication.info.user!=undefined) &&
+            (_authentication.info.user.role == 1);
 
 	//
 	//	INIT OBJECTS
@@ -898,9 +915,20 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         if (pageTypeInject!=null && pageTypeInject == 'editUser'){
             $scope.intent = "edit";
 
-            if (authService.authentication.info!=undefined && authService.authentication.info.user!=undefined && authService.authentication.info.user.id !=undefined){
+            // OWNER UPDATE
+            if ($routeParams.id==undefined && authService.authentication.info!=undefined && authService.authentication.info.user!=undefined && authService.authentication.info.user.id !=undefined){
 
                 _getUserData(authService.authentication.info.user.id)
+                .then(_getBios)
+                .then(_getNetworks)
+                .then(_getCategories)
+                .then(_getCountries)
+                .then(_getDistricts)
+                .catch(_reportProblems);
+
+            // UPDATE OTHERS
+            }else if($routeParams.id && $scope.isAdmin){
+                _getUserData($routeParams.id)
                 .then(_getBios)
                 .then(_getNetworks)
                 .then(_getCategories)
@@ -1124,6 +1152,19 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
     //
     var _reportProblems = function (fault) {
         toastr.error(String(fault), '' ,{ timeOut: 5000 });
+    };
+
+    //
+    // Delete user
+    //   
+    $scope.deleteUser = function (el) {
+        usersService.delete(el.id).then(function(){
+            toastr.success('Utilizador eliminado!', '' ,{ timeOut: 5000 });
+
+            $location.path("/artists");
+        },function(error, status){
+            toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+        });
     };
 
     _init();
@@ -2073,13 +2114,29 @@ appDirectives.directive('artistsList', [ function () {
 	    templateUrl: "scripts/directives/artistsList.html",
 	    scope:{
 	    	list: '=list',
-	    	max: '@?'
+	    	max: '@?',
+	    	editable: '@?',
+	    	deleteEl: '&?'
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){
 	    	if (scope.max==undefined){
 	    		scope.max = 'infinite';
 	    	}
+
+	    	//
+	    	// Eval editable to Bool
+	    	//
+	    	attr.$observe('editable', function() {
+			  scope.editable = scope.$eval(attr.editable);
+			});
+
+			//
+			// Delete element
+			//
+			scope.deleteUser = function(el){
+				scope.deleteEl()(el);
+			}
 	    }
 	 };
 }]);

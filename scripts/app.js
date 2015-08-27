@@ -62,6 +62,15 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider', 'cfpLoadingB
 			templateUrl: 'scripts/views/artist-detail.html',
 			controller: 'artistDetailsCtrl'
 		}).
+		when('/artists/edit/:id', {
+			templateUrl: 'scripts/views/artist-edit.html',
+			controller: 'userSignupCtrl',
+			resolve: {
+				pageType: function(){
+					return 'editUser';
+				}
+			}
+		}).
 		when('/countries', {
 			templateUrl: 'scripts/views/countries.html',
 			controller: 'countriesCtrl'
@@ -117,9 +126,12 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider', 'cfpLoadingB
 	// Set loading bar settings
 	//
 	cfpLoadingBarProvider.includeSpinner = false;
-	
 }]);	
 
-app.run(function(amMoment) {
+app.run(['amMoment', '$rootScope', '$location', function(amMoment, $rootScope, $location) {
     amMoment.changeLocale('pt');
-});
+
+    $rootScope.$on('$routeChangeSuccess', function () {
+        ga('send', 'pageview', $location.path());
+    });
+}]);

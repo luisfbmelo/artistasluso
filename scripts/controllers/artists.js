@@ -9,6 +9,16 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 	$scope.isAdmin = (_authentication.info!=undefined) &&
             (_authentication.info.user!=undefined) &&
             (_authentication.info.user.role == 1);
+
+    //
+    // Set if list is editable
+    //
+    $scope.editable = $scope.isAdmin;
+
+    //
+    // Set loggedin status
+    //
+    $scope.loggedIn = _authentication.isAuth;
 	
 	//
 	// INIT FUNCTION
