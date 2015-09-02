@@ -43,6 +43,7 @@ appControllers.controller('eventsCtrl', ['$scope', 'authService', 'eventsService
     $scope.deleteEl = function (el) {
         eventsService.delete(el.id).then(function(){
 			_getEvents();
+			toastr.success('Evento eliminado', '' ,{ timeOut: 5000 });
 		},function(error, status){
 			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
 		});
@@ -51,7 +52,19 @@ appControllers.controller('eventsCtrl', ['$scope', 'authService', 'eventsService
     _init();
 }]);
 
-appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', 'eventsService', function ($scope, $routeParams, eventsService) {
+appControllers.controller('eventsDetailsCtrl', ['$scope', '$location', '$routeParams', 'eventsService', 'authService', function ($scope, $location, $routeParams, eventsService, authService) {
+	//
+	// NEED TO CHECK IF USER IS LOGGED
+	//
+	_authentication = authService.authentication;
+	$scope.isAdmin = (_authentication.info!=undefined) &&
+            (_authentication.info.user!=undefined) &&
+            (_authentication.info.user.role == 1);            
+
+	//
+	// Set loggedin status
+	//
+	$scope.loggedIn = _authentication.isAuth;
 
 	var _init = function(){
 		if ($routeParams.id){
@@ -96,6 +109,18 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', 'event
 			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
 		});
 	}
+
+	//
+    // Delete event
+    //   
+    $scope.deleteEl = function (el) {
+        eventsService.delete(el.id).then(function(){
+			toastr.success('Evento eliminado', '' ,{ timeOut: 5000 });        	
+			$location.path("/events");
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
+    };
 
 	_init();
 	

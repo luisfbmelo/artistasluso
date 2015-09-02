@@ -5,10 +5,14 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 	// NEED TO CHECK IF USER IS LOGGED
 	//
 	_authentication = authService.authentication;
-	$scope.isLoggedIn = _authentication.isAuth;
 	$scope.isAdmin = (_authentication.info!=undefined) &&
             (_authentication.info.user!=undefined) &&
             (_authentication.info.user.role == 1);
+
+    //
+    // Get current user
+    //
+    $scope.curUser = (_authentication.info!=undefined) && (_authentication.info.user!=undefined) ? _authentication.info.user : null;
 
     //
     // Set if list is editable
@@ -67,6 +71,19 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 		];
 	}
 
+	//
+	// Handle delete
+	//
+	$scope.deleteUser = function(artist){
+
+		usersService.delete(artist.id).then(function(data){
+			toastr.success('Utilizador eliminado', '' ,{ timeOut: 5000 });
+			artist.status = 0;
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
+	}
+
 	_init();
 }]);
 
@@ -74,7 +91,21 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$loca
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
-	
+	_authentication = authService.authentication;
+	$scope.isAdmin = (_authentication.info!=undefined) &&
+            (_authentication.info.user!=undefined) &&
+            (_authentication.info.user.role == 1);
+
+    //
+    // Set loggedin status
+    //
+    $scope.loggedIn = _authentication.isAuth;
+
+    //
+    // Get current user
+    //
+    $scope.curUser = (_authentication.info!=undefined) && (_authentication.info.user!=undefined) ? _authentication.info.user : null;
+
 	//
 	// INIT FUNCTION
 	//
@@ -122,6 +153,22 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$loca
 	var _getMoreArtists = function(id){
 		usersService.getAfter(id).then(function(data){
 			$scope.otherArtists = data;
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
+	}
+
+	//
+	// Handle delete
+	//
+	$scope.deleteUser = function(e, artist){
+		e.preventDefault();
+		e.stopPropagation();
+		
+		usersService.delete(artist.id).then(function(data){
+			toastr.success('Utilizador eliminado', '' ,{ timeOut: 5000 });
+			artist.status = 0;
+			$location.path("/artists");
 		},function(error, status){
 			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
 		});
@@ -260,6 +307,7 @@ appControllers.controller('eventsCtrl', ['$scope', 'authService', 'eventsService
     $scope.deleteEl = function (el) {
         eventsService.delete(el.id).then(function(){
 			_getEvents();
+			toastr.success('Evento eliminado', '' ,{ timeOut: 5000 });
 		},function(error, status){
 			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
 		});
@@ -268,7 +316,19 @@ appControllers.controller('eventsCtrl', ['$scope', 'authService', 'eventsService
     _init();
 }]);
 
-appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', 'eventsService', function ($scope, $routeParams, eventsService) {
+appControllers.controller('eventsDetailsCtrl', ['$scope', '$location', '$routeParams', 'eventsService', 'authService', function ($scope, $location, $routeParams, eventsService, authService) {
+	//
+	// NEED TO CHECK IF USER IS LOGGED
+	//
+	_authentication = authService.authentication;
+	$scope.isAdmin = (_authentication.info!=undefined) &&
+            (_authentication.info.user!=undefined) &&
+            (_authentication.info.user.role == 1);            
+
+	//
+	// Set loggedin status
+	//
+	$scope.loggedIn = _authentication.isAuth;
 
 	var _init = function(){
 		if ($routeParams.id){
@@ -313,6 +373,19 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$routeParams', 'event
 			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
 		});
 	}
+
+	//
+    // Delete event
+    //   
+    $scope.deleteEl = function (el) {
+        eventsService.delete(el.id).then(function(){
+			toastr.success('Evento eliminado', '' ,{ timeOut: 5000 });
+        	
+			$location.path("/events");
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
+    };
 
 	_init();
 	
@@ -1407,7 +1480,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
     var _config = {
 
         settings: {
-            loginUrl: 'http://www.artistaslusos.net/API/api/web/v1/users/login'
+            loginUrl: 'API/api/web/v1/users/login'
         },
 
         errMsg: {
@@ -1965,17 +2038,6 @@ appServices.service('authInterceptorService', ['$q', '$injector', '$location', '
 }]);
 var appServices = angular.module('appServices');
 
-appServices.factory('LoginService', ['$rootScope', function ($rootScope) {
-	return {
-	    isLogedin: function() {
-	       return [
-	          false, 1
-	       ];
-	    }
-	 };
-}]);
-var appServices = angular.module('appServices');
-
 appServices.factory('networksService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
 	//
 	// INIT CONFIG
@@ -2088,7 +2150,7 @@ appServices.factory('usersService', ['$http', '$q', '$rootScope', function ($htt
     var _getFromCountry = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/curCountryUsers/" + id + "?expand=curCountry"); }
     var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API+"?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
     var _update = function (id, item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
-    var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
+    var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/delete/" + id); }
     var _recoverPassword = function (item) { return GET_SERVICE_PROMISE($q, $http, "post", API + "/requestPasswordReset", item); }
     var _sendNewPassword = function (item) { return GET_SERVICE_PROMISE($q, $http, "post", API + "/resetPassword", item); }
 
@@ -2116,7 +2178,8 @@ appDirectives.directive('artistsList', [ function () {
 	    	list: '=list',
 	    	max: '@?',
 	    	editable: '@?',
-	    	deleteEl: '&?'
+	    	deleteEl: '&?',
+	    	curUser: "=?"
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){

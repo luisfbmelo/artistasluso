@@ -20,7 +20,7 @@ appServices.factory('authService', ['$http', '$q', 'sessionStorage', function ($
     var _config = {
 
         settings: {
-            loginUrl: 'http://www.artistaslusos.net/API/api/web/v1/users/login'
+            loginUrl: 'API/api/web/v1/users/login'
         },
 
         errMsg: {

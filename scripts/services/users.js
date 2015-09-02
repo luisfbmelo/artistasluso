@@ -41,7 +41,7 @@ appServices.factory('usersService', ['$http', '$q', '$rootScope', function ($htt
     var _getFromCountry = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/curCountryUsers/" + id + "?expand=curCountry"); }
     var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API+"?expand=bios,cat,curCountry,descCountry,dist,image,social"); }
     var _update = function (id, item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
-    var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
+    var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/delete/" + id); }
     var _recoverPassword = function (item) { return GET_SERVICE_PROMISE($q, $http, "post", API + "/requestPasswordReset", item); }
     var _sendNewPassword = function (item) { return GET_SERVICE_PROMISE($q, $http, "post", API + "/resetPassword", item); }
 

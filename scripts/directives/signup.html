@@ -69,7 +69,7 @@
 				<select class="selectpicker" name="countryDesc" id="countryDesc" ng-model="User.descCountry" data-live-search="true" data-size="auto" class="form-control" required select-picker ng-options="country.name for country in countries track by country.id" obj="countries" ng-change="setDistrict(User.descCountry)">
 				    <option value="">Países</option>
 			  	</select>
-				<label for="countryDesc">Selecione o local de nascimento ou descendência portuguesa</label>
+				<label for="countryDesc">Descendência portuguesa</label>
 				<!--ERROR MESSAGE-->
                 <div ng-show="hasError(userForm.countryDesc) || User.descCountry<1 || User.descCountry==''" class="errorBox">
                     <span class="error" ng-show="hasError(userForm.countryDesc)"><i class="fa fa-times-circle"></i> Campo obrigatório</span>

@@ -10,6 +10,17 @@
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6">
+
+				<!--EDIT OPTIONS IF ADMIN-->
+				<div class="row edit-options" ng-if="loggedIn && isAdmin">
+					<div class="col-xs-12">
+						<ul>
+							<li><a href="edit-event/{{event.id}}" >EDITAR</a></li>
+							<li><a href="" ng-click="deleteEl(event)" ng-confirm-click="Tem a certeza que deseja eliminar este evento?">ELIMINAR</a></li>
+						</ul>
+					</div>
+				</div>
+
 				<section>
 					<div class="event-desc">
 						<h1>

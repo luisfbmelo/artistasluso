@@ -5,10 +5,14 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 	// NEED TO CHECK IF USER IS LOGGED
 	//
 	_authentication = authService.authentication;
-	$scope.isLoggedIn = _authentication.isAuth;
 	$scope.isAdmin = (_authentication.info!=undefined) &&
             (_authentication.info.user!=undefined) &&
             (_authentication.info.user.role == 1);
+
+    //
+    // Get current user
+    //
+    $scope.curUser = (_authentication.info!=undefined) && (_authentication.info.user!=undefined) ? _authentication.info.user : null;
 
     //
     // Set if list is editable
@@ -67,6 +71,19 @@ appControllers.controller('artistsCtrl', ['$scope', '$routeParams', 'categoriesS
 		];
 	}
 
+	//
+	// Handle delete
+	//
+	$scope.deleteUser = function(artist){
+
+		usersService.delete(artist.id).then(function(data){
+			toastr.success('Utilizador eliminado', '' ,{ timeOut: 5000 });
+			artist.status = 0;
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
+	}
+
 	_init();
 }]);
 
@@ -74,7 +91,21 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$loca
 	//
 	// NEED TO CHECK IF USER IS LOGGED
 	//
-	
+	_authentication = authService.authentication;
+	$scope.isAdmin = (_authentication.info!=undefined) &&
+            (_authentication.info.user!=undefined) &&
+            (_authentication.info.user.role == 1);
+
+    //
+    // Set loggedin status
+    //
+    $scope.loggedIn = _authentication.isAuth;
+
+    //
+    // Get current user
+    //
+    $scope.curUser = (_authentication.info!=undefined) && (_authentication.info.user!=undefined) ? _authentication.info.user : null;
+
 	//
 	// INIT FUNCTION
 	//
@@ -122,6 +153,22 @@ appControllers.controller('artistDetailsCtrl', ['$scope', '$routeParams', '$loca
 	var _getMoreArtists = function(id){
 		usersService.getAfter(id).then(function(data){
 			$scope.otherArtists = data;
+		},function(error, status){
+			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+		});
+	}
+
+	//
+	// Handle delete
+	//
+	$scope.deleteUser = function(e, artist){
+		e.preventDefault();
+		e.stopPropagation();
+		
+		usersService.delete(artist.id).then(function(data){
+			toastr.success('Utilizador eliminado', '' ,{ timeOut: 5000 });
+			artist.status = 0;
+			$location.path("/artists");
 		},function(error, status){
 			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
 		});

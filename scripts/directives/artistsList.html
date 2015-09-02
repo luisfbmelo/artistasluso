@@ -18,8 +18,9 @@
 						<a href="artists/details/{{artist.id}}" class="btn cta text-white">Saber mais</a>
 					</section>
 					<section class="item-options" ng-if="editable">
-						<a href="/artists/edit/{{artist.id}}">Editar</a>
-						<a href="" ng-click="deleteUser(artist)" ng-confirm-click="Tem a certeza que deseja eliminar este evento?">Apagar</a>				
+						<a href="artists/edit/{{artist.id}}" ng-if="curUser!=null && curUser.id!=artist.id">EDITAR</a>
+						<a href="user/edit" ng-if="curUser!=null && curUser.id==artist.id">EDITAR</a>
+						<a href="" ng-click="deleteUser(artist)" ng-confirm-click="Tem a certeza que deseja eliminar este artista?" ng-if="curUser!=null && curUser.id!=artist.id">Apagar</a>				
 					</section>
 				</div>
 			</div>

@@ -8,7 +8,8 @@ appDirectives.directive('artistsList', [ function () {
 	    	list: '=list',
 	    	max: '@?',
 	    	editable: '@?',
-	    	deleteEl: '&?'
+	    	deleteEl: '&?',
+	    	curUser: "=?"
 	    },
 	    replace: true,
 	    link: function(scope, el, attr){

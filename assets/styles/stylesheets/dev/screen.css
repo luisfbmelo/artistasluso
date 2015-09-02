@@ -279,6 +279,31 @@ h4 {
   background-image: none !important;
 }
 
+/* line 109, ../../sass/base/_generic.scss */
+.edit-options {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+/* line 113, ../../sass/base/_generic.scss */
+.edit-options ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* line 118, ../../sass/base/_generic.scss */
+.edit-options ul li {
+  display: inline-block;
+}
+/* line 121, ../../sass/base/_generic.scss */
+.edit-options ul li + li {
+  margin-left: 5px;
+}
+/* line 125, ../../sass/base/_generic.scss */
+.edit-options ul li a {
+  color: black;
+  font-weight: 700;
+}
+
 /* line 1, ../../sass/base/_text.scss */
 .text-white {
   color: white !important;
@@ -1024,61 +1049,65 @@ h4 {
   background-color: rgba(255, 255, 255, 0.2);
   text-decoration: none;
 }
+/* line 129, ../../sass/modules/_artists.scss */
+.artist-area .item-options a {
+  color: white;
+}
 
 @media (min-width: 1200px) {
-  /* line 130, ../../sass/modules/_artists.scss */
+  /* line 136, ../../sass/modules/_artists.scss */
   .artist-area {
     height: 500px;
   }
 }
 @media (max-width: 768px) {
-  /* line 136, ../../sass/modules/_artists.scss */
+  /* line 142, ../../sass/modules/_artists.scss */
   .artist-area {
     height: 400px;
   }
 }
 /*DETAILS*/
-/* line 142, ../../sass/modules/_artists.scss */
+/* line 148, ../../sass/modules/_artists.scss */
 .artist-details {
   position: relative;
   padding: 50px 0 50px;
 }
-/* line 146, ../../sass/modules/_artists.scss */
+/* line 152, ../../sass/modules/_artists.scss */
 .artist-details .container-fluid {
   padding: 0 30px;
 }
-/* line 150, ../../sass/modules/_artists.scss */
+/* line 156, ../../sass/modules/_artists.scss */
 .artist-details .artist-desc-container {
   background-color: #e9e9e9;
   height: 170px;
 }
-/* line 153, ../../sass/modules/_artists.scss */
+/* line 159, ../../sass/modules/_artists.scss */
 .artist-details .artist-desc-container .art-desc-wrapper {
   margin-left: 296px;
   position: relative;
   height: 170px;
 }
-/* line 159, ../../sass/modules/_artists.scss */
+/* line 165, ../../sass/modules/_artists.scss */
 .artist-details .artist-desc-container .artist-desc {
   position: absolute;
   bottom: 16px;
   left: 0;
 }
-/* line 164, ../../sass/modules/_artists.scss */
+/* line 170, ../../sass/modules/_artists.scss */
 .artist-details .artist-desc-container .artist-desc h1 {
   font-weight: 700;
 }
-/* line 168, ../../sass/modules/_artists.scss */
+/* line 174, ../../sass/modules/_artists.scss */
 .artist-details .artist-desc-container .artist-desc p {
   font-size: 16px;
   font-size: 1rem;
   margin-top: 16px;
 }
-/* line 173, ../../sass/modules/_artists.scss */
+/* line 179, ../../sass/modules/_artists.scss */
 .artist-details .artist-desc-container .artist-desc p strong {
   font-weight: 700;
 }
-/* line 180, ../../sass/modules/_artists.scss */
+/* line 186, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container {
   background-color: white;
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -1086,7 +1115,7 @@ h4 {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   padding-bottom: 36px;
 }
-/* line 186, ../../sass/modules/_artists.scss */
+/* line 192, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-image {
   background-position: center 0;
   background-size: cover;
@@ -1100,24 +1129,24 @@ h4 {
   margin-right: 16px;
   float: left;
 }
-/* line 198, ../../sass/modules/_artists.scss */
+/* line 204, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-social {
   padding: 16px;
 }
-/* line 200, ../../sass/modules/_artists.scss */
+/* line 206, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-social .social-wrapper ul {
   text-align: left;
   margin-top: 0;
 }
-/* line 204, ../../sass/modules/_artists.scss */
+/* line 210, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-social .social-wrapper ul li + li {
   margin-left: 16px;
 }
-/* line 210, ../../sass/modules/_artists.scss */
+/* line 216, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-bio {
   margin: 36px 0 16px;
 }
-/* line 213, ../../sass/modules/_artists.scss */
+/* line 219, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-bio > div {
   font-size: 16px;
   font-size: 1rem;
@@ -1125,41 +1154,41 @@ h4 {
   padding: 0 32px 0 0;
   margin-bottom: 16px;
 }
-/* line 220, ../../sass/modules/_artists.scss */
+/* line 226, ../../sass/modules/_artists.scss */
 .artist-details .artist-bio-container .artist-bio > div:not(:first-of-type) {
   color: #b5b5b5;
 }
 @media (max-width: 768px) {
-  /* line 228, ../../sass/modules/_artists.scss */
+  /* line 235, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container {
     height: auto;
   }
-  /* line 231, ../../sass/modules/_artists.scss */
+  /* line 238, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container .art-desc-wrapper {
     margin-left: 0;
     position: relative;
     height: auto;
     padding: 64px 0 32px;
   }
-  /* line 238, ../../sass/modules/_artists.scss */
+  /* line 245, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container .artist-desc {
     position: static;
   }
-  /* line 241, ../../sass/modules/_artists.scss */
+  /* line 248, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container .artist-desc h1 {
     font-weight: 700;
   }
-  /* line 245, ../../sass/modules/_artists.scss */
+  /* line 252, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container .artist-desc p {
     font-size: 16px;
     font-size: 1rem;
     margin-top: 16px;
   }
-  /* line 250, ../../sass/modules/_artists.scss */
+  /* line 257, ../../sass/modules/_artists.scss */
   .artist-details .artist-desc-container .artist-desc p strong {
     font-weight: 700;
   }
-  /* line 257, ../../sass/modules/_artists.scss */
+  /* line 264, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container {
     background-color: white;
     -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -1167,7 +1196,7 @@ h4 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     padding-bottom: 36px;
   }
-  /* line 263, ../../sass/modules/_artists.scss */
+  /* line 270, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container .artist-image {
     background-position: center 0;
     background-size: cover;
@@ -1181,23 +1210,23 @@ h4 {
     margin-right: 16px;
     float: none;
   }
-  /* line 275, ../../sass/modules/_artists.scss */
+  /* line 282, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container .artist-social {
     padding: 16px;
     text-align: center;
   }
-  /* line 280, ../../sass/modules/_artists.scss */
+  /* line 287, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container .artist-bio {
     margin: 16px 0;
   }
-  /* line 283, ../../sass/modules/_artists.scss */
+  /* line 290, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container .artist-bio > div {
     font-size: 16px;
     font-size: 1rem;
     padding: 0 32px 0 0;
     margin-bottom: 16px;
   }
-  /* line 290, ../../sass/modules/_artists.scss */
+  /* line 297, ../../sass/modules/_artists.scss */
   .artist-details .artist-bio-container .artist-bio > div:not(:first-of-type) {
     color: #b5b5b5;
   }

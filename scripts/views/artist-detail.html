@@ -7,7 +7,7 @@
 					{{artist.name}}
 				</h1>
 				<p>
-					<strong>{{artist.ocupation}}</strong> • Residente em <strong>{{artist.curCountry.name}}</strong> • Descendente de <strong>{{artist.descCountry.name}}</strong>
+					<strong>{{artist.ocupation}}</strong> • Residente em <strong>{{artist.curCountry.name}}</strong> • Descendente de <strong>{{artist.descCountry.name}}{{ (artist.dist!=undefined && artist.dist!=null) ? ' ('+artist.dist.name+')' : ''}}</strong>
 				</p>
 			</div>
 		</div>
@@ -24,6 +24,17 @@
 		</div>
 
 		<div class="clearfix"></div>
+	
+		<!--EDIT OPTIONS IF ADMIN-->
+		<div class="row edit-options" ng-if="loggedIn && isAdmin">
+			<div class="col-xs-12">
+				<ul>
+					<li ng-if="curUser!=null && curUser.id!=artist.id"><a href="artists/edit/{{artist.id}}" >EDITAR</a></li>
+					<li ng-if="curUser!=null && curUser.id==artist.id"><a href="user/edit" >EDITAR</a></li>
+					<li ng-if="curUser!=null && curUser.id!=artist.id"><a href="" ng-click="deleteUser($event, artist)"  ng-confirm-click="Tem a certeza que deseja eliminar este artista?">ELIMINAR</a></li>
+				</ul>
+			</div>
+		</div>
 
 		<!--BIOS-->
 		<div class="row artist-bio">

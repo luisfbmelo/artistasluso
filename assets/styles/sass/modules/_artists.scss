@@ -124,6 +124,12 @@
 			text-decoration:none;
 		}
 	}
+
+	.item-options{
+		a{
+			color:white;
+		}
+	}
 }
 
 @media (min-width:1200px){
@@ -223,6 +229,7 @@
 			}
 		}
 	}
+	
 
 	@media (max-width:768px){
 		.artist-desc-container{
