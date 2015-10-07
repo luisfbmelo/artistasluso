@@ -193,6 +193,7 @@ appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersServ
 		}else{
 			_getNetworks();
 			_getCountriesIds(); 
+			_getCountriesWithUser();
 		}
 
 	}
@@ -219,6 +220,15 @@ appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersServ
 	var _getCountriesIds = function(){
 		usersService.list().then(function (data) {
 			$scope.countries = data;
+
+        }, function (error, status) {
+        	toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+        });
+	}
+
+	var _getCountriesWithUser = function(){
+		countriesService.listWithUser().then(function (data) {
+			$scope.countriesWithUser = data;
 
         }, function (error, status) {
         	toastr.error(error.err.message, '' ,{ timeOut: 5000 });
@@ -379,8 +389,7 @@ appControllers.controller('eventsDetailsCtrl', ['$scope', '$location', '$routePa
     //   
     $scope.deleteEl = function (el) {
         eventsService.delete(el.id).then(function(){
-			toastr.success('Evento eliminado', '' ,{ timeOut: 5000 });
-        	
+			toastr.success('Evento eliminado', '' ,{ timeOut: 5000 });        	
 			$location.path("/events");
 		},function(error, status){
 			toastr.error(error.err.message, '' ,{ timeOut: 5000 });
@@ -936,7 +945,7 @@ appControllers.controller('timePickerCtrl', ['$scope','$routeParams', function (
 var appControllers = angular.module('appControllers');
 
 appControllers.controller('userCtrl', ['$scope', function ($scope) {
-	//
+    //
     // NEED TO CHECK IF USER IS LOGGED
     //
 }]);
@@ -1090,7 +1099,14 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         usersService.update(item.id, item).then(function (data) {
             toastr.success('Utilizador actualizado!', '' ,{ timeOut: 5000 });
 
-            $location.path("/");
+            //Redirect rule
+            if($routeParams.id){
+                $location.path("/artists/details/"+$routeParams.id);
+            }else{
+                $location.path("/");
+            }
+
+            
         }, function (error, status) {
             toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
@@ -1316,7 +1332,7 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
 
                 usersService.update(data.id, data).then(function(){
                     toastr.success('Aprovação submetida!', '' ,{ timeOut: 5000 });
-                    $location.path("/");
+                    $location.path("/artists/edit/"+id);
                 });
             });
 
@@ -1327,7 +1343,7 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
 
                 eventsService.update(data.id, data).then(function(){
                     toastr.success('Aprovação submetida!', '' ,{ timeOut: 5000 });
-                    $location.path("/");
+                    $location.path("/edit-event/"+id);
                 });
             });
         }
@@ -1761,6 +1777,7 @@ appServices.factory('countriesService', ['$http', '$q', '$rootScope', function (
     var _get = function (id) { return GET_SERVICE_PROMISE($q, $http, "get", API + "/" + id + "?expand=users"); }    
     var _list = function (type) { return GET_SERVICE_PROMISE($q, $http, "get", API + "?expand=users"); }
     var _listTotalCur = function () {return GET_SERVICE_PROMISE($q, $http, "get", API + "/totalcur")}
+    var _listWithUser = function () {return GET_SERVICE_PROMISE($q, $http, "get", API + "/withuser")}
     var _update = function (item) {return GET_SERVICE_PROMISE($q, $http, "put", API + "/" + id , item);}
     var _delete = function (id) { return GET_SERVICE_PROMISE($q, $http, "delete", API + "/" + id); }
 
@@ -1769,6 +1786,7 @@ appServices.factory('countriesService', ['$http', '$q', '$rootScope', function (
         'get': _get,
         'list': _list,
         'listTotalCur': _listTotalCur,
+        'listWithUser': _listWithUser,
         'update': _update,
         'delete': _delete,
     }

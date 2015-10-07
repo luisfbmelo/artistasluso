@@ -1,7 +1,7 @@
 var appControllers = angular.module('appControllers');
 
 appControllers.controller('userCtrl', ['$scope', function ($scope) {
-	//
+    //
     // NEED TO CHECK IF USER IS LOGGED
     //
 }]);
@@ -155,7 +155,14 @@ appControllers.controller('userSignupCtrl', ['$scope', '$log' ,'$route', '$filte
         usersService.update(item.id, item).then(function (data) {
             toastr.success('Utilizador actualizado!', '' ,{ timeOut: 5000 });
 
-            $location.path("/");
+            //Redirect rule
+            if($routeParams.id){
+                $location.path("/artists/details/"+$routeParams.id);
+            }else{
+                $location.path("/");
+            }
+
+            
         }, function (error, status) {
             toastr.error(error.err.message, '' ,{ timeOut: 5000 });
         });
@@ -381,7 +388,7 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
 
                 usersService.update(data.id, data).then(function(){
                     toastr.success('Aprovação submetida!', '' ,{ timeOut: 5000 });
-                    $location.path("/");
+                    $location.path("/artists/edit/"+id);
                 });
             });
 
@@ -392,7 +399,7 @@ appControllers.controller('userLoginCtrl', ['$scope','$filter', '$location', 'au
 
                 eventsService.update(data.id, data).then(function(){
                     toastr.success('Aprovação submetida!', '' ,{ timeOut: 5000 });
-                    $location.path("/");
+                    $location.path("/edit-event/"+id);
                 });
             });
         }

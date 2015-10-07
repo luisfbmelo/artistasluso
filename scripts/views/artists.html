@@ -3,7 +3,7 @@
 		<header>Já reunímos</header>
 		<p id="total-num">{{artists.length}}</p>
 		<label for="total-num">Artistas lusos</label>
-		<a href="admin-report" class="admin-report" ng-if="isLoggedIn && isAdmin">Ver relatório</a>
+		<a href="admin-report" class="admin-report" ng-if="loggedIn && isAdmin">Ver relatório</a>
 	</div>	
 	<div class="total-artists no-data" ng-if="artists.length==0">
 		Ainda não foram adicionados artistas...

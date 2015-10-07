@@ -14,6 +14,7 @@ appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersServ
 		}else{
 			_getNetworks();
 			_getCountriesIds(); 
+			_getCountriesWithUser();
 		}
 
 	}
@@ -40,6 +41,15 @@ appControllers.controller('countriesCtrl', ['$scope', '$routeParams', 'usersServ
 	var _getCountriesIds = function(){
 		usersService.list().then(function (data) {
 			$scope.countries = data;
+
+        }, function (error, status) {
+        	toastr.error(error.err.message, '' ,{ timeOut: 5000 });
+        });
+	}
+
+	var _getCountriesWithUser = function(){
+		countriesService.listWithUser().then(function (data) {
+			$scope.countriesWithUser = data;
 
         }, function (error, status) {
         	toastr.error(error.err.message, '' ,{ timeOut: 5000 });

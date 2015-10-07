@@ -84,7 +84,7 @@
 			<div class="row">
 				<div class="col-xs-12" >
 					<span ng-repeat="art in allArts">
-						<a href="mailto:{{art.email}}">{{art.name}}</a>, {{art.email}} ({{art.curCountry.name}}){{!$last?';':''}}
+						<a href="/artists/details/{{art.id}}">{{art.name}}</a>, {{art.email}} ({{art.curCountry.name}}){{!$last?';':''}}
 					</span>
 				</div>
 			</div>
