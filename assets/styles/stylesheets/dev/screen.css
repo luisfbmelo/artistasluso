@@ -743,6 +743,33 @@ h4 {
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+@media screen and (min-width: 769px) {
+  /* line 4, ../../sass/modules/_home.scss */
+  .home-page img {
+    display: none;
+  }
+}
+/* line 15, ../../sass/modules/_home.scss */
+.home-page #bgvid {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+@media screen and (max-width: 768px) {
+  /* line 15, ../../sass/modules/_home.scss */
+  .home-page #bgvid {
+    display: none;
+  }
+}
 
 /*PROJECT PAGE*/
 /* line 1, ../../sass/modules/_project.scss */
@@ -1887,20 +1914,26 @@ textarea {
   border: 1px solid #ccc;
   display: none;
   margin-top: 4px;
+  -webkit-border-radius: 0 !important;
+  border-radius: 0 !important;
+}
+/* line 7, ../../sass/modules/_datepicker.scss */
+.ui-datepicker *:not(.ui-datepicker-prev):not(.ui-datepicker-next) {
+  font-family: "Roboto", sans-serif !important;
 }
 
-/* line 8, ../../sass/modules/_datepicker.scss */
+/* line 14, ../../sass/modules/_datepicker.scss */
 .ui-datepicker a {
   color: #717171;
 }
 
-/* line 12, ../../sass/modules/_datepicker.scss */
+/* line 18, ../../sass/modules/_datepicker.scss */
 .ui-datepicker a,
 .ui-datepicker a:hover {
   text-decoration: none;
 }
 
-/* line 16, ../../sass/modules/_datepicker.scss */
+/* line 22, ../../sass/modules/_datepicker.scss */
 .ui-datepicker a:hover,
 .ui-datepicker td:hover a:not(.ui-state-active) {
   color: #2A6496;
@@ -1910,8 +1943,12 @@ textarea {
   transition: color 0.1s ease-in-out;
 }
 
-/* line 24, ../../sass/modules/_datepicker.scss */
+/* line 30, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-header {
+  /*CLEAN*/
+  border: none;
+  border-radius: 0;
+  /*CUSTOM*/
   text-align: center;
   padding: 10px;
   background-color: #2e3641;
@@ -1919,17 +1956,17 @@ textarea {
   border-bottom: 1px solid #3a414d;
 }
 
-/* line 32, ../../sass/modules/_datepicker.scss */
+/* line 43, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-header a {
   color: white !important;
 }
 
-/* line 35, ../../sass/modules/_datepicker.scss */
+/* line 46, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-title {
   font-weight: 600;
 }
 
-/* line 38, ../../sass/modules/_datepicker.scss */
+/* line 49, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-prev,
 .ui-datepicker .ui-datepicker-next {
   display: inline-block;
@@ -1946,45 +1983,47 @@ textarea {
   width: 30px;
 }
 
-/* line 53, ../../sass/modules/_datepicker.scss */
+/* line 64, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-prev {
   float: left;
   text-align: left;
 }
 
-/* line 57, ../../sass/modules/_datepicker.scss */
+/* line 68, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-next {
   float: right;
   text-align: right;
 }
 
-/* line 61, ../../sass/modules/_datepicker.scss */
+/* line 72, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-prev:before {
   content: "\f104";
 }
 
-/* line 64, ../../sass/modules/_datepicker.scss */
+/* line 75, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-next:before {
   content: "\f105";
 }
 
-/* line 67, ../../sass/modules/_datepicker.scss */
+/* line 78, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-next:hover,
 .ui-datepicker .ui-datepicker-prev:hover {
   cursor: pointer;
+  background: transparent !important;
+  border: none !important;
 }
 
-/* line 72, ../../sass/modules/_datepicker.scss */
+/* line 85, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-icon {
   display: none;
 }
 
-/* line 75, ../../sass/modules/_datepicker.scss */
+/* line 88, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-calendar {
   width: 100%;
 }
 
-/* line 78, ../../sass/modules/_datepicker.scss */
+/* line 91, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-calendar thead {
   background-color: #2e3641;
   color: #ccc;
@@ -1992,20 +2031,25 @@ textarea {
   border-bottom: none !important;
 }
 
-/* line 85, ../../sass/modules/_datepicker.scss */
+/* line 98, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-calendar thead tr th {
   border-radius: 0 !important;
   font-weight: 400;
   padding: 1em 0;
 }
 
-/* line 91, ../../sass/modules/_datepicker.scss */
+/* line 104, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-calendar th,
 .ui-datepicker .ui-datepicker-calendar td {
   text-align: center;
 }
+/* line 108, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-calendar th a,
+.ui-datepicker .ui-datepicker-calendar td a {
+  border: none !important;
+}
 
-/* line 95, ../../sass/modules/_datepicker.scss */
+/* line 112, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-calendar td {
   -webkit-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   -moz-transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
@@ -2013,39 +2057,44 @@ textarea {
   transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
 }
 
-/* line 101, ../../sass/modules/_datepicker.scss */
+/* line 118, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-calendar td:not(.ui-datepicker-current-day):not(.ui-datepicker-other-month):hover {
   background-color: #eee;
   cursor: pointer;
 }
 
-/* line 105, ../../sass/modules/_datepicker.scss */
+/* line 122, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-calendar td a {
   text-decoration: none;
   display: block;
   padding: 0.6em 0.8em;
 }
 
-/* line 110, ../../sass/modules/_datepicker.scss */
-.ui-datepicker .ui-datepicker-current-day {
+/* line 128, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-current-day a {
   border-radius: 0 !important;
   background-color: #717171;
 }
 
-/* line 114, ../../sass/modules/_datepicker.scss */
+/* line 132, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-current-day a {
   color: #fff;
 }
 
-/* line 117, ../../sass/modules/_datepicker.scss */
+/* line 135, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-calendar .ui-datepicker-unselectable:hover a {
   background-color: #fff;
   cursor: default;
 }
 
-/* line 122, ../../sass/modules/_datepicker.scss */
+/* line 140, ../../sass/modules/_datepicker.scss */
 .ui-datepicker .ui-datepicker-calendar td.ui-datepicker-other-month {
   color: #d8d8d8 !important;
+}
+/* line 143, ../../sass/modules/_datepicker.scss */
+.ui-datepicker .ui-datepicker-calendar td.ui-datepicker-other-month span {
+  background-color: transparent !important;
+  border: none !important;
 }
 
 /*USER*/

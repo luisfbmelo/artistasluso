@@ -1,4 +1,4 @@
-.directive('ngHtml', ['$compile', function($compile) {
+app.directive('ngHtml', ['$compile', function($compile) {
     return function(scope, elem, attrs) {
         if(attrs.ngHtml){
             elem.html(scope.$eval(attrs.ngHtml));
