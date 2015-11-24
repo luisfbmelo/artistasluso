@@ -106,7 +106,7 @@
 						<div class="form-group">
 							<textarea name="details" id="details" rows="2" placeholder="Escreva aqui a sua biografia em português..." maxlength="500" required class="form-control" ng-model="Event.ticketInfo" ng-trim="false"></textarea>
 							<label for="details">Informação sobre os preços e locais de aquisição:</label>
-							<div class="requiredNote">{{Event.details.length || 0}}/500</div>
+							<div class="requiredNote">{{Event.ticketInfo.length || 0}}/500</div>
 							<!--ERROR MESSAGE-->
 			                <div ng-show="hasError(eventForm.details)" class="errorBox">
 			                    <span class="error" ng-show="hasError(eventForm.details,'required')"><i class="fa fa-times-circle"></i> Campo obrigatório</span>
